@@ -1,0 +1,33 @@
+$colors: (
+  highlight: #ff862e,
+  neutral: #efefef,
+  black: #111,
+  white: #fff,
+  error: #ed4337,
+  shadow: rgba(0, 0, 0, 0.3),
+  highlight-shadow: rgba(255, 134, 46, 0.3),
+);
+
+@each $name, $color in $colors {
+  .#{$name} {
+    color: $color;
+  }
+
+  .hover-#{$name} {
+    &:hover {
+      color: $color;
+    }
+  }
+}
+
+@each $name, $color in $colors {
+  .background-#{$name} {
+    background-color: $color;
+  }
+
+  .hover-background-#{$name} {
+    &:hover {
+      background-color: $color;
+    }
+  }
+}

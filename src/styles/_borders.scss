@@ -1,0 +1,42 @@
+$colors: (
+  highlight: #fb8811,
+  neutral: #efefef,
+  black: #111,
+  white: #fff,
+);
+$directions: top bottom left right;
+
+@each $name, $color in $colors {
+  .border-#{$name} {
+    border-width: 2px;
+    border-style: solid;
+    border-color: $color;
+  }
+
+  .border-circle-#{$name} {
+    border-radius: 100%;
+    border-width: 2px;
+    border-style: solid;
+    border-color: $color;
+  }
+
+  .hover-border-#{$name} {
+    &:hover {
+      border-width: 2px;
+      border-style: solid;
+      border-color: $color;
+    }
+  }
+
+  @each $direction in $directions {
+    .border-#{$direction}-#{$name} {
+      border-#{$direction}-width: 2px;
+      border-#{$direction}-style: solid;
+      border-#{$direction}-color: $color;
+    }
+  }
+}
+
+.border-radius {
+  border-radius: 4px;
+}

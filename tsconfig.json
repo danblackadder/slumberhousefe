@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "jsx": "react",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": ["dom", "esnext"],
+    "strict": true,
+    "sourceMap": true,
+    "target": "esnext",
+    "baseUrl": "./",
+    "paths": {
+      "app/*": ["src/app/*"],
+      "assets/*": ["src/assets/*"],
+      "components/*": ["src/components/*"],
+      "context/*": ["src/context/*"],
+      "hooks/*": ["src/hooks/*"],
+      "models/*": ["src/models/*"],
+      "network/*": ["src/network/*"],
+      "styles/*": ["src/styles/*"],
+      "utility/*": ["src/utility/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}

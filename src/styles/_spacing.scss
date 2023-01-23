@@ -1,0 +1,79 @@
+$sizes: 0 2 4 8 16 32 64 128 256;
+$directions: top bottom left right;
+
+@each $size in $sizes {
+  .padding-#{$size} {
+    padding: #{$size}px;
+  }
+
+  .margin-#{$size} {
+    margin: #{$size}px;
+  }
+
+  .padding-vertical-#{$size} {
+    padding-top: #{$size}px;
+    padding-bottom: #{$size}px;
+  }
+
+  .margin-vertical-#{$size} {
+    margin-top: #{$size}px;
+    margin-bottom: #{$size}px;
+  }
+
+  .padding-horizontal-#{$size} {
+    padding-left: #{$size}px;
+    padding-right: #{$size}px;
+  }
+
+  .margin-horizontal-#{$size} {
+    margin-left: #{$size}px;
+    margin-right: #{$size}px;
+  }
+
+  @each $direction in $directions {
+    .padding-#{$direction}-#{$size} {
+      padding-#{$direction}: #{$size}px;
+    }
+
+    .margin-#{$direction}-#{$size} {
+      margin-#{$direction}: #{$size}px;
+    }
+  }
+
+  .width-#{$size} {
+    width: #{$size}px;
+  }
+
+  .height-#{$size} {
+    height: #{$size}px;
+  }
+}
+
+.margin-horizontal-auto {
+  margin: 0 auto;
+}
+
+@each $direction in $directions {
+  @each $size in $sizes {
+    .#{$direction}-#{$size} {
+      #{$direction}: #{$size}px;
+    }
+  }
+
+  $size: 0;
+  @while $size < 967 {
+    .#{$direction}-#{$size} {
+      #{$direction}: #{$size}px;
+    }
+
+    .margin-#{$direction}-#{$size} {
+      margin-#{$direction}: #{$size}px;
+    }
+
+    .padding-#{$direction}-#{$size} {
+      padding-#{$direction}: #{$size}px;
+    }
+
+    $size: $size + 10;
+  }
+}

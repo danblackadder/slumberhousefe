@@ -1,0 +1,46 @@
+import Dropdown from 'components/Dropdown';
+import { UserContext } from 'context/user.context';
+import { UserContextActionTypes } from 'models/user.context.types';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const UserMenu = () => {
+  const navigate = useNavigate();
+  const { state, dispatch } = useContext(UserContext);
+
+  const [active, setActive] = useState<boolean>(false);
+
+  const menuItems = [
+    {
+      body: `${state.user?.firstName} ${state.user?.lastName}`,
+    },
+    {
+      body: 'Profile',
+      onClick: () => navigate('/profile'),
+      hr: true,
+    },
+    {
+      body: 'Settings',
+      onClick: () => navigate('/settings'),
+    },
+    {
+      body: 'Logout',
+      onClick: () => {
+        dispatch({ type: UserContextActionTypes.LOGOUT });
+        navigate('/login');
+      },
+    },
+  ];
+
+  return (
+    <div className="relative">
+      <div
+        className="pointer border-circle-highlight background-black height-32 width-32"
+        onClick={() => setActive(true)}
+      />
+      {active && <Dropdown items={menuItems} width={200} onClose={() => setActive(false)} />}
+    </div>
+  );
+};
+
+export default UserMenu;
