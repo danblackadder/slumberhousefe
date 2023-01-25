@@ -5,3 +5,11 @@ $sizes: 10 12 16 24 32 48;
     font-size: #{$size}px;
   }
 }
+
+.text-bold {
+  font-weight: bold;
+}
+
+.text-center {
+  text-align: center;
+}

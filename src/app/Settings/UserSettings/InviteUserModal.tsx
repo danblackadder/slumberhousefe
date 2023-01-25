@@ -7,13 +7,20 @@ import Button from 'components/Button';
 import { postUsers } from 'network/settings';
 import { IUserPostErrors } from 'models/settings.types';
 
-const InviteUserModal = ({ setModal }: { setModal: Dispatch<SetStateAction<boolean>> }) => {
+const InviteUserModal = ({
+  setModal,
+  updateUsers,
+}: {
+  setModal: Dispatch<SetStateAction<boolean>>;
+  updateUsers: () => void;
+}) => {
   const [email, setEmail] = useState<string>('');
   const [errors, setErrors] = useState<IUserPostErrors>();
 
   const handlePostUser = () => {
     postUsers({ email })
       .then(() => {
+        updateUsers();
         setModal(false);
       })
       .catch((err) => {

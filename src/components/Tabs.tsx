@@ -23,7 +23,7 @@ export const Tab = ({
       onClick={() => !disabled && onClick()}
     >
       <div className={`${disabled && 'neutral'}`}>{text}</div>
-      {active && <div className="absolute border-bottom-highlight full-width" style={{ bottom: -2 }} />}
+      {active && <div className="absolute border-bottom-primary full-width" style={{ bottom: -2 }} />}
     </div>
   );
 };

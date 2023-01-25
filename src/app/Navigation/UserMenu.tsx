@@ -1,5 +1,6 @@
 import Dropdown from 'components/Dropdown';
 import { UserContext } from 'context/user.context';
+import { OrganizationRole } from 'models/settings.types';
 import { UserContextActionTypes } from 'models/user.context.types';
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -22,6 +23,7 @@ const UserMenu = () => {
     {
       body: 'Settings',
       onClick: () => navigate('/settings'),
+      hide: ![OrganizationRole.OWNER, OrganizationRole.ADMIN].includes(state.user?.role || OrganizationRole.BASIC),
     },
     {
       body: 'Logout',
@@ -35,7 +37,7 @@ const UserMenu = () => {
   return (
     <div className="relative">
       <div
-        className="pointer border-circle-highlight background-black height-32 width-32"
+        className="pointer border-circle-primary background-black height-32 width-32"
         onClick={() => setActive(true)}
       />
       {active && <Dropdown items={menuItems} width={200} onClose={() => setActive(false)} />}

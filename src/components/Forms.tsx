@@ -5,21 +5,23 @@ import { useDropzone } from 'react-dropzone';
 export const TextInput = ({
   id,
   label,
-  onChange,
   value,
+  onChange,
   errors,
   password,
   autocomplete,
   width,
+  disabled,
 }: {
   id: string;
   label: string;
-  onChange: (event: React.FormEvent<HTMLInputElement>) => void;
   value: string;
+  onChange?: (event: React.FormEvent<HTMLInputElement>) => void;
   errors?: string[];
   password?: boolean;
   autocomplete?: string;
   width?: number;
+  disabled?: boolean;
 }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   return (
@@ -31,12 +33,13 @@ export const TextInput = ({
         name={id}
         onChange={onChange}
         value={value}
-        className="height-32 padding-4 font-16"
+        className="height-32 padding-4 font-16 border-neutral"
         autoComplete={autocomplete}
+        disabled={disabled}
       />
       {password && (
         <div
-          className="absolute height-32 width-32 right-0 center-items highlight pointer"
+          className="absolute height-32 width-32 right-0 center-items primary pointer"
           style={{ top: 23 }}
           onClick={() => setShowPassword(!showPassword)}
         >

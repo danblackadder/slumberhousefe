@@ -16,7 +16,7 @@ const Button = ({
       className={`${width && `width-${width}`} ${
         disabled
           ? 'border-neutral neutral default'
-          : 'pointer highlight border-highlight hover-background-highlight hover-white'
+          : 'pointer primary border-primary hover-background-primary hover-white'
       } background-white center-items padding-horizontal-16 margin-vertical-8 padding-vertical-8 font-16 `}
       onClick={onClick}
     >

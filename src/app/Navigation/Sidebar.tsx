@@ -10,16 +10,16 @@ const Navigation = () => {
       <div className="padding-top-128 full-height padding-bottom-32">
         <div className="full-height flex-column justify-space-between">
           <div className="flex-column align-center flex-1">
-            <Link to="/dashboard" className="highlight padding-vertical-16">
+            <Link to="/dashboard" className="primary padding-vertical-16">
               <MdDashboard size={24} />
             </Link>
-            <Link to="/tasks" className="highlight padding-vertical-16">
+            <Link to="/tasks" className="primary padding-vertical-16">
               <MdTask size={24} />
             </Link>
-            <Link to="/chat" className="highlight padding-vertical-16">
+            <Link to="/chat" className="primary padding-vertical-16">
               <MdChat size={24} />
             </Link>
-            <Link to="/documents" className="highlight padding-vertical-16">
+            <Link to="/documents" className="primary padding-vertical-16">
               <MdFolder size={24} />
             </Link>
           </div>

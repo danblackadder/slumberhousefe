@@ -8,7 +8,7 @@ const Stepper = ({ items, active }: { items: string[]; active: number }) => {
           <div className="flex-row align-center">
             <div
               className={`${
-                active === i ? 'border-circle-highlight' : 'border-circle-neutral'
+                active === i ? 'border-circle-primary' : 'border-circle-neutral'
               } height-32 width-32 center-items margin-right-8`}
             >
               {i + 1}

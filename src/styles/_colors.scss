@@ -1,11 +1,13 @@
 $colors: (
-  highlight: #ff862e,
+  primary: #ff862e,
+  secondary: #540d6e,
   neutral: #efefef,
+  neutral-dark: #aaa8a5,
   black: #111,
   white: #fff,
   error: #ed4337,
   shadow: rgba(0, 0, 0, 0.3),
-  highlight-shadow: rgba(255, 134, 46, 0.3),
+  primary-shadow: rgba(255, 134, 46, 0.3),
 );
 
 @each $name, $color in $colors {

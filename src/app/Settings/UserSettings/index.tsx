@@ -1,55 +1,80 @@
 import Button from 'components/Button';
-import { IUserSetting } from 'models/settings.types';
+import Pagination from 'components/Pagination';
+import Select from 'components/Select';
+import { IPagination } from 'models/generic.types';
+import { IUserSetting, OrganizationRole, UserStatus } from 'models/settings.types';
 import { getUsers } from 'network/settings';
-import React, { useEffect, useState } from 'react';
-import { MdDelete, MdEdit } from 'react-icons/md';
+import React, { useEffect, useState, useCallback } from 'react';
+import { MdDelete, MdEdit, MdFilterAlt } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import { capitalize } from 'utility/helper';
 import InviteUserModal from './InviteUserModal';
+import UserItem from './UserItem';
 
 const UserSettings = () => {
   const [users, setUsers] = useState<IUserSetting[]>([]);
+  const [pagination, setPagination] = useState<IPagination>();
+  const [page, setPage] = useState<number>(1);
   const [modal, setModal] = useState<boolean>(false);
+  const [filters, setFilters] = useState<boolean>(false);
 
-  useEffect(() => {
-    getUsers()
-      .then((res) => setUsers(res))
+  const updateUsers = useCallback(() => {
+    getUsers({ page })
+      .then((res) => {
+        setUsers(res.users);
+        setPagination(res.pagination);
+      })
       .catch((err) => {
         console.log(err);
         toast.error('Something went wrong...');
       });
-  }, []);
+  }, [page]);
+
+  useEffect(() => {
+    updateUsers();
+  }, [page]);
 
   return (
     <>
       <div className="flex-column">
-        <div className="flex-row justify-flex-end">
+        <div className="flex-row justify-space-between">
+          <div className="flex-row align-center primary pointer margin-left-16" onClick={() => setFilters(true)}>
+            <div className="margin-right-8">
+              <MdFilterAlt size={16} />
+            </div>
+            <div>Filters</div>
+          </div>
           <Button text="Invite user" width={200} onClick={() => setModal(true)} />
         </div>
-        <div className="flex-row margin-bottom-16 padding-left-16">
-          <div className="width-200">Name</div>
-          <div className="width-300">Email</div>
-          <div className="width-100">Role</div>
-          <div className="width-100">Status</div>
+        {filters && (
+          <div className="flex-row align-center">
+            <Select
+              id="role"
+              label="Role"
+              selected="option1"
+              setSelected={() => null}
+              options={['option1', 'option2']}
+              width={200}
+            />
+          </div>
+        )}
+        <div className="flex-row margin-vertical-16 padding-left-16">
+          <div className="width-50 padding-horizontal-8" />
+          <div className="width-200 padding-horizontal-8">Name</div>
+          <div className="width-300 padding-horizontal-8">Email</div>
+          <div className="width-100 padding-horizontal-8">Role</div>
+          <div className="width-100 padding-horizontal-8">Status</div>
         </div>
         {users.map((user) => (
-          <div className="relative flex-row align-center border-neutral margin-bottom-8 padding-left-16">
-            <div className="width-200">{user.firstName && user.lastName && `${user.firstName} ${user.lastName}`}</div>
-            <div className="width-300">{user.email}</div>
-            <div className="width-100">{capitalize(user.role)}</div>
-            <div className="width-100">{capitalize(user.status)}</div>
-            <div className="flex-1 flex-row justify-flex-end">
-              <div className="height-40 width-40 center-items pointer neutral hover-highlight">
-                <MdEdit size={16} />
-              </div>
-              <div className="height-40 width-40 center-items pointer neutral hover-highlight">
-                <MdDelete size={16} />
-              </div>
-            </div>
-          </div>
+          <UserItem user={user} updateUsers={updateUsers} />
         ))}
+        <Pagination
+          totalPages={pagination?.totalPages || 0}
+          currentPage={pagination?.currentPage || 0}
+          onChange={(pageNumber: number) => setPage(pageNumber)}
+        />
       </div>
-      {modal && <InviteUserModal setModal={setModal} />}
+      {modal && <InviteUserModal setModal={setModal} updateUsers={updateUsers} />}
     </>
   );
 };

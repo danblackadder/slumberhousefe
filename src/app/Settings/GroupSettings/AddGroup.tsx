@@ -9,7 +9,7 @@ const AddCompany = () => {
   return (
     <>
       <div
-        className="height-256 width-256 border-highlight center-items highlight pointer shadow-extra-light hover-background-highlight hover-white"
+        className="height-256 width-256 border-primary center-items primary pointer shadow-extra-light hover-background-primary hover-white"
         onClick={() => setModal(true)}
       >
         <div className="flex-column center-items">

@@ -11,22 +11,29 @@ const Dropdown = ({ items, width, onClose }: { items: IDropdownItems[]; width: n
       ref={wrapperRef}
       className={`absolute right-0 top-40 shadow-light flex-column border-radius ${width && `width-${width}`}`}
     >
-      {items.map((item) => (
-        <>
-          {item.hr && <div className="border-bottom-highlight margin-horizontal-16" />}
-          <div
-            className={`padding-horizontal-16 padding-vertical-8 ${item.onClick && 'pointer hover-background-neutral'}`}
-            onClick={() => {
-              if (item.onClick) {
-                item.onClick();
-                onClose();
-              }
-            }}
-          >
-            {item.body}
-          </div>
-        </>
-      ))}
+      {items.map((item) => {
+        console.log(item);
+        return (
+          !item.hide && (
+            <>
+              {item.hr && <div className="border-bottom-primary margin-horizontal-16" />}
+              <div
+                className={`padding-horizontal-16 padding-vertical-8 ${
+                  item.onClick && 'pointer hover-background-neutral'
+                }`}
+                onClick={() => {
+                  if (item.onClick) {
+                    item.onClick();
+                    onClose();
+                  }
+                }}
+              >
+                {item.body}
+              </div>
+            </>
+          )
+        );
+      })}
     </div>
   );
 };

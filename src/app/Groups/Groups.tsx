@@ -2,14 +2,17 @@ import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from 'context/user.context';
 import Header from 'components/Header';
 import { FlexGrid } from 'components/Layout';
-import AddCompany from './AddGroup';
 import Loading from 'components/Loading';
 import { getGroups } from 'network/group';
 import { IGroup } from 'models/group.types';
 import { toast } from 'react-toastify';
 import Group from './Group';
+import { OrganizationRole, TabSettingsOptions } from 'models/settings.types';
+import Button from 'components/Button';
+import { useNavigate } from 'react-router-dom';
 
 const Groups = () => {
+  const navigate = useNavigate();
   const { state } = useContext(UserContext);
 
   const [groups, setGroups] = useState<IGroup[]>([]);
@@ -37,16 +40,32 @@ const Groups = () => {
 
   return (
     <div className="container flex-column">
-      <div className="margin-left-90">
+      <div className="margin-left-90 flex-row align-flex-end justify-space-between">
         <Header text="Groups" />
+        {[OrganizationRole.OWNER, OrganizationRole.ADMIN].includes(state.user?.role || OrganizationRole.BASIC) && (
+          <Button
+            text="Manage groups"
+            width={200}
+            onClick={() => navigate(`/settings?option=${TabSettingsOptions.GROUPS}`)}
+          />
+        )}
       </div>
       <div className="margin-vertical-64">
-        <FlexGrid>
-          <>
-            {groups.length > 0 && groups.map((group) => <Group group={group} />)}
-            <AddCompany />
-          </>
-        </FlexGrid>
+        {groups.length > 0 ? (
+          <FlexGrid>
+            <>
+              {groups.map((group) => (
+                <Group group={group} />
+              ))}
+            </>
+          </FlexGrid>
+        ) : (
+          <div className="text-center margin-top-64">
+            You do not have access to any groups,
+            <br />
+            please speak to an admin to add you to a group.
+          </div>
+        )}
       </div>
     </div>
   );

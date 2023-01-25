@@ -17,14 +17,14 @@ const Group = ({ group }: { group: IGroup }) => {
   };
 
   return (
-    <div className="relative flex-column height-256 width-256 border-highlight pointer" onClick={() => handleGroup()}>
+    <div className="relative flex-column height-256 width-256 border-primary pointer" onClick={() => handleGroup()}>
       <div
-        className="full-height full-width hover-background-highlight-shadow absolute top-0 left-0"
+        className="full-height full-width hover-background-primary-shadow absolute top-0 left-0"
         style={{ zIndex: 1 }}
       />
       {image && (
         <div className="relative height-128 full-width overflow-hidden">
-          <img className="center-image" src={`http://localhost:8001/uploads/${image}`} />
+          <img className="center-image" src={image} />
         </div>
       )}
       <div className="relative flex-column flex-1 padding-8">
@@ -32,7 +32,7 @@ const Group = ({ group }: { group: IGroup }) => {
         <div className="flex-1">
           <Truncate lines={4}>{description}</Truncate>
         </div>
-        <div className="flex-row full-width justify-flex-end align-center highlight">
+        <div className="flex-row full-width justify-flex-end align-center primary">
           <MdPeople />
           <span className="margin-left-4 font-12">{users}</span>
         </div>
