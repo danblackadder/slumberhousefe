@@ -41,6 +41,24 @@ export interface IUserSetting {
   status: UserStatus;
 }
 
-export interface IUserPostErrors {
+export interface IUserSettingPostErrors {
   email: string[];
+}
+
+export interface IGroupSettingResponse {
+  groups: IGroupSetting[];
+  pagination: IPagination;
+}
+export interface IGroupSetting {
+  _id: string;
+  name: string;
+  users: number;
+  role: GroupRole;
+  description?: string;
+  image?: string;
+}
+
+export interface IGroupSettingPostErrors {
+  name: string[];
+  image: string[];
 }

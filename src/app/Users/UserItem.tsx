@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import { MdDelete, MdEdit } from 'react-icons/md';
 
-import { IUserSetting, OrganizationRole } from 'models/settings.types';
+import { IGroupUser } from 'models/group.types';
 import { capitalize } from 'utility/helper';
 
-import DeleteUserModal from './DeleteUserModal';
-import EditUserModal from './EditUserModal';
-
-const UserItem = ({ user, updateUsers }: { user: IUserSetting; updateUsers: () => void }) => {
-  const [editModal, setEditModal] = useState<boolean>(false);
-  const [deleteModal, setDeleteModal] = useState<boolean>(false);
+const UserItem = ({ user, updateUsers }: { user: IGroupUser; updateUsers: () => void }) => {
+  // const [editModal, setEditModal] = useState<boolean>(false);
+  // const [deleteModal, setDeleteModal] = useState<boolean>(false);
 
   return (
     <>
@@ -22,26 +19,21 @@ const UserItem = ({ user, updateUsers }: { user: IUserSetting; updateUsers: () =
         </div>
         <div className="width-300 padding-horizontal-8">{user.email}</div>
         <div className="width-100 padding-horizontal-8">{capitalize(user.role)}</div>
-        <div className="width-100 padding-horizontal-8">{capitalize(user.status)}</div>
         <div className="flex-1 flex-row justify-flex-end">
           <div
             className="height-40 width-40 center-items pointer black hover-primary"
-            onClick={() => setEditModal(true)}
+            // onClick={() => setEditModal(true)}
           >
             <MdEdit size={16} />
           </div>
           <div
-            className={`height-40 width-40 center-items ${
-              user.role === OrganizationRole.OWNER ? 'neutral' : 'pointer error hover-primary'
-            }`}
-            onClick={() => setDeleteModal(true)}
+            className="height-40 width-40 center-items pointer error hover-primary"
+            // onClick={() => setDeleteModal(true)}
           >
             <MdDelete size={16} />
           </div>
         </div>
       </div>
-      {editModal && <EditUserModal onClose={() => setEditModal(false)} user={user} updateUsers={updateUsers} />}
-      {deleteModal && <DeleteUserModal onClose={() => setDeleteModal(false)} user={user} updateUsers={updateUsers} />}
     </>
   );
 };

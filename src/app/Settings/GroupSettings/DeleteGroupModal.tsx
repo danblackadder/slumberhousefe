@@ -3,26 +3,26 @@ import { toast } from 'react-toastify';
 
 import Button from 'components/Button';
 import Modal from 'components/Modal';
-import { IUserSetting } from 'models/settings.types';
-import { deleteSettingsUser } from 'network/settings';
+import { IGroupSetting } from 'models/settings.types';
+import { deleteSettingsGroups } from 'network/settings';
 
-const DeleteUserModal = ({
-  user,
+const DeleteGroupModal = ({
+  group,
   onClose,
-  updateUsers,
+  updateGroups,
 }: {
-  user: IUserSetting;
+  group: IGroupSetting;
   onClose: () => void;
-  updateUsers: () => void;
+  updateGroups: () => void;
 }) => {
   const confirm = () => {
-    deleteSettingsUser({ id: user._id })
+    deleteSettingsGroups({ id: group._id })
       .then(() => {
-        updateUsers();
+        updateGroups();
         onClose();
         toast.success('User updated');
       })
-      .catch((err) => {
+      .catch((err: any) => {
         console.log(err);
         toast.error('Something went wrong...');
       });
@@ -30,7 +30,7 @@ const DeleteUserModal = ({
   return (
     <Modal onClose={onClose} width={500}>
       <div className="margin-bottom-4">
-        Are you sure you want to permanently delete user: <span className="text-bold">{user.email}</span>.
+        Are you sure you want to permanently delete group: <span className="text-bold">{group.name}</span>.
       </div>
       <div className="margin-bottom-4 error">This can not be undone.</div>
       <div className="flex-row justify-space-between">
@@ -41,4 +41,4 @@ const DeleteUserModal = ({
   );
 };
 
-export default DeleteUserModal;
+export default DeleteGroupModal;

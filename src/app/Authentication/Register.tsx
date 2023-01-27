@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { TextInput } from 'components/Forms';
-import { FullWidth } from 'components/Layout';
-import Header from 'components/Header';
 import Button from 'components/Button';
-import { register } from 'network/authentication';
-import { IRegistrationErrors } from 'models/authentication.types';
+import { TextInput } from 'components/Forms';
+import Header from 'components/Header';
+import { FullWidth } from 'components/Layout';
 import Loading from 'components/Loading';
+import { IRegistrationErrors } from 'models/authentication.types';
+import { register } from 'network/authentication';
 
 const Register = () => {
   const navigate = useNavigate();

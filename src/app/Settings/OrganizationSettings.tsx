@@ -1,7 +1,8 @@
+import React, { useState } from 'react';
+
 import Button from 'components/Button';
 import { TextInput } from 'components/Forms';
 import { IOrganizationSettingsErrors } from 'models/settings.types';
-import React, { useState } from 'react';
 
 const OrganizationSettings = () => {
   const [name, setName] = useState<string>('');

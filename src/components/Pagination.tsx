@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { MdOutlineChevronLeft, MdOutlineChevronRight } from 'react-icons/md';
+
 import { range } from 'utility/helper';
 
 const Pagination = ({
@@ -12,6 +13,7 @@ const Pagination = ({
   onChange: (pageNumber: number) => void;
 }) => {
   const DOTS = '...';
+
   const paginationRange = useMemo(() => {
     const siblingCount = 2;
 
@@ -25,20 +27,21 @@ const Pagination = ({
     const lastPageIndex = totalPages;
 
     if (!shouldShowLeftDots && shouldShowRightDots) {
-      let leftItemCount = 3 + 2 * siblingCount;
-      let leftRange = range(1, leftItemCount);
+      const leftItemCount = 2 * siblingCount;
+      const leftRange = range(1, leftItemCount);
 
       return [...leftRange, DOTS, totalPages];
     }
 
     if (shouldShowLeftDots && !shouldShowRightDots) {
-      let rightItemCount = 3 + 2 * siblingCount;
-      let rightRange = range(totalPages - rightItemCount + 1, totalPages);
+      const rightItemCount = 2 * siblingCount;
+      const rightRange = range(totalPages - rightItemCount + 1, totalPages);
+
       return [firstPageIndex, DOTS, ...rightRange];
     }
 
     if (shouldShowLeftDots && shouldShowRightDots) {
-      let middleRange = range(leftSiblingIndex, rightSiblingIndex);
+      const middleRange = range(leftSiblingIndex, rightSiblingIndex);
       return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex];
     }
 

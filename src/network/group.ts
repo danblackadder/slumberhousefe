@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { IGroup } from 'models/group.types';
+
+import { IGroup, IGroupUserResponse } from 'models/group.types';
 
 export const getGroup = async ({ groupId }: { groupId: string }) => {
   return new Promise<IGroup>((resolve, reject) => {
@@ -41,6 +42,15 @@ export const postGroup = async ({
           'Content-Type': 'multipart/form-data',
         },
       })
+      .then((res) => resolve(res.data))
+      .catch((err) => reject(err.response.data));
+  });
+};
+
+export const getGroupUsers = async ({ groupId, page }: { groupId: string; page: number }) => {
+  return new Promise<IGroupUserResponse>((resolve, reject) => {
+    axios
+      .get(`/group/${groupId}/users?limit=10&page=${page}`)
       .then((res) => resolve(res.data))
       .catch((err) => reject(err.response.data));
   });

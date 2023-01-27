@@ -74,6 +74,26 @@ $directions: top bottom left right;
       padding-#{$direction}: #{$size}px;
     }
 
+    .padding-vertical-#{$size} {
+      padding-top: #{$size}px;
+      padding-bottom: #{$size}px;
+    }
+
+    .margin-vertical-#{$size} {
+      margin-top: #{$size}px;
+      margin-bottom: #{$size}px;
+    }
+
+    .padding-horizontal-#{$size} {
+      padding-left: #{$size}px;
+      padding-right: #{$size}px;
+    }
+
+    .margin-horizontal-#{$size} {
+      margin-left: #{$size}px;
+      margin-right: #{$size}px;
+    }
+
     $size: $size + 10;
   }
 }

@@ -1,6 +1,6 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { BiShow, BiHide } from 'react-icons/bi';
+import React, { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { BiHide, BiShow } from 'react-icons/bi';
 
 export const TextInput = ({
   id,
@@ -75,7 +75,13 @@ export const TextArea = ({
   return (
     <div className={`relative ${width ? `width-${width}` : 'full-width'} flex-column align-stretch margin-vertical-8`}>
       <div className="margin-bottom-4">{label}</div>
-      <textarea id={id} name={id} onChange={onChange} value={value} className="height-128 padding-4 font-16" />
+      <textarea
+        id={id}
+        name={id}
+        onChange={onChange}
+        value={value}
+        className="height-128 padding-4 font-16 resize-none"
+      />
       {errors && errors.length > 0 && (
         <div className="flex-column font-10 error">
           {errors.map((error) => (
@@ -87,7 +93,15 @@ export const TextArea = ({
   );
 };
 
-export const FileUpload = ({ label, onChange }: { label: string; onChange: (file: File[]) => void }) => {
+export const FileUpload = ({
+  label,
+  onChange,
+  image,
+}: {
+  label: string;
+  onChange: (file: File[]) => void;
+  image?: string;
+}) => {
   const [files, setFiles] = useState<any[]>([]);
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -132,7 +146,13 @@ export const FileUpload = ({ label, onChange }: { label: string; onChange: (file
       <div className="relative border-neutral height-128 center-items overflow-hidden">
         <div className="height-128 full-width pointer center-items" {...getRootProps()}>
           <input {...getInputProps()} />
-          {thumbs && thumbs.length > 0 ? thumbs : <div>Drag 'n' drop some files here, or click to select files</div>}
+          {image ? (
+            <img src={image} className="center-image" />
+          ) : thumbs && thumbs.length > 0 ? (
+            thumbs
+          ) : (
+            <div>Drag 'n' drop some files here, or click to select files</div>
+          )}
         </div>
       </div>
     </div>

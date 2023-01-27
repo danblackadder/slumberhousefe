@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { MdArrowDropDown } from 'react-icons/md';
+
 import { capitalize } from 'utility/helper';
 
 const Select = ({

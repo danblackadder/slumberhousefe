@@ -1,6 +1,7 @@
+import React, { useRef } from 'react';
+
 import useClickOutside from 'hooks/useClickOutside.hook';
 import { IDropdownItems } from 'models/component.types';
-import React, { useRef } from 'react';
 
 const Dropdown = ({ items, width, onClose }: { items: IDropdownItems[]; width: number; onClose: () => void }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -12,7 +13,6 @@ const Dropdown = ({ items, width, onClose }: { items: IDropdownItems[]; width: n
       className={`absolute right-0 top-40 shadow-light flex-column border-radius ${width && `width-${width}`}`}
     >
       {items.map((item) => {
-        console.log(item);
         return (
           !item.hide && (
             <>

@@ -1,11 +1,12 @@
+import React, { useMemo, useState } from 'react';
+import { toast } from 'react-toastify';
+
 import Button from 'components/Button';
 import { TextInput } from 'components/Forms';
 import Modal from 'components/Modal';
 import Select from 'components/Select';
 import { IUserSetting, OrganizationRole } from 'models/settings.types';
-import { putUser } from 'network/settings';
-import React, { useMemo, useState } from 'react';
-import { toast } from 'react-toastify';
+import { putSettingsUser } from 'network/settings';
 import { capitalize } from 'utility/helper';
 
 const EditUserModal = ({
@@ -27,13 +28,13 @@ const EditUserModal = ({
   }, [user]);
 
   const save = () => {
-    putUser({ id: user._id, role })
+    putSettingsUser({ id: user._id, role })
       .then(() => {
         updateUsers();
         onClose();
         toast.success('User updated');
       })
-      .catch((err) => {
+      .catch((err: unknown) => {
         console.log(err);
         toast.error('Something went wrong...');
       });

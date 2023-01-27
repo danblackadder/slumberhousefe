@@ -1,10 +1,24 @@
-import { GroupContext } from 'context/group.context';
-import { GroupContextActionTypes } from 'models/group.context.types';
-import React, { useContext } from 'react';
-import { MdChat, MdDashboard, MdTask, MdFolder, MdSettings, MdHome } from 'react-icons/md';
+import React, { useContext, useMemo } from 'react';
+import { MdBarChart, MdChat, MdDashboard, MdFolder, MdPeople, MdTask } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
+import { GroupContext } from 'context/group.context';
+import { UserContext } from 'context/user.context';
+import { GroupRole, OrganizationRole } from 'models/settings.types';
+
 const Navigation = () => {
+  const { state: userState } = useContext(UserContext);
+  const { state: groupState } = useContext(GroupContext);
+
+  const isAdmin = useMemo(() => {
+    return (
+      userState.user &&
+      groupState.group &&
+      ([OrganizationRole.OWNER, OrganizationRole.ADMIN].includes(userState.user.role) ||
+        [GroupRole.ADMIN].includes(groupState.group.role))
+    );
+  }, [userState, groupState]);
+
   return (
     <div className="absolute left-0 top-0 shadow-light width-80 full-vh">
       <div className="padding-top-128 full-height padding-bottom-32">
@@ -22,6 +36,16 @@ const Navigation = () => {
             <Link to="/documents" className="primary padding-vertical-16">
               <MdFolder size={24} />
             </Link>
+            {isAdmin && (
+              <>
+                <Link to="/users" className="primary padding-vertical-16">
+                  <MdPeople size={24} />
+                </Link>
+                <Link to="/reporting" className="primary padding-vertical-16">
+                  <MdBarChart size={24} />
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

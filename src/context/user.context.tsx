@@ -1,13 +1,13 @@
-import Cookies from 'js-cookie';
 import React, { createContext, useEffect, useReducer } from 'react';
+import Cookies from 'js-cookie';
 
+import useUser from 'hooks/user.hook';
 import {
-  UserContextState,
   UserContextActions,
   UserContextActionTypes,
+  UserContextState,
   UserContextType,
 } from 'models/user.context.types';
-import useUser from 'hooks/user.hook';
 
 const initialState = {
   isAuthenticated: false,
@@ -30,7 +30,6 @@ const reducer = (state: UserContextState, action: UserContextActions) => {
         user: null,
       };
     case UserContextActionTypes.USER:
-      console.log('user');
       return {
         ...state,
         user: { ...action.payload.user },

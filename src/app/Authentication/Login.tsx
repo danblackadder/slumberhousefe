@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
 
-import { TextInput } from 'components/Forms';
-import { FullWidth } from 'components/Layout';
-import Header from 'components/Header';
 import Button from 'components/Button';
-import { login } from 'network/authentication';
+import { TextInput } from 'components/Forms';
+import Header from 'components/Header';
+import { FullWidth } from 'components/Layout';
 import Loading from 'components/Loading';
 import { UserContext } from 'context/user.context';
 import { UserContextActionTypes } from 'models/user.context.types';
-import Cookies from 'js-cookie';
+import { login } from 'network/authentication';
 
 const Login = () => {
   const navigate = useNavigate();

@@ -1,15 +1,17 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { UserContext } from 'context/user.context';
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+import Button from 'components/Button';
 import Header from 'components/Header';
 import { FlexGrid } from 'components/Layout';
 import Loading from 'components/Loading';
-import { getGroups } from 'network/group';
+import { UserContext } from 'context/user.context';
 import { IGroup } from 'models/group.types';
-import { toast } from 'react-toastify';
-import Group from './Group';
 import { OrganizationRole, TabSettingsOptions } from 'models/settings.types';
-import Button from 'components/Button';
-import { useNavigate } from 'react-router-dom';
+import { getGroups } from 'network/group';
+
+import Group from './Group';
 
 const Groups = () => {
   const navigate = useNavigate();
@@ -40,7 +42,7 @@ const Groups = () => {
 
   return (
     <div className="container flex-column">
-      <div className="margin-left-90 flex-row align-flex-end justify-space-between">
+      <div className="margin-horizontal-90 flex-row align-center justify-space-between">
         <Header text="Groups" />
         {[OrganizationRole.OWNER, OrganizationRole.ADMIN].includes(state.user?.role || OrganizationRole.BASIC) && (
           <Button

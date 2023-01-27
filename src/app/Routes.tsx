@@ -1,22 +1,27 @@
 import React, { useContext } from 'react';
-import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
+import { GroupContext } from 'context/group.context';
 import { UserContext } from 'context/user.context';
+import { GroupRole, OrganizationRole } from 'models/settings.types';
 
 import { Login, Register } from './Authentication';
-import { Dashboard } from './Dashboard';
-import { Sidebar, Topbar } from './Navigation';
-import { Documents } from './Documents';
 import { Chat } from './Chat';
-import { Tasks } from './Tasks';
-import { Settings } from './Settings';
+import { Dashboard } from './Dashboard';
+import { Documents } from './Documents';
 import { Groups } from './Groups';
-import { GroupContext } from 'context/group.context';
+import { Sidebar, Topbar } from './Navigation';
 import { Profile } from './Profile';
+import { Reporting } from './Reporting';
+import { Settings } from './Settings';
+import { Tasks } from './Tasks';
+import { Users } from './Users';
 
-const AuthenticatedRoute = ({ isAuthenticated, redirectPath }: { isAuthenticated: boolean; redirectPath: string }) => {
-  if (!isAuthenticated) {
-    return <Navigate to={redirectPath} replace />;
+const AuthenticatedRoute = () => {
+  const { state } = useContext(UserContext);
+
+  if (!state.isAuthenticated) {
+    return <Navigate to={'/login'} replace />;
   }
 
   return (
@@ -27,11 +32,11 @@ const AuthenticatedRoute = ({ isAuthenticated, redirectPath }: { isAuthenticated
   );
 };
 
-const GroupRoute = ({ redirectPath }: { redirectPath: string }) => {
+const GroupRoute = () => {
   const { state } = useContext(GroupContext);
 
   if (!state.group) {
-    return <Navigate to={redirectPath} replace />;
+    return <Navigate to={'/groups'} replace />;
   }
 
   return (
@@ -42,17 +47,41 @@ const GroupRoute = ({ redirectPath }: { redirectPath: string }) => {
   );
 };
 
+const AdminRoute = () => {
+  const { state: userState } = useContext(UserContext);
+  const { state: groupState } = useContext(GroupContext);
+
+  if (
+    userState.user &&
+    groupState.group &&
+    ![OrganizationRole.OWNER, OrganizationRole.ADMIN].includes(userState.user.role) &&
+    ![GroupRole.ADMIN].includes(groupState.group.role)
+  ) {
+    return <Navigate to={'/dashboard'} replace />;
+  }
+
+  return (
+    <>
+      <Outlet />
+    </>
+  );
+};
+
 const AppRoutes = () => {
   const { state } = useContext(UserContext);
 
   return (
     <Routes>
-      <Route element={<AuthenticatedRoute isAuthenticated={state.isAuthenticated} redirectPath="/login" />}>
-        <Route element={<GroupRoute redirectPath="/groups" />}>
+      <Route element={<AuthenticatedRoute />}>
+        <Route element={<GroupRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/tasks" element={<Tasks />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/documents" element={<Documents />} />
+          <Route element={<AdminRoute />}>
+            <Route path="/users" element={<Users />} />
+            <Route path="/reporting" element={<Reporting />} />
+          </Route>
         </Route>
         <Route path="/groups" element={<Groups />} />
         <Route path="/profile" element={<Profile />} />

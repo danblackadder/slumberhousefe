@@ -1,11 +1,11 @@
-import Modal from 'components/Modal';
-import React, { useState, Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { TextInput } from 'components/Forms';
 import Button from 'components/Button';
-import { postUsers } from 'network/settings';
-import { IUserPostErrors } from 'models/settings.types';
+import { TextInput } from 'components/Forms';
+import Modal from 'components/Modal';
+import { IUserSettingPostErrors } from 'models/settings.types';
+import { postSettingsUsers } from 'network/settings';
 
 const InviteUserModal = ({
   setModal,
@@ -15,10 +15,10 @@ const InviteUserModal = ({
   updateUsers: () => void;
 }) => {
   const [email, setEmail] = useState<string>('');
-  const [errors, setErrors] = useState<IUserPostErrors>();
+  const [errors, setErrors] = useState<IUserSettingPostErrors>();
 
   const handlePostUser = () => {
-    postUsers({ email })
+    postSettingsUsers({ email })
       .then(() => {
         updateUsers();
         setModal(false);

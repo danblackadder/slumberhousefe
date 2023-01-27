@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+
 import { ILogin, IUser } from 'models/authentication.types';
 
 export const login = ({ email, password }: { email: string; password: string }) => {

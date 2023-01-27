@@ -1,8 +1,10 @@
+import React, { useContext } from 'react';
+import { MdHome, MdNotifications } from 'react-icons/md';
+import { Link } from 'react-router-dom';
+
 import { GroupContext } from 'context/group.context';
 import { GroupContextActionTypes } from 'models/group.context.types';
-import React, { useContext } from 'react';
-import { MdNotifications, MdHome } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+
 import UserMenu from './UserMenu';
 
 const Topbar = () => {

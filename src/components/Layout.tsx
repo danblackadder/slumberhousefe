@@ -33,8 +33,6 @@ export const FlexGrid = ({ children }: { children: JSX.Element | JSX.Element[] }
     }
   }, []);
 
-  console.log(invisibleItems);
-
   return (
     <div className="full-width margin-horizontal-auto">
       <div id="grid" className="flex-row flex-wrap flex-gap justify-center">

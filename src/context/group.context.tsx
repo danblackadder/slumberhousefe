@@ -1,10 +1,11 @@
+import React, { createContext, useReducer } from 'react';
+
 import {
   GroupContextActions,
   GroupContextActionTypes,
   GroupContextState,
   GroupContextType,
 } from 'models/group.context.types';
-import React, { createContext, useEffect, useReducer } from 'react';
 
 const initialState = {
   group: null,

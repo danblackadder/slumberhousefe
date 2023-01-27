@@ -1,9 +1,11 @@
+import React, { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+
 import Header from 'components/Header';
 import { Tab, TabsContainer } from 'components/Tabs';
 import { TabSettingsOptions } from 'models/settings.types';
-import React, { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { capitalize } from 'utility/helper';
+
 import GroupSettings from './GroupSettings';
 import OrganizationSettings from './OrganizationSettings';
 import UserSettings from './UserSettings';
@@ -13,8 +15,6 @@ const Settings = () => {
   const [active, setActive] = useState<TabSettingsOptions>(
     (searchParams.get('option') as TabSettingsOptions) || TabSettingsOptions.USERS
   );
-
-  console.log(searchParams.get('option'));
 
   return (
     <div className="container">

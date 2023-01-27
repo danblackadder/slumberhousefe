@@ -1,35 +1,37 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { MdDelete, MdEdit, MdFilterAlt } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
 import Button from 'components/Button';
+import Header from 'components/Header';
 import Pagination from 'components/Pagination';
 import Select from 'components/Select';
+import { GroupContext } from 'context/group.context';
 import { IPagination } from 'models/generic.types';
-import { IUserSetting, OrganizationRole, UserStatus } from 'models/settings.types';
-import { getSettingsUsers } from 'network/settings';
-import { capitalize } from 'utility/helper';
+import { IGroupUser } from 'models/group.types';
+import { getGroupUsers } from 'network/group';
 
-import InviteUserModal from './InviteUserModal';
 import UserItem from './UserItem';
 
-const UserSettings = () => {
-  const [users, setUsers] = useState<IUserSetting[]>([]);
+const GroupUsers = () => {
+  const { state: groupState } = useContext(GroupContext);
+  const [users, setUsers] = useState<IGroupUser[]>([]);
   const [pagination, setPagination] = useState<IPagination>();
   const [page, setPage] = useState<number>(1);
-  const [modal, setModal] = useState<boolean>(false);
   const [filters, setFilters] = useState<boolean>(false);
 
   const updateUsers = useCallback(() => {
-    getSettingsUsers({ page })
-      .then((res) => {
-        setUsers(res.users);
-        setPagination(res.pagination);
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error('Something went wrong...');
-      });
+    if (groupState.group) {
+      getGroupUsers({ groupId: groupState?.group?._id, page })
+        .then((res) => {
+          setUsers(res.users);
+          setPagination(res.pagination);
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error('Something went wrong...');
+        });
+    }
   }, [page]);
 
   useEffect(() => {
@@ -37,7 +39,8 @@ const UserSettings = () => {
   }, [page]);
 
   return (
-    <>
+    <div className="container">
+      <Header text="Users" />
       <div className="flex-column">
         <div className="flex-row justify-space-between">
           <div className="flex-row align-center primary pointer margin-left-16" onClick={() => setFilters(true)}>
@@ -46,7 +49,7 @@ const UserSettings = () => {
             </div>
             <div>Filters</div>
           </div>
-          <Button text="Invite user" width={200} onClick={() => setModal(true)} />
+          <Button text="Add user" width={200} />
         </div>
         {filters && (
           <div className="flex-row align-center">
@@ -65,7 +68,6 @@ const UserSettings = () => {
           <div className="width-200 padding-horizontal-8">Name</div>
           <div className="width-300 padding-horizontal-8">Email</div>
           <div className="width-100 padding-horizontal-8">Role</div>
-          <div className="width-100 padding-horizontal-8">Status</div>
         </div>
         {users.map((user) => (
           <UserItem user={user} updateUsers={updateUsers} />
@@ -76,9 +78,8 @@ const UserSettings = () => {
           onChange={(pageNumber: number) => setPage(pageNumber)}
         />
       </div>
-      {modal && <InviteUserModal setModal={setModal} updateUsers={updateUsers} />}
-    </>
+    </div>
   );
 };
 
-export default UserSettings;
+export default GroupUsers;
