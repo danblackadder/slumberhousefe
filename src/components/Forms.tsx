@@ -49,7 +49,7 @@ export const TextInput = ({
       {errors && errors.length > 0 && (
         <div className="flex-column font-10 error">
           {errors.map((error) => (
-            <div>{error}</div>
+            <div key={error}>{error}</div>
           ))}
         </div>
       )}
@@ -85,13 +85,18 @@ export const TextArea = ({
       {errors && errors.length > 0 && (
         <div className="flex-column font-10 error">
           {errors.map((error) => (
-            <div>{error}</div>
+            <div key={error}>{error}</div>
           ))}
         </div>
       )}
     </div>
   );
 };
+
+interface AcceptedFile {
+  name: string;
+  preview: string;
+}
 
 export const FileUpload = ({
   label,
@@ -102,7 +107,7 @@ export const FileUpload = ({
   onChange: (file: File[]) => void;
   image?: string;
 }) => {
-  const [files, setFiles] = useState<any[]>([]);
+  const [files, setFiles] = useState<AcceptedFile[]>([]);
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
@@ -123,6 +128,7 @@ export const FileUpload = ({
 
   const thumbs = files.map((file) => (
     <img
+      key={file.name}
       src={file.preview}
       className="center-image"
       // Revoke data uri after image is loaded

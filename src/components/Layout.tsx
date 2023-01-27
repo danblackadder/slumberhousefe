@@ -37,7 +37,8 @@ export const FlexGrid = ({ children }: { children: JSX.Element | JSX.Element[] }
     <div className="full-width margin-horizontal-auto">
       <div id="grid" className="flex-row flex-wrap flex-gap justify-center">
         {children}
-        {invisibleItems > 0 && [...Array(invisibleItems)].map(() => <div className={`${height} ${width}`} />)}
+        {invisibleItems > 0 &&
+          [...Array(invisibleItems)].map((item) => <div key={item} className={`${height} ${width}`} />)}
       </div>
     </div>
   );

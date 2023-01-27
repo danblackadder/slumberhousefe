@@ -22,7 +22,7 @@ const DeleteGroupModal = ({
         onClose();
         toast.success('User updated');
       })
-      .catch((err: any) => {
+      .catch((err: unknown) => {
         console.log(err);
         toast.error('Something went wrong...');
       });

@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdDelete, MdEdit } from 'react-icons/md';
 
 import { IGroupUser } from 'models/group.types';
 import { capitalize } from 'utility/helper';
 
 const UserItem = ({ user, updateUsers }: { user: IGroupUser; updateUsers: () => void }) => {
-  // const [editModal, setEditModal] = useState<boolean>(false);
-  // const [deleteModal, setDeleteModal] = useState<boolean>(false);
+  const [editModal, setEditModal] = useState<boolean>(false);
+  const [deleteModal, setDeleteModal] = useState<boolean>(false);
+
+  useEffect(() => {
+    updateUsers();
+  }, [editModal, deleteModal]);
 
   return (
     <>
@@ -22,13 +26,13 @@ const UserItem = ({ user, updateUsers }: { user: IGroupUser; updateUsers: () => 
         <div className="flex-1 flex-row justify-flex-end">
           <div
             className="height-40 width-40 center-items pointer black hover-primary"
-            // onClick={() => setEditModal(true)}
+            onClick={() => setEditModal(true)}
           >
             <MdEdit size={16} />
           </div>
           <div
             className="height-40 width-40 center-items pointer error hover-primary"
-            // onClick={() => setDeleteModal(true)}
+            onClick={() => setDeleteModal(true)}
           >
             <MdDelete size={16} />
           </div>

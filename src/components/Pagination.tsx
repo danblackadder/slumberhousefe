@@ -61,6 +61,7 @@ const Pagination = ({
         </div>
         {paginationRange.map((pageNumber) => (
           <div
+            key={pageNumber}
             className={`pointer height-30 width-30 hover-primary ${pageNumber === DOTS && 'neutral-dark'} ${
               pageNumber === currentPage && 'primary  text-bold'
             }`}

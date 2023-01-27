@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 
 import Button from 'components/Button';
 import Pagination from 'components/Pagination';
-import Select from 'components/Select';
 import { IPagination } from 'models/generic.types';
 import { IGroupSetting } from 'models/settings.types';
 import { getSettingsGroups } from 'network/settings';
@@ -17,7 +16,7 @@ const GroupSettings = () => {
   const [pagination, setPagination] = useState<IPagination>();
   const [page, setPage] = useState<number>(1);
   const [modal, setModal] = useState<boolean>(false);
-  const [filters, setFilters] = useState<boolean>(false);
+  const [, setFilters] = useState<boolean>(false);
 
   const updateGroups = useCallback(() => {
     getSettingsGroups({ page })
@@ -52,7 +51,7 @@ const GroupSettings = () => {
           <div className="width-300 padding-horizontal-8">Users</div>
         </div>
         {groups.map((group) => (
-          <GroupItem group={group} updateGroups={updateGroups} />
+          <GroupItem key={group._id} group={group} updateGroups={updateGroups} />
         ))}
         <Pagination
           totalPages={pagination?.totalPages || 0}

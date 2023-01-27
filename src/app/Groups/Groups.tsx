@@ -57,7 +57,7 @@ const Groups = () => {
           <FlexGrid>
             <>
               {groups.map((group) => (
-                <Group group={group} />
+                <Group key={group._id} group={group} />
               ))}
             </>
           </FlexGrid>

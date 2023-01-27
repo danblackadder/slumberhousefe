@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { MdDelete, MdEdit, MdFilterAlt } from 'react-icons/md';
+import { MdFilterAlt } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
 import Button from 'components/Button';
 import Pagination from 'components/Pagination';
 import Select from 'components/Select';
 import { IPagination } from 'models/generic.types';
-import { IUserSetting, OrganizationRole, UserStatus } from 'models/settings.types';
+import { IUserSetting } from 'models/settings.types';
 import { getSettingsUsers } from 'network/settings';
-import { capitalize } from 'utility/helper';
 
 import InviteUserModal from './InviteUserModal';
 import UserItem from './UserItem';
@@ -68,7 +67,7 @@ const UserSettings = () => {
           <div className="width-100 padding-horizontal-8">Status</div>
         </div>
         {users.map((user) => (
-          <UserItem user={user} updateUsers={updateUsers} />
+          <UserItem key={user._id} user={user} updateUsers={updateUsers} />
         ))}
         <Pagination
           totalPages={pagination?.totalPages || 0}

@@ -38,6 +38,7 @@ const Select = ({
         >
           {options.map((option) => (
             <div
+              key={option}
               className="padding-8 hover-background-neutral"
               onClick={() => {
                 setSelectedItem(option);

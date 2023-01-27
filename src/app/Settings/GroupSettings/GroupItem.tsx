@@ -11,7 +11,7 @@ import GroupModal from './GroupModal';
 
 const GroupItem = ({ group, updateGroups }: { group: IGroupSetting; updateGroups: () => void }) => {
   const navigate = useNavigate();
-  const { state, dispatch } = useContext(GroupContext);
+  const { dispatch } = useContext(GroupContext);
 
   const [editModal, setEditModal] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);

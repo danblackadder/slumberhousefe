@@ -6,8 +6,10 @@
     "moduleResolution": "node",
     "lib": ["dom", "esnext"],
     "strict": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "target": "esnext",
+    "noEmit": true,
+    "noEmitOnError": true,
     "baseUrl": "./",
     "paths": {
       "app/*": ["src/app/*"],

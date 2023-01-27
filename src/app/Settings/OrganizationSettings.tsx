@@ -6,7 +6,7 @@ import { IOrganizationSettingsErrors } from 'models/settings.types';
 
 const OrganizationSettings = () => {
   const [name, setName] = useState<string>('');
-  const [errors, setErrors] = useState<IOrganizationSettingsErrors>();
+  const [errors] = useState<IOrganizationSettingsErrors>();
 
   return (
     <div className="flex-column">

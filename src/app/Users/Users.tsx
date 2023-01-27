@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { MdDelete, MdEdit, MdFilterAlt } from 'react-icons/md';
+import { MdFilterAlt } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
 import Button from 'components/Button';
@@ -70,7 +70,7 @@ const GroupUsers = () => {
           <div className="width-100 padding-horizontal-8">Role</div>
         </div>
         {users.map((user) => (
-          <UserItem user={user} updateUsers={updateUsers} />
+          <UserItem key={user._id} user={user} updateUsers={updateUsers} />
         ))}
         <Pagination
           totalPages={pagination?.totalPages || 0}
