@@ -1,11 +1,11 @@
-export type ActionMap<M extends { [index: string]: unknown }> = {
-  [Key in keyof M]: M[Key] extends undefined
+export type ActionMap<T> = {
+  [Key in keyof T]: T[Key] extends undefined
     ? {
         type: Key;
       }
     : {
         type: Key;
-        payload: M[Key];
+        payload: T[Key];
       };
 };
 
