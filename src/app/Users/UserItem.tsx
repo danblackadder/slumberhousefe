@@ -1,16 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { MdDelete, MdEdit } from 'react-icons/md';
 
-import { IGroupUser } from 'models/group.types';
+import { IGroup, IGroupUser } from 'models/group.types';
 import { capitalize } from 'utility/helper';
 
-const UserItem = ({ user, updateUsers }: { user: IGroupUser; updateUsers: () => void }) => {
+import RemoveUserModal from './RemoveUserModal';
+
+const UserItem = ({
+  group,
+  user,
+  updateUsers,
+}: {
+  group: IGroup | null;
+  user: IGroupUser;
+  updateUsers: () => void;
+}) => {
   const [editModal, setEditModal] = useState<boolean>(false);
-  const [deleteModal, setDeleteModal] = useState<boolean>(false);
+  const [removeModal, setRemoveModal] = useState<boolean>(false);
 
   useEffect(() => {
     updateUsers();
-  }, [editModal, deleteModal]);
+  }, [editModal, removeModal]);
 
   return (
     <>
@@ -32,12 +42,16 @@ const UserItem = ({ user, updateUsers }: { user: IGroupUser; updateUsers: () => 
           </div>
           <div
             className="height-40 width-40 center-items pointer error hover-primary"
-            onClick={() => setDeleteModal(true)}
+            onClick={() => setRemoveModal(true)}
           >
             <MdDelete size={16} />
           </div>
         </div>
       </div>
+
+      {removeModal && (
+        <RemoveUserModal onClose={() => setRemoveModal(false)} user={user} group={group} updateUsers={updateUsers} />
+      )}
     </>
   );
 };

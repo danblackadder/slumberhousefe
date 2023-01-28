@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react';
-import { MdDelete, MdEdit, MdPeople } from 'react-icons/md';
+import { MdDelete, MdEdit, MdOpenInNew, MdPeople } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 
 import { GroupContext } from 'context/group.context';
@@ -21,12 +21,20 @@ const GroupItem = ({ group, updateGroups }: { group: IGroupSetting; updateGroups
     navigate('/users');
   }, [group]);
 
+  const handleGroup = () => {
+    dispatch({ type: GroupContextActionTypes.SET_GROUP, payload: { group } });
+    navigate('/dashboard');
+  };
+
   return (
     <>
       <div className="relative flex-row align-center margin-bottom-8 padding-left-16 border-neutral">
         <div className="width-200 padding-horizontal-8">{group.name}</div>
         <div className="width-100 padding-horizontal-8">{group.users}</div>
         <div className="flex-1 flex-row justify-flex-end">
+          <div className="height-40 width-40 center-items pointer black hover-primary" onClick={() => handleGroup()}>
+            <MdOpenInNew size={16} />
+          </div>
           <div
             className="height-40 width-40 center-items pointer black hover-primary"
             onClick={() => handleManageGroupUsers()}

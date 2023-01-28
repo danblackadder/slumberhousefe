@@ -152,10 +152,10 @@ export const FileUpload = ({
       <div className="relative border-neutral height-128 center-items overflow-hidden">
         <div className="height-128 full-width pointer center-items" {...getRootProps()}>
           <input {...getInputProps()} />
-          {image ? (
-            <img src={image} className="center-image" />
-          ) : thumbs && thumbs.length > 0 ? (
+          {thumbs && thumbs.length > 0 ? (
             thumbs
+          ) : image ? (
+            <img src={image} className="center-image" />
           ) : (
             <div>Drag 'n' drop some files here, or click to select files</div>
           )}

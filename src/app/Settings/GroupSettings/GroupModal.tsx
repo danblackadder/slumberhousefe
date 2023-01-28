@@ -73,7 +73,7 @@ const GroupModal = ({
       <div className="flex-row full-width align-center justify-space-between margin-top-16">
         <Button text="Cancel" width={160} onClick={onClose} />
         <Button
-          text={edit ? 'Update company' : 'Create company'}
+          text={edit ? 'Update group' : 'Create group'}
           width={160}
           onClick={() => (edit ? handlePutGroup() : handlePostGroup())}
         />

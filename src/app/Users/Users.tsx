@@ -11,6 +11,7 @@ import { IPagination } from 'models/generic.types';
 import { IGroupUser } from 'models/group.types';
 import { getGroupUsers } from 'network/group';
 
+import AddUserModal from './AddUserModal';
 import UserItem from './UserItem';
 
 const GroupUsers = () => {
@@ -19,6 +20,7 @@ const GroupUsers = () => {
   const [pagination, setPagination] = useState<IPagination>();
   const [page, setPage] = useState<number>(1);
   const [filters, setFilters] = useState<boolean>(false);
+  const [addUserModal, setAddUserModal] = useState<boolean>(false);
 
   const updateUsers = useCallback(() => {
     if (groupState.group) {
@@ -32,7 +34,7 @@ const GroupUsers = () => {
           toast.error('Something went wrong...');
         });
     }
-  }, [page]);
+  }, [page, groupState]);
 
   useEffect(() => {
     updateUsers();
@@ -49,7 +51,7 @@ const GroupUsers = () => {
             </div>
             <div>Filters</div>
           </div>
-          <Button text="Add user" width={200} />
+          <Button text="Add user" width={200} onClick={() => setAddUserModal(true)} />
         </div>
         {filters && (
           <div className="flex-row align-center">
@@ -70,7 +72,7 @@ const GroupUsers = () => {
           <div className="width-100 padding-horizontal-8">Role</div>
         </div>
         {users.map((user) => (
-          <UserItem key={user._id} user={user} updateUsers={updateUsers} />
+          <UserItem key={user._id} group={groupState.group} user={user} updateUsers={updateUsers} />
         ))}
         <Pagination
           totalPages={pagination?.totalPages || 0}
@@ -78,6 +80,9 @@ const GroupUsers = () => {
           onChange={(pageNumber: number) => setPage(pageNumber)}
         />
       </div>
+      {addUserModal && groupState.group && (
+        <AddUserModal groupId={groupState.group._id} onClose={() => setAddUserModal(false)} updateUsers={updateUsers} />
+      )}
     </div>
   );
 };

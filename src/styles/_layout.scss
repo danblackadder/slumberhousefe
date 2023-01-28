@@ -98,6 +98,16 @@ $size: 0;
     height: #{$size}px;
   }
 
+  .max-width-#{$size} {
+    max-height: #{$size}px;
+    overflow-x: auto;
+  }
+
+  .max-height-#{$size} {
+    max-height: #{$size}px;
+    overflow-y: auto;
+  }
+
   $size: $size + 10;
 }
 

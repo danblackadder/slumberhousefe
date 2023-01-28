@@ -32,3 +32,10 @@ export interface IGroupUser {
   email: string;
   role: GroupRole;
 }
+
+export interface IGroupAvailableUser {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+}
