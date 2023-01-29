@@ -83,6 +83,15 @@ export const postGroupUsers = async ({
   });
 };
 
+export const putGroupUser = async ({ groupId, userId, role }: { groupId: string; userId: string; role: GroupRole }) => {
+  return new Promise<AxiosResponse>((resolve, reject) => {
+    axios
+      .put(`/groups/${groupId}/users/${userId}`, { role })
+      .then((res) => resolve(res.data))
+      .catch((err) => reject(err.response.data));
+  });
+};
+
 export const removeGroupUser = async ({ groupId, userId }: { groupId: string; userId: string }) => {
   return new Promise<AxiosResponse>((resolve, reject) => {
     axios

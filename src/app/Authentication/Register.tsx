@@ -42,7 +42,7 @@ const Register = () => {
   return (
     <FullWidth>
       <div className="container center-items">
-        <div className="relative background-white flex-column padding-32 width-400 shadow-light">
+        <form className="relative background-white flex-column padding-32 width-400 shadow-light">
           <Header text="Register" />
           <div className="margin-bottom-16">
             <TextInput
@@ -109,7 +109,7 @@ const Register = () => {
           <Link to="/login">
             <Button text="Cancel" />
           </Link>
-        </div>
+        </form>
       </div>
     </FullWidth>
   );

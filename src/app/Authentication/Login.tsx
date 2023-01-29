@@ -56,7 +56,7 @@ const Login = () => {
   return (
     <FullWidth>
       <div className="container center-items">
-        <div className="relative background-white flex-column padding-32 width-400 shadow-light">
+        <form className="relative background-white flex-column padding-32 width-400 shadow-light">
           <Header text="Login" />
           <div className="margin-bottom-16">
             <TextInput
@@ -83,7 +83,7 @@ const Login = () => {
           <Link to="/register">
             <Button text="Register" />
           </Link>
-        </div>
+        </form>
       </div>
     </FullWidth>
   );

@@ -4,6 +4,7 @@ import { MdDelete, MdEdit } from 'react-icons/md';
 import { IGroup, IGroupUser } from 'models/group.types';
 import { capitalize } from 'utility/helper';
 
+import EditUserModal from './EditUserModal';
 import RemoveUserModal from './RemoveUserModal';
 
 const UserItem = ({
@@ -48,7 +49,9 @@ const UserItem = ({
           </div>
         </div>
       </div>
-
+      {editModal && (
+        <EditUserModal onClose={() => setEditModal(false)} user={user} group={group} updateUsers={updateUsers} />
+      )}
       {removeModal && (
         <RemoveUserModal onClose={() => setRemoveModal(false)} user={user} group={group} updateUsers={updateUsers} />
       )}
