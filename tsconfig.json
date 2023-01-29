@@ -9,6 +9,8 @@
     "sourceMap": false,
     "target": "esnext",
     "baseUrl": "./",
+    "noEmit": true,
+    "noEmitOnError": true,
     "paths": {
       "app/*": ["src/app/*"],
       "assets/*": ["src/assets/*"],
