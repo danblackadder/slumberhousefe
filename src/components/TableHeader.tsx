@@ -21,7 +21,7 @@ const TableHeader = ({
       case -1:
         return <MdArrowDropUp />;
       default:
-        return;
+        return null;
     }
   };
 

@@ -5,10 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { GroupContext } from 'context/group.context';
 import { GroupContextActionTypes } from 'models/group.context.types';
 import { IGroupSetting } from 'models/settings.types';
+import { getGroupName } from 'utility/helper';
 
 import DeleteGroupModal from './DeleteGroupModal';
 import GroupModal from './GroupModal';
-import { capitalize, getGroupName } from 'utility/helper';
 
 const GroupItem = ({ group, updateGroups }: { group: IGroupSetting; updateGroups: () => void }) => {
   const navigate = useNavigate();

@@ -3,16 +3,16 @@ import { MdErrorOutline, MdFilterAlt } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
 import Button from 'components/Button';
+import { TextInput } from 'components/Forms';
 import Pagination from 'components/Pagination';
 import Select from 'components/Select';
+import TableHeader from 'components/TableHeader';
 import { IPagination } from 'models/generic.types';
 import { IUserSetting, OrganizationRole, UserStatus } from 'models/settings.types';
 import { getSettingsUsers } from 'network/settings';
 
 import InviteUserModal from './InviteUserModal';
 import UserItem from './UserItem';
-import { TextInput } from 'components/Forms';
-import TableHeader from 'components/TableHeader';
 
 const UserSettings = () => {
   const [users, setUsers] = useState<IUserSetting[]>([]);
