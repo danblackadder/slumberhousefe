@@ -12,6 +12,8 @@ export const TextInput = ({
   autocomplete,
   width,
   disabled,
+  inline,
+  placeholder,
 }: {
   id: string;
   label: string;
@@ -22,30 +24,37 @@ export const TextInput = ({
   autocomplete?: string;
   width?: number;
   disabled?: boolean;
+  inline?: boolean;
+  placeholder?: string;
 }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   return (
-    <div className={`relative ${width ? `width-${width}` : 'full-width'} flex-column align-stretch margin-vertical-8`}>
-      <div className="margin-bottom-4">{label}</div>
-      <input
-        type={password && !showPassword ? 'password' : 'text'}
-        id={id}
-        name={id}
-        onChange={onChange}
-        value={value}
-        className="height-32 padding-4 font-16 border-neutral"
-        autoComplete={autocomplete}
-        disabled={disabled}
-      />
-      {password && (
-        <div
-          className="absolute height-32 width-32 right-0 center-items primary pointer"
-          style={{ top: 23 }}
-          onClick={() => setShowPassword(!showPassword)}
-        >
-          {showPassword ? <BiShow /> : <BiHide />}
-        </div>
-      )}
+    <div className={`relative margin-vertical-8 ${inline ? 'flex-row align-center' : 'flex-column align-stretch'}`}>
+      <div className={`margin-bottom-4 ${inline && 'margin-right-8'}`}>{label}</div>
+      <div className={`${width ? `width-${width}` : 'full-width'}`}>
+        <input
+          type={password && !showPassword ? 'password' : 'text'}
+          id={id}
+          name={id}
+          onChange={onChange}
+          value={value}
+          className={`height-32 padding-4 font-16 border-neutral focus-primary ${
+            width ? `width-${width}` : 'full-width'
+          }`}
+          autoComplete={autocomplete}
+          placeholder={placeholder}
+          disabled={disabled}
+        />
+        {password && (
+          <div
+            className="absolute height-32 width-32 right-0 center-items primary pointer"
+            style={{ top: 23 }}
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <BiShow /> : <BiHide />}
+          </div>
+        )}
+      </div>
       {errors && errors.length > 0 && (
         <div className="flex-column font-10 error">
           {errors.map((error) => (
@@ -80,7 +89,7 @@ export const TextArea = ({
         name={id}
         onChange={onChange}
         value={value}
-        className="height-128 padding-4 font-16 resize-none"
+        className="height-128 padding-4 font-16 resize-none focus-primary"
       />
       {errors && errors.length > 0 && (
         <div className="flex-column font-10 error">

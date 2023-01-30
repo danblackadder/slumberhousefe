@@ -20,9 +20,14 @@ $colors: (
       color: $color;
     }
   }
-}
+  .focus-#{$name} {
+    &:focus-visible {
+      outline: none;
+      border-color: $color;
+      border-radius: 0;
+    }
+  }
 
-@each $name, $color in $colors {
   .background-#{$name} {
     background-color: $color;
   }

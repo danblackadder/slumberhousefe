@@ -29,7 +29,7 @@ const Group = ({ group }: { group: IGroup }) => {
         </div>
       )}
       <div className="relative flex-column flex-1 padding-8">
-        <div className="font-24 margin-bottom-4">{name}</div>
+        <div className="font-24 margin-bottom-4">{name.toUpperCase()}</div>
         <div className="flex-1">
           <Truncate lines={4}>{description}</Truncate>
         </div>

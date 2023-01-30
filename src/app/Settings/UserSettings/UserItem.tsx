@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { MdDelete, MdEdit } from 'react-icons/md';
 
 import { IUserSetting, OrganizationRole } from 'models/settings.types';
-import { capitalize } from 'utility/helper';
+import { capitalize, getFullName } from 'utility/helper';
 
 import DeleteUserModal from './DeleteUserModal';
 import EditUserModal from './EditUserModal';
@@ -18,7 +18,7 @@ const UserItem = ({ user, updateUsers }: { user: IUserSetting; updateUsers: () =
           <div className="border-circle background-neutral height-30 width-30" />
         </div>
         <div className="width-200 padding-horizontal-8">
-          {user.firstName && user.lastName && `${user.firstName} ${user.lastName}`}
+          {getFullName({ firstName: user.firstName, lastName: user.lastName })}
         </div>
         <div className="width-300 padding-horizontal-8">{user.email}</div>
         <div className="width-100 padding-horizontal-8">{capitalize(user.role)}</div>

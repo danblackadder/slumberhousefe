@@ -5,6 +5,7 @@ import Dropdown from 'components/Dropdown';
 import { UserContext } from 'context/user.context';
 import { OrganizationRole } from 'models/settings.types';
 import { UserContextActionTypes } from 'models/user.context.types';
+import { getFullName } from 'utility/helper';
 
 const UserMenu = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const UserMenu = () => {
 
   const menuItems = [
     {
-      body: `${state.user?.firstName} ${state.user?.lastName}`,
+      body: getFullName({ firstName: state.user?.firstName, lastName: state.user?.lastName }),
     },
     {
       body: 'Profile',

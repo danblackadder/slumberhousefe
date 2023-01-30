@@ -8,6 +8,7 @@ import { IGroupSetting } from 'models/settings.types';
 
 import DeleteGroupModal from './DeleteGroupModal';
 import GroupModal from './GroupModal';
+import { capitalize, getGroupName } from 'utility/helper';
 
 const GroupItem = ({ group, updateGroups }: { group: IGroupSetting; updateGroups: () => void }) => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const GroupItem = ({ group, updateGroups }: { group: IGroupSetting; updateGroups
   return (
     <>
       <div className="relative flex-row align-center margin-bottom-8 padding-left-16 border-neutral">
-        <div className="width-200 padding-horizontal-8">{group.name}</div>
+        <div className="width-200 padding-horizontal-8">{getGroupName({ name: group.name })}</div>
         <div className="width-100 padding-horizontal-8">{group.users}</div>
         <div className="flex-1 flex-row justify-flex-end">
           <div className="height-40 width-40 center-items pointer black hover-primary" onClick={() => handleGroup()}>

@@ -4,10 +4,12 @@ import { MdOutlineChevronLeft, MdOutlineChevronRight } from 'react-icons/md';
 import { range } from 'utility/helper';
 
 const Pagination = ({
+  totalDocuments,
   totalPages,
   currentPage,
   onChange,
 }: {
+  totalDocuments: number;
   totalPages: number;
   currentPage: number;
   onChange: (pageNumber: number) => void;
@@ -50,38 +52,47 @@ const Pagination = ({
 
   const lastPage = paginationRange[paginationRange.length - 1];
 
+  if (totalPages === 0) {
+    return <div />;
+  }
+
   return (
-    <div className="full-width padding-vertical-32 center-items">
-      <div className="flex-row align-center font-16">
-        <div
-          className="pointer height-30 width-30 hover-primary"
-          onClick={() => currentPage !== 1 && onChange(currentPage - 1)}
-        >
-          {currentPage !== 1 && <MdOutlineChevronLeft size={20} />}
-        </div>
-        {paginationRange.map((pageNumber) => (
+    <>
+      <div className="flex-row full-width justify-flex-end align-center height-30 padding-right-4">
+        Total: <div className="primary margin-left-4 text-bold">{totalDocuments}</div>
+      </div>
+      <div className="full-width padding-vertical-8 flex-row center-items">
+        <div className="flex-row align-center font-16">
           <div
-            key={pageNumber}
-            className={`pointer height-30 width-30 hover-primary ${pageNumber === DOTS && 'neutral-dark'} ${
-              pageNumber === currentPage && 'primary  text-bold'
-            }`}
-            onClick={() => {
-              if (pageNumber !== DOTS && typeof pageNumber === 'number') {
-                onChange(pageNumber);
-              }
-            }}
+            className="pointer height-30 width-30 hover-primary flex center-items"
+            onClick={() => currentPage !== 1 && onChange(currentPage - 1)}
           >
-            {pageNumber}
+            {currentPage !== 1 && <MdOutlineChevronLeft size={20} />}
           </div>
-        ))}
-        <div
-          className="pointer pointer height-30 width-30 hover-primary"
-          onClick={() => currentPage !== lastPage && onChange(currentPage + 1)}
-        >
-          {currentPage !== lastPage && <MdOutlineChevronRight size={20} />}
+          {paginationRange.map((pageNumber) => (
+            <div
+              key={pageNumber}
+              className={`pointer height-30 width-30 flex center-items hover-primary ${
+                pageNumber === DOTS && 'neutral-dark'
+              } ${pageNumber === currentPage && 'primary  text-bold'}`}
+              onClick={() => {
+                if (pageNumber !== DOTS && typeof pageNumber === 'number') {
+                  onChange(pageNumber);
+                }
+              }}
+            >
+              {pageNumber}
+            </div>
+          ))}
+          <div
+            className="pointer pointer height-30 width-30 hover-primary flex center-items"
+            onClick={() => currentPage !== lastPage && onChange(currentPage + 1)}
+          >
+            {currentPage !== lastPage && <MdOutlineChevronRight size={20} />}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -48,7 +48,7 @@ const EditUserModal = ({
         id="role"
         label="Role"
         selected={user.role}
-        setSelected={(option: string) => setRole(option as OrganizationRole)}
+        setSelected={(option: string | undefined) => setRole(option as OrganizationRole)}
         options={options}
         width={250}
       />

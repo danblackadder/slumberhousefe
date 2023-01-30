@@ -7,6 +7,7 @@ import Modal from 'components/Modal';
 import { IGroupErrors } from 'models/group.types';
 import { IGroupSetting } from 'models/settings.types';
 import { postSettingsGroups, putSettingsGroups } from 'network/settings';
+import { getGroupName } from 'utility/helper';
 
 const GroupModal = ({
   updateGroups,
@@ -19,7 +20,7 @@ const GroupModal = ({
   group?: IGroupSetting;
   edit?: boolean;
 }) => {
-  const [name, setName] = useState<string>(group?.name || '');
+  const [name, setName] = useState<string>(getGroupName({ name: group?.name }) || '');
   const [description, setDescription] = useState<string>(group?.description || '');
   const [image, setImage] = useState<File[]>();
   const [errors, setErrors] = useState<IGroupErrors>();

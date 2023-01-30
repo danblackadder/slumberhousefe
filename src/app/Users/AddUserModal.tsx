@@ -58,7 +58,7 @@ const AddUserModal = ({
           id="users"
           label="Users"
           selected={selectedUser}
-          setSelected={(option: string) => setSelectedUser(option)}
+          setSelected={(option: string | undefined) => setSelectedUser(option)}
           options={userOptions}
         />
       </div>
@@ -67,7 +67,7 @@ const AddUserModal = ({
           id="role"
           label="Role"
           selected={role}
-          setSelected={(option: string) => setRole(option as GroupRole)}
+          setSelected={(option: string | undefined) => setRole(option as GroupRole)}
           options={roleOptions}
           width={250}
         />

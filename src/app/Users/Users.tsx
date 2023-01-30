@@ -75,6 +75,7 @@ const GroupUsers = () => {
           <UserItem key={user._id} group={groupState.group} user={user} updateUsers={updateUsers} />
         ))}
         <Pagination
+          totalDocuments={pagination?.totalDocuments || 0}
           totalPages={pagination?.totalPages || 0}
           currentPage={pagination?.currentPage || 0}
           onChange={(pageNumber: number) => setPage(pageNumber)}

@@ -36,7 +36,7 @@ const Settings = () => {
           onClick={() => setActive(TabSettingsOptions.GROUPS)}
         />
       </TabsContainer>
-      <div className="padding-top-32 flex-column">
+      <div className="padding-top-16 flex-column">
         {active === TabSettingsOptions.USERS && <UserSettings />}
         {active === TabSettingsOptions.ORGANIZATION && <OrganizationSettings />}
         {active === TabSettingsOptions.GROUPS && <GroupSettings />}

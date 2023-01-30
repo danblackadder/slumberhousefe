@@ -43,7 +43,7 @@ const EditUserModal = ({
         id="role"
         label="Role"
         selected={user.role}
-        setSelected={(option: string) => setRole(option as GroupRole)}
+        setSelected={(option: string | undefined) => setRole(option as GroupRole)}
         options={[GroupRole.ADMIN, GroupRole.BASIC]}
         width={250}
       />
