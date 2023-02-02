@@ -5,7 +5,7 @@ import Button from 'components/Button';
 import { TextInput } from 'components/Forms';
 import Modal from 'components/Modal';
 import { IUserSettingPostErrors } from 'models/settings.types';
-import { postSettingsUsers } from 'network/settings';
+import { postSettingsUsers } from 'network/settings.network';
 
 const InviteUserModal = ({
   setModal,

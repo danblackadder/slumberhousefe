@@ -8,10 +8,11 @@ import Pagination from 'components/Pagination';
 import TableHeader from 'components/TableHeader';
 import { IPagination } from 'models/generic.types';
 import { IGroupSetting } from 'models/settings.types';
-import { getSettingsGroups } from 'network/settings';
+import { getSettingsGroups } from 'network/settings.network';
 
 import GroupItem from './GroupItem';
 import AddGroupModal from './GroupModal';
+import GroupTable from './GroupTable';
 
 const GroupSettings = () => {
   const [groups, setGroups] = useState<IGroupSetting[]>([]);
@@ -21,6 +22,7 @@ const GroupSettings = () => {
   const [sortName, setSortName] = useState<number>(0);
   const [sortUsers, setSortUsers] = useState<number>(0);
   const [filterName, setFilterName] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(true);
 
   const updateGroups = useCallback(() => {
     getSettingsGroups({ page, sortName, sortUsers, filterName })
@@ -31,7 +33,8 @@ const GroupSettings = () => {
       .catch((err) => {
         console.log(err);
         toast.error('Something went wrong...');
-      });
+      })
+      .finally(() => setLoading(false));
   }, [page, sortName, sortUsers, filterName]);
 
   const resetSort = () => {
@@ -48,6 +51,7 @@ const GroupSettings = () => {
   }, [filterName]);
 
   useEffect(() => {
+    setLoading(true);
     updateGroups();
   }, [page, sortName, sortUsers]);
 
@@ -70,29 +74,18 @@ const GroupSettings = () => {
             />
           </div>
         </div>
-        {groups.length > 0 ? (
-          <>
-            <div className="flex-row margin-vertical-16 padding-left-16">
-              <TableHeader label="Name" resetSort={resetSort} sort={sortName} setSort={setSortName} width={200} />
-              <TableHeader label="Users" resetSort={resetSort} sort={sortUsers} setSort={setSortUsers} width={100} />
-            </div>
-            {groups.map((group) => (
-              <GroupItem key={group._id} group={group} updateGroups={updateGroups} />
-            ))}
-            <Pagination
-              totalDocuments={pagination?.totalDocuments || 0}
-              totalPages={pagination?.totalPages || 0}
-              currentPage={pagination?.currentPage || 0}
-              onChange={(pageNumber: number) => setPage(pageNumber)}
-            />
-          </>
-        ) : (
-          <div className="flex-column full-width align-center padding-vertical-64 text-center">
-            <MdErrorOutline size={128} className="primary margin-bottom-8" />
-            <div className="margin-bottom-4">There are no results to display...</div>
-            <div>Please try changing your search parameters</div>
-          </div>
-        )}
+        <GroupTable
+          loading={loading}
+          groups={groups}
+          resetSort={resetSort}
+          sortName={sortName}
+          setSortName={setSortName}
+          sortUsers={sortUsers}
+          setSortUsers={setSortUsers}
+          updateGroups={updateGroups}
+          pagination={pagination}
+          setPage={setPage}
+        />
       </div>
       {modal && <AddGroupModal onClose={() => setModal(false)} updateGroups={updateGroups} />}
     </>

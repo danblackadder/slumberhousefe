@@ -8,7 +8,7 @@ import Header from 'components/Header';
 import { FullWidth } from 'components/Layout';
 import Loading from 'components/Loading';
 import { IRegistrationErrors } from 'models/authentication.types';
-import { register } from 'network/authentication';
+import { register } from 'network/authentication.network';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -36,7 +36,11 @@ const Register = () => {
   };
 
   if (loading) {
-    return <Loading />;
+    return (
+      <FullWidth>
+        <Loading />
+      </FullWidth>
+    );
   }
 
   return (

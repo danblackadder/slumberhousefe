@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import Button from 'components/Button';
 import Modal from 'components/Modal';
 import { IGroup, IGroupUser } from 'models/group.types';
-import { removeGroupUser } from 'network/group';
+import { removeGroupUser } from 'network/group.network';
 
 const RemoveUserModal = ({
   user,

@@ -6,7 +6,7 @@ import { FileUpload, TextArea, TextInput } from 'components/Forms';
 import Modal from 'components/Modal';
 import { IGroupErrors } from 'models/group.types';
 import { IGroupSetting } from 'models/settings.types';
-import { postSettingsGroups, putSettingsGroups } from 'network/settings';
+import { postSettingsGroups, putSettingsGroups } from 'network/settings.network';
 import { getGroupName } from 'utility/helper';
 
 const GroupModal = ({

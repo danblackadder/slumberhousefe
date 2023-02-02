@@ -10,7 +10,7 @@ import { FullWidth } from 'components/Layout';
 import Loading from 'components/Loading';
 import { UserContext } from 'context/user.context';
 import { UserContextActionTypes } from 'models/user.context.types';
-import { login } from 'network/authentication';
+import { login } from 'network/authentication.network';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -50,7 +50,11 @@ const Login = () => {
   }, [isAuthenticated]);
 
   if (loading) {
-    return <Loading />;
+    return (
+      <FullWidth>
+        <Loading />
+      </FullWidth>
+    );
   }
 
   return (

@@ -6,9 +6,9 @@ import Modal from 'components/Modal';
 import Select from 'components/Select';
 import { IGroupAvailableUser } from 'models/group.types';
 import { GroupRole } from 'models/settings.types';
-import { getGroupAvailableUsers, postGroupUsers } from 'network/group';
+import { getGroupAvailableUsers, postGroupUsers } from 'network/group.network';
 
-const AddUserModal = ({
+const AddGroupUserModal = ({
   groupId,
   onClose,
   updateUsers,
@@ -80,4 +80,4 @@ const AddUserModal = ({
   );
 };
 
-export default AddUserModal;
+export default AddGroupUserModal;

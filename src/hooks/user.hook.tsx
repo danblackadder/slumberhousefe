@@ -1,7 +1,7 @@
 import { Dispatch } from 'react';
 
 import { UserContextActions, UserContextActionTypes } from 'models/user.context.types';
-import { getUser } from 'network/authentication';
+import { getUser } from 'network/authentication.network';
 
 const useUser = ({ dispatch }: { dispatch: Dispatch<UserContextActions> }) => {
   const updateUser = () => {

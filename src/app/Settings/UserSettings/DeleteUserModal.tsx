@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import Button from 'components/Button';
 import Modal from 'components/Modal';
 import { IUserSetting } from 'models/settings.types';
-import { deleteSettingsUser } from 'network/settings';
+import { deleteSettingsUser } from 'network/settings.network';
 
 const DeleteUserModal = ({
   user,

@@ -15,7 +15,7 @@ import { Profile } from './Profile';
 import { Reporting } from './Reporting';
 import { Settings } from './Settings';
 import { Tasks } from './Tasks';
-import { Users } from './Users';
+import { GroupUsers } from './GroupUsers';
 
 const AuthenticatedRoute = () => {
   const { state } = useContext(UserContext);
@@ -79,7 +79,7 @@ const AppRoutes = () => {
           <Route path="/chat" element={<Chat />} />
           <Route path="/documents" element={<Documents />} />
           <Route element={<AdminRoute />}>
-            <Route path="/users" element={<Users />} />
+            <Route path="/users" element={<GroupUsers />} />
             <Route path="/reporting" element={<Reporting />} />
           </Route>
         </Route>

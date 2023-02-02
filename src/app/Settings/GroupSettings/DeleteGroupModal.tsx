@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import Button from 'components/Button';
 import Modal from 'components/Modal';
 import { IGroupSetting } from 'models/settings.types';
-import { deleteSettingsGroups } from 'network/settings';
+import { deleteSettingsGroups } from 'network/settings.network';
 
 const DeleteGroupModal = ({
   group,

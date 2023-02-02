@@ -1,49 +1,63 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { MdFilterAlt } from 'react-icons/md';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { MdErrorOutline, MdFilterAlt } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
 import Button from 'components/Button';
-import { TextInput } from 'components/Forms';
+import Header from 'components/Header';
+import Pagination from 'components/Pagination';
 import Select from 'components/Select';
+import { GroupContext } from 'context/group.context';
 import { IPagination } from 'models/generic.types';
-import { IUserSetting, OrganizationRole, UserStatus } from 'models/settings.types';
-import { getSettingsUsers } from 'network/settings.network';
+import { IGroupUser } from 'models/group.types';
+import { getGroupUsers } from 'network/group.network';
 
-import InviteUserModal from './InviteUserModal';
-import UsersTable from './UserTable';
+import AddUserModal from './AddGroupUserModal';
+import UserItem from './GroupUserItem';
+import { GroupRole } from 'models/settings.types';
+import { TextInput } from 'components/Forms';
+import TableHeader from 'components/TableHeader';
+import GroupUserTable from './GroupUserTable';
 
-const UserSettings = () => {
-  const [users, setUsers] = useState<IUserSetting[]>([]);
+const GroupUsers = () => {
+  const { state: groupState } = useContext(GroupContext);
+  const [users, setUsers] = useState<IGroupUser[]>([]);
   const [pagination, setPagination] = useState<IPagination>();
   const [page, setPage] = useState<number>(1);
-  const [modal, setModal] = useState<boolean>(false);
-  const [filterRole, setFilterRole] = useState<OrganizationRole>();
-  const [filterStatus, setFilterStatus] = useState<UserStatus>();
+  const [addUserModal, setAddUserModal] = useState<boolean>(false);
+  const [filterRole, setFilterRole] = useState<GroupRole>();
   const [filterNameEmail, setFilterNameEmail] = useState<string>('');
   const [sortName, setSortName] = useState<number>(0);
   const [sortEmail, setSortEmail] = useState<number>(0);
   const [sortRole, setSortRole] = useState<number>(0);
-  const [sortStatus, setSortStatus] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
 
   const updateUsers = useCallback(() => {
-    getSettingsUsers({ page, sortName, sortEmail, sortRole, sortStatus, filterRole, filterStatus, filterNameEmail })
-      .then((res) => {
-        setUsers(res.users);
-        setPagination(res.pagination);
+    if (groupState.group) {
+      getGroupUsers({
+        groupId: groupState?.group?._id,
+        page,
+        sortName,
+        sortEmail,
+        sortRole,
+        filterRole,
+        filterNameEmail,
       })
-      .catch((err) => {
-        console.log(err);
-        toast.error('Something went wrong...');
-      })
-      .finally(() => setLoading(false));
-  }, [page, sortName, sortEmail, sortRole, sortStatus, filterRole, filterStatus, filterNameEmail]);
+        .then((res) => {
+          setUsers(res.users);
+          setPagination(res.pagination);
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error('Something went wrong...');
+        })
+        .finally(() => setLoading(false));
+    }
+  }, [page, groupState, sortName, sortEmail, sortRole, filterRole, filterNameEmail]);
 
   const resetSort = () => {
     setSortName(0);
     setSortEmail(0);
     setSortRole(0);
-    setSortStatus(0);
   };
 
   useEffect(() => {
@@ -57,17 +71,18 @@ const UserSettings = () => {
   useEffect(() => {
     setLoading(true);
     updateUsers();
-  }, [page, sortName, sortEmail, sortRole, sortStatus, filterRole, filterStatus]);
+  }, [page, sortName, sortEmail, sortRole, filterRole, filterNameEmail]);
 
   return (
-    <>
+    <div className="container">
+      <Header text="Users" />
       <div className="flex-column">
         <div className="flex-row justify-space-between align-center">
           <div className="flex-row align-center primary">
             <MdFilterAlt size={24} />
             <div className="font-24 margin-left-8">Filters</div>
           </div>
-          <Button text="Invite user" width={200} onClick={() => setModal(true)} />
+          <Button text="Add user" width={200} onClick={() => setAddUserModal(true)} />
         </div>
         <div className="flex-row align-center justify-space-between margin-bottom-16">
           <div className="flex-row align-center">
@@ -76,19 +91,8 @@ const UserSettings = () => {
                 id="role"
                 label="Role"
                 selected={filterRole}
-                setSelected={(option: string | undefined) => setFilterRole(option as OrganizationRole)}
-                options={[OrganizationRole.OWNER, OrganizationRole.ADMIN, OrganizationRole.BASIC]}
-                width={200}
-                inline={true}
-              />
-            </div>
-            <div className="margin-right-8">
-              <Select
-                id="role"
-                label="Status"
-                selected={filterStatus}
-                setSelected={(option: string | undefined) => setFilterStatus(option as UserStatus)}
-                options={[UserStatus.ACTIVE, UserStatus.INVITED, UserStatus.INACTIVE]}
+                setSelected={(option: string | undefined) => setFilterRole(option as GroupRole)}
+                options={[GroupRole.ADMIN, GroupRole.BASIC, GroupRole.EXTERNAL]}
                 width={200}
                 inline={true}
               />
@@ -106,7 +110,7 @@ const UserSettings = () => {
             />
           </div>
         </div>
-        <UsersTable
+        <GroupUserTable
           loading={loading}
           users={users}
           resetSort={resetSort}
@@ -116,16 +120,16 @@ const UserSettings = () => {
           setSortEmail={setSortEmail}
           sortRole={sortRole}
           setSortRole={setSortRole}
-          sortStatus={sortStatus}
-          setSortStatus={setSortStatus}
           updateUsers={updateUsers}
           pagination={pagination}
           setPage={setPage}
         />
       </div>
-      {modal && <InviteUserModal setModal={setModal} updateUsers={updateUsers} />}
-    </>
+      {addUserModal && groupState.group && (
+        <AddUserModal groupId={groupState.group._id} onClose={() => setAddUserModal(false)} updateUsers={updateUsers} />
+      )}
+    </div>
   );
 };
 
-export default UserSettings;
+export default GroupUsers;

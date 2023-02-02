@@ -4,10 +4,10 @@ import { MdDelete, MdEdit } from 'react-icons/md';
 import { IGroup, IGroupUser } from 'models/group.types';
 import { capitalize, getFullName } from 'utility/helper';
 
-import EditUserModal from './EditUserModal';
-import RemoveUserModal from './RemoveUserModal';
+import EditUserModal from './EditGroupUserModal';
+import RemoveUserModal from './RemoveGroupUserModal';
 
-const UserItem = ({
+const GroupUserItem = ({
   group,
   user,
   updateUsers,
@@ -33,7 +33,7 @@ const UserItem = ({
           {getFullName({ firstName: user.firstName, lastName: user.lastName })}
         </div>
         <div className="width-300 padding-horizontal-8">{user.email}</div>
-        <div className="width-100 padding-horizontal-8">{capitalize(user.role)}</div>
+        <div className="width-200 padding-horizontal-8">{capitalize(user.role)}</div>
         <div className="flex-1 flex-row justify-flex-end">
           <div
             className="height-40 width-40 center-items pointer black hover-primary"
@@ -59,4 +59,4 @@ const UserItem = ({
   );
 };
 
-export default UserItem;
+export default GroupUserItem;

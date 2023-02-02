@@ -6,7 +6,7 @@ import { TextInput } from 'components/Forms';
 import Modal from 'components/Modal';
 import Select from 'components/Select';
 import { IUserSetting, OrganizationRole } from 'models/settings.types';
-import { putSettingsUser } from 'network/settings';
+import { putSettingsUser } from 'network/settings.network';
 import { capitalize } from 'utility/helper';
 
 const EditUserModal = ({

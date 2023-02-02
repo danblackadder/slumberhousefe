@@ -6,9 +6,9 @@ import Modal from 'components/Modal';
 import Select from 'components/Select';
 import { IGroup, IGroupUser } from 'models/group.types';
 import { GroupRole } from 'models/settings.types';
-import { putGroupUser } from 'network/group';
+import { putGroupUser } from 'network/group.network';
 
-const EditUserModal = ({
+const EditGroupUserModal = ({
   user,
   group,
   onClose,
@@ -55,4 +55,4 @@ const EditUserModal = ({
   );
 };
 
-export default EditUserModal;
+export default EditGroupUserModal;

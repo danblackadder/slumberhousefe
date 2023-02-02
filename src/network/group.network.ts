@@ -48,10 +48,52 @@ export const postGroup = async ({
   });
 };
 
-export const getGroupUsers = async ({ groupId, page }: { groupId: string; page: number }) => {
+export const getGroupUsers = async ({
+  groupId,
+  page,
+  sortName,
+  sortEmail,
+  sortRole,
+  filterRole,
+  filterNameEmail,
+}: {
+  groupId: string;
+  page: number;
+  sortName: number;
+  sortEmail: number;
+  sortRole: number;
+  filterRole: GroupRole | undefined;
+  filterNameEmail: string;
+}) => {
   return new Promise<IGroupUserResponse>((resolve, reject) => {
+    let requestUrl = `/groups/${groupId}/users?limit=10`;
+
+    if (page) {
+      requestUrl = `${requestUrl}&page=${page}`;
+    }
+
+    if (sortName !== 0) {
+      requestUrl = `${requestUrl}&sortName=${sortName}`;
+    }
+
+    if (sortEmail !== 0) {
+      requestUrl = `${requestUrl}&sortEmail=${sortEmail}`;
+    }
+
+    if (sortRole !== 0) {
+      requestUrl = `${requestUrl}&sortRole=${sortRole}`;
+    }
+
+    if (filterRole) {
+      requestUrl = `${requestUrl}&filterRole=${filterRole}`;
+    }
+
+    if (filterNameEmail.length > 0) {
+      requestUrl = `${requestUrl}&filterNameEmail=${filterNameEmail}`;
+    }
+
     axios
-      .get(`/groups/${groupId}/users?limit=10&page=${page}`)
+      .get(requestUrl)
       .then((res) => resolve(res.data))
       .catch((err) => reject(err.response.data));
   });

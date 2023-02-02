@@ -1,15 +1,11 @@
 import React from 'react';
 import { BarLoader } from 'react-spinners';
 
-import { FullWidth } from './Layout';
-
-const Loading = () => {
+const Loading = ({ color, height }: { color?: string; height?: number }) => {
   return (
-    <FullWidth>
-      <div className="container center-items">
-        <BarLoader color="#fff" />
-      </div>
-    </FullWidth>
+    <div className={`container center-items ${height ? `height-${height}` : 'hieight-256'}`}>
+      <BarLoader color={color === 'primary' ? '#ff862e' : '#fff'} />
+    </div>
   );
 };
 
