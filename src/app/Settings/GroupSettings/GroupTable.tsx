@@ -1,10 +1,12 @@
+import React, { Dispatch, SetStateAction } from 'react';
+import { MdErrorOutline } from 'react-icons/md';
+
 import Loading from 'components/Loading';
 import Pagination from 'components/Pagination';
 import TableHeader from 'components/TableHeader';
 import { IPagination } from 'models/generic.types';
 import { IGroupSetting } from 'models/settings.types';
-import React, { Dispatch, SetStateAction } from 'react';
-import { MdErrorOutline } from 'react-icons/md';
+
 import GroupItem from './GroupItem';
 
 const GroupTable = ({

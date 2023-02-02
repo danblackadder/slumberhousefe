@@ -1,16 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { MdErrorOutline } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
 import Button from 'components/Button';
 import { TextInput } from 'components/Forms';
-import Pagination from 'components/Pagination';
-import TableHeader from 'components/TableHeader';
 import { IPagination } from 'models/generic.types';
 import { IGroupSetting } from 'models/settings.types';
 import { getSettingsGroups } from 'network/settings.network';
 
-import GroupItem from './GroupItem';
 import AddGroupModal from './GroupModal';
 import GroupTable from './GroupTable';
 

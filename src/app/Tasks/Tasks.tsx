@@ -1,10 +1,11 @@
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+
 import Header from 'components/Header';
 import Loading from 'components/Loading';
 import { GroupContext } from 'context/group.context';
 import { ITask } from 'models/task.types';
 import { getGroupTasks } from 'network/tasks.network';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 
 const Tasks = () => {
   const { state: groupState } = useContext(GroupContext);

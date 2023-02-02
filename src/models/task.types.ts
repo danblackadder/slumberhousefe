@@ -1,5 +1,3 @@
-import { IUser } from './authentication.types';
-
 export enum TaskStatus {
   DRAFT = 'draft',
   TO_DO = 'to do',

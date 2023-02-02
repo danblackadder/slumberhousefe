@@ -1,7 +1,9 @@
+import React from 'react';
+
 import { FlexGrid } from 'components/Layout';
 import Loading from 'components/Loading';
 import { IGroup } from 'models/group.types';
-import React from 'react';
+
 import Group from './Group';
 
 const GroupGrid = ({ loading, groups }: { loading: boolean; groups: IGroup[] }) => {

@@ -1,21 +1,18 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { MdErrorOutline, MdFilterAlt } from 'react-icons/md';
+import { MdFilterAlt } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
 import Button from 'components/Button';
+import { TextInput } from 'components/Forms';
 import Header from 'components/Header';
-import Pagination from 'components/Pagination';
 import Select from 'components/Select';
 import { GroupContext } from 'context/group.context';
 import { IPagination } from 'models/generic.types';
 import { IGroupUser } from 'models/group.types';
+import { GroupRole } from 'models/settings.types';
 import { getGroupUsers } from 'network/group.network';
 
 import AddUserModal from './AddGroupUserModal';
-import UserItem from './GroupUserItem';
-import { GroupRole } from 'models/settings.types';
-import { TextInput } from 'components/Forms';
-import TableHeader from 'components/TableHeader';
 import GroupUserTable from './GroupUserTable';
 
 const GroupUsers = () => {

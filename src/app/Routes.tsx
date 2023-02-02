@@ -10,12 +10,12 @@ import { Chat } from './Chat';
 import { Dashboard } from './Dashboard';
 import { Documents } from './Documents';
 import { Groups } from './Groups';
+import { GroupUsers } from './GroupUsers';
 import { Sidebar, Topbar } from './Navigation';
 import { Profile } from './Profile';
 import { Reporting } from './Reporting';
 import { Settings } from './Settings';
 import { Tasks } from './Tasks';
-import { GroupUsers } from './GroupUsers';
 
 const AuthenticatedRoute = () => {
   const { state } = useContext(UserContext);

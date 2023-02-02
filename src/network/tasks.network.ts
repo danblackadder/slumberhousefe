@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { ITask } from 'models/task.types';
 
 export const getGroupTasks = async ({ groupId }: { groupId: string }) => {

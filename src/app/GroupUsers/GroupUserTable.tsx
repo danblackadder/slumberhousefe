@@ -1,11 +1,13 @@
+import React, { Dispatch, SetStateAction, useContext } from 'react';
+import { MdErrorOutline } from 'react-icons/md';
+
 import Loading from 'components/Loading';
 import Pagination from 'components/Pagination';
 import TableHeader from 'components/TableHeader';
 import { GroupContext } from 'context/group.context';
 import { IPagination } from 'models/generic.types';
 import { IGroupUser } from 'models/group.types';
-import React, { Dispatch, SetStateAction, useContext } from 'react';
-import { MdErrorOutline } from 'react-icons/md';
+
 import GroupUserItem from './GroupUserItem';
 
 const GroupUserTable = ({
