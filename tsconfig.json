@@ -10,6 +10,7 @@
     "target": "esnext",
     "baseUrl": "./",
     "noEmitOnError": true,
+    "skipLibCheck": true,
     "paths": {
       "app/*": ["src/app/*"],
       "assets/*": ["src/assets/*"],
