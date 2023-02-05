@@ -4,6 +4,8 @@ import { MdArrowDropDown, MdClose } from 'react-icons/md';
 import useClickOutside from 'hooks/useClickOutside.hook';
 import { capitalize } from 'utility/helper';
 
+import Button from './Button';
+
 const Multiselect = <T,>({
   id,
   label,
@@ -26,8 +28,16 @@ const Multiselect = <T,>({
   creation?: boolean;
 }) => {
   const [active, setActive] = useState<boolean>(false);
+  const [creationActive, setCreationActive] = useState<boolean>(false);
+
   const wrapperRef = useRef<HTMLDivElement>(null);
-  useClickOutside({ ref: wrapperRef, onClick: () => setActive(false) });
+  useClickOutside({
+    ref: wrapperRef,
+    onClick: () => {
+      setActive(false);
+      setCreationActive(false);
+    },
+  });
 
   const renderEndItem = useCallback(() => {
     if (selectedItems.length > 0) {
@@ -73,6 +83,60 @@ const Multiselect = <T,>({
     return <div onClick={() => setActive(!active)}>{placeholder}</div>;
   }, [selectedItems, setSelectedItems, setActive, active, creation]);
 
+  const renderOptions = useCallback(() => {
+    return (
+      options.length > 0 &&
+      options.map((option) => (
+        <div
+          key={option as string}
+          className={`padding-8 margin-2 ${
+            selectedItems.includes(option) ? 'background-primary white' : 'hover-background-neutral'
+          }`}
+          onClick={() => {
+            if (creationActive) setCreationActive(false);
+            if (selectedItems.includes(option)) {
+              const newItems = selectedItems.filter((item) => item !== option);
+              setSelectedItems(newItems);
+            } else {
+              const newItems = [...selectedItems, option];
+              setSelectedItems(newItems);
+            }
+          }}
+        >
+          {capitalize(option as string)}
+        </div>
+      ))
+    );
+  }, [options, selectedItems, setSelectedItems, creationActive]);
+
+  const handleSaveNewTag = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log('new tag saved');
+  };
+
+  const renderCreation = useCallback(() => {
+    if (creation) {
+      if (creationActive) {
+        return (
+          <form
+            className="flex-row align-center"
+            onSubmit={(event: React.FormEvent<HTMLFormElement>) => handleSaveNewTag(event)}
+          >
+            <input autoFocus className="padding-8 border-none focus-none font-16 flex-1 min-width-0" type="text" />
+            <Button variation="inline" text="Save" type="submit" width={80} />
+          </form>
+        );
+      }
+
+      return (
+        <div className="padding-8 margin-2 neutral-dark" onClick={() => setCreationActive(true)}>
+          Click here to add a new item...
+        </div>
+      );
+    }
+    return null;
+  }, [creation, creationActive]);
+
   return (
     <div
       id={id}
@@ -87,7 +151,13 @@ const Multiselect = <T,>({
             width ? `width-${width}` : 'full-width'
           }`}
         >
-          <div className="flex-1 height-32" onClick={() => setActive(!active)} />
+          <div
+            className="flex-1 height-32"
+            onClick={() => {
+              setActive(!active);
+              if (creationActive) setCreationActive(false);
+            }}
+          />
           <div className="absolute left-0 bottom-0 height-32 flex-row align-center padding-left-8">{renderItems()}</div>
           {renderEndItem()}
         </div>
@@ -98,27 +168,8 @@ const Multiselect = <T,>({
             }`}
             style={{ top: inline ? 30 : 53, zIndex: 1 }}
           >
-            {creation && <input type="text" />}
-            {options.length > 0 &&
-              options.map((option) => (
-                <div
-                  key={option as string}
-                  className={`padding-8 margin-2 ${
-                    selectedItems.includes(option) ? 'background-primary white' : 'hover-background-neutral'
-                  }`}
-                  onClick={() => {
-                    if (selectedItems.includes(option)) {
-                      const newItems = selectedItems.filter((item) => item !== option);
-                      setSelectedItems(newItems);
-                    } else {
-                      const newItems = [...selectedItems, option];
-                      setSelectedItems(newItems);
-                    }
-                  }}
-                >
-                  {capitalize(option as string)}
-                </div>
-              ))}
+            {renderCreation()}
+            {renderOptions()}
           </div>
         )}
       </div>
