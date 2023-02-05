@@ -2,17 +2,13 @@ import React, { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import Button from 'components/Button';
-import { FileUpload, TextArea, TextInput } from 'components/Forms';
+import DatePicker from 'components/DatePicker';
+import { TextArea, TextInput } from 'components/Forms';
 import Modal from 'components/Modal';
-import { IGroupErrors } from 'models/group.types';
-import { IGroupSetting } from 'models/settings.types';
-import { postSettingsGroups, putSettingsGroups } from 'network/settings.network';
-import { getGroupName } from 'utility/helper';
-import { postGroupTask } from 'network/tasks.network';
+import Multiselect from 'components/Multiselect';
 import Select from 'components/Select';
 import { TaskPriority, TaskPriorityOptions, TaskStatus, TaskStatusOptions } from 'models/task.types';
-import DatePicker from 'components/DatePicker';
-import Multiselect from 'components/Multiselect';
+import { postGroupTask } from 'network/tasks.network';
 
 const TaskModal = ({
   groupId,
@@ -44,7 +40,9 @@ const TaskModal = ({
     }
   }, [groupId, title]);
 
-  const handlePutTask = useCallback(() => {}, []);
+  const handlePutTask = useCallback(() => {
+    console.log('test');
+  }, []);
 
   return (
     <Modal onClose={onClose} width={800}>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 
 import { ITask, TaskStatus } from 'models/task.types';
@@ -8,7 +8,7 @@ export const useGroupTasks = ({ groupId, pauseStream }: { groupId: string | unde
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
-    let source = new EventSource(`${process.env.API_URL}/tasks/${groupId}`, { withCredentials: true });
+    const source = new EventSource(`${process.env.API_URL}/tasks/${groupId}`, { withCredentials: true });
 
     source.onmessage = (e) => {
       if (pauseStream) return;

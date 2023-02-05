@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useReducer } from 'react';
+import Cookies from 'js-cookie';
 
 import {
   GroupContextActions,
@@ -7,7 +8,6 @@ import {
   GroupContextType,
 } from 'models/group.context.types';
 import { getGroup } from 'network/group.network';
-import Cookies from 'js-cookie';
 
 const initialState = {
   group: null,

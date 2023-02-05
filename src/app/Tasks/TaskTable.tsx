@@ -1,7 +1,8 @@
-import Loading from 'components/Loading';
-import { ITask } from 'models/task.types';
 import React from 'react';
 import { MdErrorOutline } from 'react-icons/md';
+
+import Loading from 'components/Loading';
+import { ITask } from 'models/task.types';
 
 const TaskTable = ({ tasks, error, loading }: { tasks: ITask[]; error: string; loading: boolean }) => {
   if (loading) {

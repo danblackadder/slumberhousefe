@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { MdFilterAlt } from 'react-icons/md';
 
+import Button from 'components/Button';
 import Header from 'components/Header';
 import { GroupContext } from 'context/group.context';
 import { useGroupTasks } from 'network/tasks.network';
-import TaskTable from './TaskTable';
+
 import TaskModal from './TaskModal';
-import { MdFilterAlt } from 'react-icons/md';
-import Button from 'components/Button';
+import TaskTable from './TaskTable';
 
 const Tasks = () => {
   const { state: groupState } = useContext(GroupContext);

@@ -55,6 +55,7 @@ const Multiselect = <T,>({
     if (selectedItems.length > 0) {
       return selectedItems.map((option) => (
         <div
+          key={option as string}
           className="padding-vertical-2 padding-horizontal-4 background-primary border-radius margin-right-4 flex-row align-center"
           onClick={() => {
             const newItems = selectedItems.filter((item) => item !== option);

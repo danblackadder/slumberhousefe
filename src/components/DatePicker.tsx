@@ -1,9 +1,11 @@
-import React, { useState, useRef, useCallback, Dispatch, SetStateAction, useEffect } from 'react';
-import ReactDatePicker, { CalendarContainer, ReactDatePickerProps } from 'react-datepicker';
-import { isToday, getDate, getMonth, format, isThisMonth, sub, add } from 'date-fns';
-import 'react-datepicker/dist/react-datepicker.css';
+import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
+import ReactDatePicker from 'react-datepicker';
 import { MdArrowDropDown, MdClose, MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
+import { format, isToday } from 'date-fns';
+
 import useClickOutside from 'hooks/useClickOutside.hook';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 const WrappedDatePicker = ({
   open,
