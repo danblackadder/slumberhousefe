@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const Button = ({
   text,
   onClick,
+  type,
   width,
   disabled,
 }: {
   text: string;
   onClick?: () => void;
+  type?: 'button' | 'reset' | 'submit' | undefined;
   width?: number;
   disabled?: boolean;
 }) => {
   return (
     <button
+      type={type || 'button'}
       className={`${width && `width-${width}`} ${
         disabled
           ? 'border-neutral neutral default'

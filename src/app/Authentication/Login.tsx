@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
@@ -25,27 +25,31 @@ const Login = () => {
     setLoading(false);
   }, []);
 
-  const handleLogin = () => {
-    login({ email, password })
-      .then((res) => {
-        dispatch({ type: UserContextActionTypes.LOGIN, payload: { token: res.token } });
-        toast.success('Login successful');
-      })
-      .catch((err) => {
-        dispatch({ type: UserContextActionTypes.LOGOUT });
-        toast.error(err.error);
-      });
-  };
+  const handleLogin = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      login({ email, password })
+        .then((res) => {
+          dispatch({ type: UserContextActionTypes.LOGIN, payload: { token: res.token } });
+          toast.success('Login successful');
+        })
+        .catch((err) => {
+          dispatch({ type: UserContextActionTypes.LOGOUT });
+          toast.error(err.error);
+        });
+    },
+    [email, password]
+  );
 
   useEffect(() => {
     if (Cookies.get('token')) {
-      navigate('/companies');
+      navigate('/groups');
     }
   }, []);
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/companies');
+      navigate('/groups');
     }
   }, [isAuthenticated]);
 
@@ -60,7 +64,10 @@ const Login = () => {
   return (
     <FullWidth>
       <div className="container center-items">
-        <form className="relative background-white flex-column padding-32 width-400 shadow-light">
+        <form
+          className="relative background-white flex-column padding-32 width-400 shadow-light"
+          onSubmit={(event: React.FormEvent<HTMLFormElement>) => handleLogin(event)}
+        >
           <Header text="Login" />
           <div className="margin-bottom-16">
             <TextInput
@@ -83,7 +90,7 @@ const Login = () => {
               autocomplete="current-password"
             />
           </div>
-          <Button text="Login" onClick={() => handleLogin()} />
+          <Button text="Login" type="submit" />
           <Link to="/register">
             <Button text="Register" />
           </Link>

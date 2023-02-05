@@ -3,6 +3,7 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   // Where webpack looks to start building the bundle
@@ -39,6 +40,10 @@ module.exports = {
       favicon: path.resolve(__dirname, './src/assets/icons/favicon.png'),
       template: path.resolve(__dirname, './public/index.html'), // template file
       filename: 'index.html', // output file
+    }),
+
+    new Dotenv({
+      path: '.env',
     }),
   ],
 

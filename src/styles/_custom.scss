@@ -1,0 +1,27 @@
+.react-datepicker__triangle {
+  display: none;
+}
+
+.react-datepicker__header {
+  background-color: #fff;
+}
+
+.react-datepicker-popper {
+  padding-top: 0 !important;
+  transform: translate(0px, 53px) !important;
+}
+
+.react-datepicker__header {
+  padding-top: 4px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #efefef;
+}
+
+.react-datepicker__day--outside-month {
+  color: #efefef;
+  cursor: default;
+  font-weight: normal;
+  &:hover {
+    background-color: white;
+  }
+}

@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useEffect, useReducer } from 'react';
 
 import {
   GroupContextActions,
@@ -6,6 +6,8 @@ import {
   GroupContextState,
   GroupContextType,
 } from 'models/group.context.types';
+import { getGroup } from 'network/group.network';
+import Cookies from 'js-cookie';
 
 const initialState = {
   group: null,
@@ -14,11 +16,13 @@ const initialState = {
 const reducer = (state: GroupContextState, action: GroupContextActions) => {
   switch (action.type) {
     case GroupContextActionTypes.SET_GROUP:
+      Cookies.set('groupId', action.payload.group._id);
       return {
         ...state,
         group: action.payload.group,
       };
     case GroupContextActionTypes.REMOVE_GROUP:
+      Cookies.remove('groupId');
       return {
         ...state,
         group: null,
@@ -28,10 +32,24 @@ const reducer = (state: GroupContextState, action: GroupContextActions) => {
   }
 };
 
-const GroupContext = createContext<GroupContextType>({ state: initialState, dispatch: () => null });
+export const GroupContext = createContext<GroupContextType>({ state: initialState, dispatch: () => null });
 
-const GroupProvider = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
+export const GroupProvider = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const groupId = Cookies.get('groupId');
+
+  useEffect(() => {
+    if (groupId) {
+      getGroup({ groupId })
+        .then((res) => {
+          dispatch({ type: GroupContextActionTypes.SET_GROUP, payload: { group: res } });
+        })
+        .catch((err) => {
+          console.log(err);
+          dispatch({ type: GroupContextActionTypes.REMOVE_GROUP });
+        });
+    }
+  }, []);
 
   return (
     <GroupContext.Provider
@@ -44,5 +62,3 @@ const GroupProvider = ({ children }: { children: JSX.Element | JSX.Element[] }) 
     </GroupContext.Provider>
   );
 };
-
-export { GroupContext, GroupProvider };

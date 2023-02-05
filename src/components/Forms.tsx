@@ -89,7 +89,7 @@ export const TextArea = ({
         name={id}
         onChange={onChange}
         value={value}
-        className="height-128 padding-4 font-16 resize-none focus-primary"
+        className="height-128 padding-4 font-16 resize-none border-neutral focus-primary"
       />
       {errors && errors.length > 0 && (
         <div className="flex-column font-10 error">

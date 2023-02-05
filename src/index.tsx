@@ -7,7 +7,7 @@ import App from './App';
 
 import 'styles/app.scss';
 
-axios.defaults.baseURL = 'http://localhost:8001';
+axios.defaults.baseURL = process.env.API_URL;
 
 axios.interceptors.request.use(
   (config) => {

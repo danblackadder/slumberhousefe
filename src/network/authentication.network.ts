@@ -3,11 +3,15 @@ import axios, { AxiosResponse } from 'axios';
 import { ILogin, IUser } from 'models/authentication.types';
 
 export const login = ({ email, password }: { email: string; password: string }) => {
+  console.log('axiosLogin');
   return new Promise<ILogin>((resolve, reject) => {
     axios
       .post('/authentication/login', { email, password })
       .then((res) => resolve(res.data))
-      .catch((err) => reject(err.response.data));
+      .catch((err) => {
+        console.log(err);
+        reject(err.response.data);
+      });
   });
 };
 

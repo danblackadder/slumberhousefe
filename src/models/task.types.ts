@@ -6,12 +6,16 @@ export enum TaskStatus {
   COMPLETED = 'completed',
 }
 
+export const TaskStatusOptions = Object.values(TaskStatus);
+
 export enum TaskPriority {
   CRITICAL = 'critical',
   HIGH = 'high',
   MEDIUM = 'medium',
   LOW = 'low',
 }
+
+export const TaskPriorityOptions = Object.values(TaskPriority);
 
 export interface ITaskUser {
   _id: string;
@@ -21,6 +25,7 @@ export interface ITaskUser {
 }
 
 export interface ITask {
+  _id: string;
   title: string;
   status: TaskStatus;
   description?: string;

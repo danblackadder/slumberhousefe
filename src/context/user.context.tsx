@@ -39,9 +39,9 @@ const reducer = (state: UserContextState, action: UserContextActions) => {
   }
 };
 
-const UserContext = createContext<UserContextType>({ state: initialState, dispatch: () => null });
+export const UserContext = createContext<UserContextType>({ state: initialState, dispatch: () => null });
 
-const UserProvider = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
+export const UserProvider = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { updateUser } = useUser({ dispatch });
   const { isAuthenticated } = state;
@@ -70,5 +70,3 @@ const UserProvider = ({ children }: { children: JSX.Element | JSX.Element[] }) =
     </UserContext.Provider>
   );
 };
-
-export { UserContext, UserProvider };

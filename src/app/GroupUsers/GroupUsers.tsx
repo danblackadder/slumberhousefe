@@ -9,7 +9,7 @@ import Select from 'components/Select';
 import { GroupContext } from 'context/group.context';
 import { IPagination } from 'models/generic.types';
 import { IGroupUser } from 'models/group.types';
-import { GroupRole } from 'models/settings.types';
+import { GroupRole, GroupRoleOptions } from 'models/settings.types';
 import { getGroupUsers } from 'network/group.network';
 
 import AddUserModal from './AddGroupUserModal';
@@ -87,9 +87,9 @@ const GroupUsers = () => {
               <Select
                 id="role"
                 label="Role"
-                selected={filterRole}
-                setSelected={(option: string | undefined) => setFilterRole(option as GroupRole)}
-                options={[GroupRole.ADMIN, GroupRole.BASIC, GroupRole.EXTERNAL]}
+                selectedItem={filterRole}
+                setSelectedItem={setFilterRole}
+                options={GroupRoleOptions}
                 width={200}
                 inline={true}
               />

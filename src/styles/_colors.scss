@@ -8,6 +8,7 @@ $colors: (
   error: #ed4337,
   shadow: rgba(0, 0, 0, 0.3),
   primary-shadow: rgba(255, 134, 46, 0.3),
+  none: transparent,
 );
 
 @each $name, $color in $colors {
@@ -30,6 +31,10 @@ $colors: (
 
   .background-#{$name} {
     background-color: $color;
+  }
+
+  .background-#{$name}-important {
+    background-color: $color !important;
   }
 
   .hover-background-#{$name} {

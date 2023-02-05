@@ -5,7 +5,7 @@ import Button from 'components/Button';
 import Modal from 'components/Modal';
 import Select from 'components/Select';
 import { IGroup, IGroupUser } from 'models/group.types';
-import { GroupRole } from 'models/settings.types';
+import { GroupRole, GroupRoleOptions } from 'models/settings.types';
 import { putGroupUser } from 'network/group.network';
 
 const EditGroupUserModal = ({
@@ -19,10 +19,10 @@ const EditGroupUserModal = ({
   onClose: () => void;
   updateUsers: () => void;
 }) => {
-  const [role, setRole] = useState<GroupRole>(user.role as GroupRole);
+  const [role, setRole] = useState<GroupRole | undefined>(user.role as GroupRole);
 
   const save = () => {
-    if (group) {
+    if (group && role) {
       putGroupUser({ groupId: group._id, userId: user._id, role })
         .then(() => {
           updateUsers();
@@ -42,9 +42,9 @@ const EditGroupUserModal = ({
       <Select
         id="role"
         label="Role"
-        selected={user.role}
-        setSelected={(option: string | undefined) => setRole(option as GroupRole)}
-        options={[GroupRole.ADMIN, GroupRole.BASIC]}
+        selectedItem={user.role}
+        setSelectedItem={setRole}
+        options={GroupRoleOptions.filter((option) => option !== GroupRole.EXTERNAL)}
         width={250}
       />
       <div className="flex-row justify-space-between">

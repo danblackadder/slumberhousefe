@@ -5,7 +5,7 @@ import Button from 'components/Button';
 import Modal from 'components/Modal';
 import Select from 'components/Select';
 import { IGroupAvailableUser } from 'models/group.types';
-import { GroupRole } from 'models/settings.types';
+import { GroupRole, GroupRoleOptions } from 'models/settings.types';
 import { getGroupAvailableUsers, postGroupUsers } from 'network/group.network';
 
 const AddGroupUserModal = ({
@@ -22,7 +22,6 @@ const AddGroupUserModal = ({
   const [selectedUser, setSelectedUser] = useState<string>();
   const [userId, setUserId] = useState<string>();
   const [role, setRole] = useState<GroupRole>();
-  const roleOptions = [GroupRole.ADMIN, GroupRole.BASIC];
 
   const confirm = useCallback(() => {
     if (userId && role) {
@@ -57,8 +56,8 @@ const AddGroupUserModal = ({
         <Select
           id="users"
           label="Users"
-          selected={selectedUser}
-          setSelected={(option: string | undefined) => setSelectedUser(option)}
+          selectedItem={selectedUser}
+          setSelectedItem={setSelectedUser}
           options={userOptions}
         />
       </div>
@@ -66,9 +65,9 @@ const AddGroupUserModal = ({
         <Select
           id="role"
           label="Role"
-          selected={role}
-          setSelected={(option: string | undefined) => setRole(option as GroupRole)}
-          options={roleOptions}
+          selectedItem={role}
+          setSelectedItem={setRole}
+          options={GroupRoleOptions.filter((option) => option !== GroupRole.EXTERNAL)}
           width={250}
         />
       </div>

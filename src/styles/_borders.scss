@@ -5,7 +5,9 @@ $colors: (
   neutral-dark: #495159,
   black: #111,
   white: #fff,
+  none: transparent,
 );
+
 $directions: top bottom left right;
 
 @each $name, $color in $colors {
@@ -41,6 +43,13 @@ $directions: top bottom left right;
 
 .border-radius {
   border-radius: 4px;
+}
+
+.border-radius-none {
+  border-radius: 0;
+  &:hover {
+    border-radius: 0;
+  }
 }
 
 .border-circle {

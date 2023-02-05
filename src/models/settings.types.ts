@@ -1,6 +1,6 @@
 import { IPagination } from './generic.types';
 
-export enum TabSettingsOptions {
+export enum TabSettings {
   ORGANIZATION = 'organization',
   USERS = 'users',
   GROUPS = 'groups',
@@ -16,17 +16,23 @@ export enum UserStatus {
   INACTIVE = 'inactive',
 }
 
+export const UserStatusOptions = Object.values(UserStatus);
+
 export enum OrganizationRole {
   OWNER = 'owner',
   ADMIN = 'admin',
   BASIC = 'basic',
 }
 
+export const OrganizationRoleOptions = Object.values(OrganizationRole);
+
 export enum GroupRole {
   ADMIN = 'admin',
   BASIC = 'basic',
   EXTERNAL = 'external',
 }
+
+export const GroupRoleOptions = Object.values(GroupRole);
 
 export interface IUserSettingResponse {
   users: IUserSetting[];

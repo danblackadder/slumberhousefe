@@ -6,7 +6,13 @@ import Button from 'components/Button';
 import { TextInput } from 'components/Forms';
 import Select from 'components/Select';
 import { IPagination } from 'models/generic.types';
-import { IUserSetting, OrganizationRole, UserStatus } from 'models/settings.types';
+import {
+  IUserSetting,
+  OrganizationRole,
+  OrganizationRoleOptions,
+  UserStatus,
+  UserStatusOptions,
+} from 'models/settings.types';
 import { getSettingsUsers } from 'network/settings.network';
 
 import InviteUserModal from './InviteUserModal';
@@ -75,9 +81,9 @@ const UserSettings = () => {
               <Select
                 id="role"
                 label="Role"
-                selected={filterRole}
-                setSelected={(option: string | undefined) => setFilterRole(option as OrganizationRole)}
-                options={[OrganizationRole.OWNER, OrganizationRole.ADMIN, OrganizationRole.BASIC]}
+                selectedItem={filterRole}
+                setSelectedItem={setFilterRole}
+                options={OrganizationRoleOptions}
                 width={200}
                 inline={true}
               />
@@ -86,9 +92,9 @@ const UserSettings = () => {
               <Select
                 id="role"
                 label="Status"
-                selected={filterStatus}
-                setSelected={(option: string | undefined) => setFilterStatus(option as UserStatus)}
-                options={[UserStatus.ACTIVE, UserStatus.INVITED, UserStatus.INACTIVE]}
+                selectedItem={filterStatus}
+                setSelectedItem={setFilterStatus}
+                options={UserStatusOptions}
                 width={200}
                 inline={true}
               />

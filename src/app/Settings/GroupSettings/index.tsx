@@ -7,7 +7,7 @@ import { IPagination } from 'models/generic.types';
 import { IGroupSetting } from 'models/settings.types';
 import { getSettingsGroups } from 'network/settings.network';
 
-import AddGroupModal from './GroupModal';
+import GroupModal from './GroupModal';
 import GroupTable from './GroupTable';
 
 const GroupSettings = () => {
@@ -83,7 +83,7 @@ const GroupSettings = () => {
           setPage={setPage}
         />
       </div>
-      {modal && <AddGroupModal onClose={() => setModal(false)} updateGroups={updateGroups} />}
+      {modal && <GroupModal onClose={() => setModal(false)} updateGroups={updateGroups} />}
     </>
   );
 };

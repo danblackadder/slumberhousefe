@@ -20,6 +20,7 @@ import { Tasks } from './Tasks';
 const AuthenticatedRoute = () => {
   const { state } = useContext(UserContext);
 
+  console.log(state);
   if (!state.isAuthenticated) {
     return <Navigate to={'/login'} replace />;
   }
@@ -35,6 +36,7 @@ const AuthenticatedRoute = () => {
 const GroupRoute = () => {
   const { state } = useContext(GroupContext);
 
+  console.log(state);
   if (!state.group) {
     return <Navigate to={'/groups'} replace />;
   }

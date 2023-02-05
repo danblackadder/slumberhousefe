@@ -19,7 +19,7 @@ const Dropdown = ({ items, width, onClose }: { items: IDropdownItems[]; width: n
               {item.hr && <div className="border-bottom-primary margin-horizontal-16" />}
               <div
                 className={`padding-horizontal-16 padding-vertical-8 ${
-                  item.onClick && 'pointer hover-background-neutral'
+                  item.onClick && 'pointer margin-2 hover-background-neutral'
                 }`}
                 onClick={() => {
                   if (item.onClick) {

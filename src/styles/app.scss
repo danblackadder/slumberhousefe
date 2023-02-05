@@ -2,6 +2,7 @@
 @import 'borders';
 @import 'colors';
 @import 'cursor';
+@import 'custom';
 @import 'layout';
 @import 'shadows';
 @import 'spacing';
@@ -15,6 +16,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-decoration: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 *::-webkit-scrollbar {

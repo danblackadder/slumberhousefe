@@ -13,11 +13,9 @@ const GroupGrid = ({ loading, groups }: { loading: boolean; groups: IGroup[] }) 
   if (groups.length > 0) {
     return (
       <FlexGrid>
-        <>
-          {groups.map((group) => (
-            <Group key={group._id} group={group} />
-          ))}
-        </>
+        {groups.map((group) => (
+          <Group key={group._id} group={group} />
+        ))}
       </FlexGrid>
     );
   }

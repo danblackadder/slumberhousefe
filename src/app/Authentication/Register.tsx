@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -26,14 +26,18 @@ const Register = () => {
     setLoading(false);
   }, []);
 
-  const handleRegister = () => {
-    register({ firstName, lastName, email, organization, password, passwordConfirmation })
-      .then(() => {
-        toast.success('Registration successful');
-        navigate('/login');
-      })
-      .catch((err) => setErrors(err.errors));
-  };
+  const handleRegister = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      register({ firstName, lastName, email, organization, password, passwordConfirmation })
+        .then(() => {
+          toast.success('Registration successful');
+          navigate('/login');
+        })
+        .catch((err) => setErrors(err.errors));
+    },
+    [firstName, lastName, email, organization, password, passwordConfirmation]
+  );
 
   if (loading) {
     return (
@@ -46,7 +50,10 @@ const Register = () => {
   return (
     <FullWidth>
       <div className="container center-items">
-        <form className="relative background-white flex-column padding-32 width-400 shadow-light">
+        <form
+          className="relative background-white flex-column padding-32 width-400 shadow-light"
+          onSubmit={(event: React.FormEvent<HTMLFormElement>) => handleRegister(event)}
+        >
           <Header text="Register" />
           <div className="margin-bottom-16">
             <TextInput
@@ -109,7 +116,7 @@ const Register = () => {
               autocomplete="new-password"
             />
           </div>
-          <Button text="Register" onClick={() => handleRegister()} />
+          <Button text="Register" type="submit" />
           <Link to="/login">
             <Button text="Cancel" />
           </Link>

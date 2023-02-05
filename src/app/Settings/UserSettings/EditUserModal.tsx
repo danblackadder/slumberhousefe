@@ -18,7 +18,7 @@ const EditUserModal = ({
   onClose: () => void;
   updateUsers: () => void;
 }) => {
-  const [role, setRole] = useState<OrganizationRole>(user.role as OrganizationRole);
+  const [role, setRole] = useState<OrganizationRole | undefined>(user.role as OrganizationRole);
   const options = useMemo(() => {
     if (user.role === OrganizationRole.OWNER) {
       return [OrganizationRole.OWNER, OrganizationRole.ADMIN, OrganizationRole.BASIC];
@@ -28,30 +28,25 @@ const EditUserModal = ({
   }, [user]);
 
   const save = () => {
-    putSettingsUser({ id: user._id, role })
-      .then(() => {
-        updateUsers();
-        onClose();
-        toast.success('User updated');
-      })
-      .catch((err: unknown) => {
-        console.log(err);
-        toast.error('Something went wrong...');
-      });
+    if (role) {
+      putSettingsUser({ id: user._id, role })
+        .then(() => {
+          updateUsers();
+          onClose();
+          toast.success('User updated');
+        })
+        .catch((err: unknown) => {
+          console.log(err);
+          toast.error('Something went wrong...');
+        });
+    }
   };
   return (
     <Modal onClose={onClose} width={400}>
       <TextInput id="firstName" label="First name" value={user.firstName} disabled={true} width={250} />
       <TextInput id="lastName" label="Last name" value={user.lastName} disabled={true} width={250} />
       <TextInput id="email" label="Email" value={user.email} disabled={true} width={250} />
-      <Select
-        id="role"
-        label="Role"
-        selected={user.role}
-        setSelected={(option: string | undefined) => setRole(option as OrganizationRole)}
-        options={options}
-        width={250}
-      />
+      <Select id="role" label="Role" selectedItem={role} setSelectedItem={setRole} options={options} width={250} />
       <TextInput id="status" label="Status" value={capitalize(user.status)} disabled={true} width={250} />
       <div className="flex-row justify-space-between">
         <Button text="Cancel" onClick={() => onClose()} width={150} />

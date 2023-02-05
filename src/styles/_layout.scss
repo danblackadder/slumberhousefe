@@ -88,6 +88,10 @@ $positions: absolute relative fixed sticky;
   width: 100vw;
 }
 
+.width-auto {
+  width: auto;
+}
+
 $size: 0;
 @while $size < 967 {
   .width-#{$size} {
@@ -99,13 +103,21 @@ $size: 0;
   }
 
   .max-width-#{$size} {
-    max-height: #{$size}px;
+    max-width: #{$size}px;
     overflow-x: auto;
   }
 
   .max-height-#{$size} {
     max-height: #{$size}px;
     overflow-y: auto;
+  }
+
+  .min-width-#{$size} {
+    min-width: #{$size}px;
+  }
+
+  .min-height-#{$size} {
+    min-height: #{$size}px;
   }
 
   $size: $size + 10;
