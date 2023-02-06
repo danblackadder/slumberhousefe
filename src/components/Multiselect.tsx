@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useCallback, useRef, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import { MdArrowDropDown, MdClose } from 'react-icons/md';
 
 import useClickOutside from 'hooks/useClickOutside.hook';
@@ -12,6 +12,7 @@ const Multiselect = <T,>({
   selectedItems,
   setSelectedItems,
   options,
+  setOptions,
   width,
   inline,
   placeholder = 'Select items...',
@@ -22,20 +23,21 @@ const Multiselect = <T,>({
   selectedItems: T[];
   setSelectedItems: Dispatch<SetStateAction<T[]>>;
   options: T[];
+  setOptions?: Dispatch<SetStateAction<T[]>>;
   width?: number;
   inline?: boolean;
   placeholder?: string;
   creation?: boolean;
 }) => {
   const [active, setActive] = useState<boolean>(false);
-  const [creationActive, setCreationActive] = useState<boolean>(false);
+  const [searchValue, setSearchValue] = useState<string>('');
+  const [filteredOptions, setFilteredOptions] = useState<T[]>(options);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
   useClickOutside({
     ref: wrapperRef,
     onClick: () => {
       setActive(false);
-      setCreationActive(false);
     },
   });
 
@@ -63,37 +65,40 @@ const Multiselect = <T,>({
 
   const renderItems = useCallback(() => {
     if (selectedItems.length > 0) {
-      return selectedItems.map((option) => (
-        <div
-          key={option as string}
-          className="padding-vertical-2 padding-horizontal-4 background-primary border-radius margin-right-4 flex-row align-center"
-          onClick={() => {
-            const newItems = selectedItems.filter((item) => item !== option);
-            setSelectedItems(newItems);
-          }}
-        >
-          <div className="white font-14">{capitalize(option as string)}</div>
-          <div className="margin-left-2 white center-items">
-            <MdClose size={14} />
-          </div>
+      return (
+        <div className="height-32 flex-row align-center padding-left-8">
+          {selectedItems.map((option) => (
+            <div
+              key={option as string}
+              className="padding-vertical-2 padding-horizontal-4 background-primary border-radius margin-right-4 flex-row align-center"
+              onClick={() => {
+                const newItems = selectedItems.filter((item) => item !== option);
+                setSelectedItems(newItems);
+              }}
+            >
+              <div className="white font-14">{capitalize(option as string)}</div>
+              <div className="margin-left-2 white center-items">
+                <MdClose size={14} />
+              </div>
+            </div>
+          ))}
         </div>
-      ));
+      );
     }
 
-    return <div onClick={() => setActive(!active)}>{placeholder}</div>;
+    return null;
   }, [selectedItems, setSelectedItems, setActive, active, creation]);
 
   const renderOptions = useCallback(() => {
     return (
-      options.length > 0 &&
-      options.map((option) => (
+      filteredOptions.length > 0 &&
+      filteredOptions.map((option) => (
         <div
           key={option as string}
           className={`padding-8 margin-2 ${
             selectedItems.includes(option) ? 'background-primary white' : 'hover-background-neutral'
           }`}
           onClick={() => {
-            if (creationActive) setCreationActive(false);
             if (selectedItems.includes(option)) {
               const newItems = selectedItems.filter((item) => item !== option);
               setSelectedItems(newItems);
@@ -107,35 +112,78 @@ const Multiselect = <T,>({
         </div>
       ))
     );
-  }, [options, selectedItems, setSelectedItems, creationActive]);
+  }, [filteredOptions, selectedItems, setSelectedItems]);
 
-  const handleSaveNewTag = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSaveCreation = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('new tag saved');
+
+    if (setOptions && searchValue.length > 0 && !options.includes(searchValue.toLowerCase() as T)) {
+      setOptions([...options, searchValue as T]);
+    }
+
+    const newItems = [...selectedItems, searchValue.toLowerCase() as T];
+    setSelectedItems(newItems);
+    setSearchValue('');
+    setFilteredOptions(options);
   };
 
-  const renderCreation = useCallback(() => {
-    if (creation) {
-      if (creationActive) {
+  const renderNoItems = useCallback(() => {
+    if (filteredOptions.length === 0) {
+      if (creation) {
         return (
-          <form
-            className="flex-row align-center"
-            onSubmit={(event: React.FormEvent<HTMLFormElement>) => handleSaveNewTag(event)}
-          >
-            <input autoFocus className="padding-8 border-none focus-none font-16 flex-1 min-width-0" type="text" />
-            <Button variation="inline" text="Save" type="submit" width={80} />
-          </form>
+          <div className="flex-row align-center padding-8 font-16 flex-1">
+            There are no options with your search. Press enter or click to save new option.
+          </div>
         );
       }
 
       return (
-        <div className="padding-8 margin-2 neutral-dark" onClick={() => setCreationActive(true)}>
-          Click here to add a new item...
+        <div className="flex-row align-center padding-8 font-16 flex-1">
+          There are no options with your search. Please try a new search term.
         </div>
       );
     }
     return null;
-  }, [creation, creationActive]);
+  }, [creation, filteredOptions]);
+
+  const renderSearch = useCallback(() => {
+    if (active) {
+      return (
+        <form
+          className="flex-1 flex-row align-center padding-right-40 padding-left-8"
+          onSubmit={(event: React.FormEvent<HTMLFormElement>) =>
+            filteredOptions.length === 0 && handleSaveCreation(event)
+          }
+        >
+          <input
+            autoFocus
+            className="border-none focus-none font-16 flex-1 min-width-0"
+            type="text"
+            value={searchValue}
+            onChange={(event: React.FormEvent<HTMLInputElement>) => setSearchValue(event.currentTarget.value)}
+          />
+          <Button variation="inline" text={filteredOptions.length > 0 ? 'Search' : 'Save'} type="submit" width={80} />
+        </form>
+      );
+    }
+
+    return (
+      <div className="flex-1 flex-row align-center padding-left-8 height-32" onClick={() => setActive(!active)}>
+        {placeholder}
+      </div>
+    );
+  }, [active, searchValue, setSearchValue, setActive, filteredOptions]);
+
+  useEffect(() => {
+    setFilteredOptions(
+      options.filter((option) => {
+        const optionAsString = option as string;
+        if (optionAsString.includes(searchValue)) {
+          return option;
+        }
+      })
+    );
+  }, [searchValue, options]);
 
   return (
     <div
@@ -155,10 +203,12 @@ const Multiselect = <T,>({
             className="flex-1 height-32"
             onClick={() => {
               setActive(!active);
-              if (creationActive) setCreationActive(false);
             }}
           />
-          <div className="absolute left-0 bottom-0 height-32 flex-row align-center padding-left-8">{renderItems()}</div>
+          <div className="absolute full-width left-0 bottom-0 min-height-32 flex-row flex-wrap align-center">
+            {renderItems()}
+            {renderSearch()}
+          </div>
           {renderEndItem()}
         </div>
         {active && (
@@ -168,7 +218,7 @@ const Multiselect = <T,>({
             }`}
             style={{ top: inline ? 30 : 53, zIndex: 1 }}
           >
-            {renderCreation()}
+            {renderNoItems()}
             {renderOptions()}
           </div>
         )}

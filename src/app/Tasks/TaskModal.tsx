@@ -25,6 +25,7 @@ const TaskModal = ({
   const [priority, setPriority] = useState<TaskPriority | undefined>();
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [tags, setTags] = useState<string[]>([]);
+  const [tagOptions, setTagOptions] = useState<string[]>(['tag1', 'tag2']);
 
   const handlePostTask = useCallback(() => {
     if (groupId) {
@@ -38,11 +39,11 @@ const TaskModal = ({
           toast.error('Something went wrong...');
         });
     }
-  }, [groupId, title]);
+  }, [groupId, title, onClose]);
 
   const handlePutTask = useCallback(() => {
     console.log('test');
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Modal onClose={onClose} width={800}>
@@ -69,7 +70,8 @@ const TaskModal = ({
             label="Tags"
             selectedItems={tags}
             setSelectedItems={setTags}
-            options={['tag1', 'tag2']}
+            options={tagOptions}
+            setOptions={setTagOptions}
             creation={true}
           />
         </div>
