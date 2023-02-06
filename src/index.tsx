@@ -29,15 +29,15 @@ axios.interceptors.request.use(
   }
 );
 
-let container: null | HTMLElement = null;
-document.addEventListener('DOMContentLoaded', function (event) {
-  if (!container) {
-    container = document.getElementById('root') as HTMLElement;
-    const root = createRoot(container);
-    root.render(<App />);
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('root') as HTMLElement;
+  const root = createRoot(container);
+  root.render(<App />);
+
+  if (module.hot) {
+    module.hot.accept('./App', () => {
+      const UpdatedApp = require('./App').default;
+      root.render(<UpdatedApp />);
+    });
   }
 });
-
-if (module.hot) {
-  module.hot.accept();
-}
