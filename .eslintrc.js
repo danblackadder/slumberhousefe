@@ -11,7 +11,6 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'prettier',
     'prettier/react',
-    'plugin:react-hooks/recommended',
   ],
   parserOptions: {
     ecmaVersion: '2017',
@@ -21,7 +20,7 @@ module.exports = {
     },
     sourceType: 'module',
   },
-  plugins: ['babel', 'react', 'react-hooks', 'import', '@typescript-eslint', 'prettier', 'simple-import-sort'],
+  plugins: ['babel', 'react', 'import', '@typescript-eslint', 'prettier', 'simple-import-sort'],
   rules: {
     'import/no-duplicates': 'error',
     'import/no-unresolved': 'error',

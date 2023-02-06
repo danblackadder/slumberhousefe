@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (module.hot) {
     module.hot.accept('./App', () => {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const UpdatedApp = require('./App').default;
       root.render(<UpdatedApp />);
     });

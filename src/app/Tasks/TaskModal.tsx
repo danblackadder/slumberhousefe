@@ -43,7 +43,7 @@ const TaskModal = ({
 
   const handlePutTask = useCallback(() => {
     console.log('test');
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Modal onClose={onClose} width={800}>
