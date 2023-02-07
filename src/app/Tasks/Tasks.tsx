@@ -3,20 +3,19 @@ import { MdFilterAlt } from 'react-icons/md';
 
 import Button from 'components/Button';
 import Header from 'components/Header';
-import { GroupContext } from 'context/group.context';
 import { useGroupTasks } from 'network/tasks.network';
 
 import TaskModal from './TaskModal';
 import TaskTable from './TaskTable';
+import { useGroup } from 'network/group.network';
 
 const Tasks = () => {
-  const { state: groupState } = useContext(GroupContext);
+  const { groupId } = useGroup();
 
   const [loading, setLoading] = useState<boolean>(true);
   const [pauseStream] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
 
-  const groupId = groupState?.group?._id.toString();
   const { tasks, error } = useGroupTasks({ groupId, pauseStream });
 
   useEffect(() => {

@@ -7,6 +7,7 @@ import Select from 'components/Select';
 import { IGroupAvailableUser } from 'models/group.types';
 import { GroupRole, GroupRoleOptions } from 'models/settings.types';
 import { getGroupAvailableUsers, postGroupUsers } from 'network/group.network';
+import { IOption } from 'models/generic.types';
 
 const AddGroupUserModal = ({
   groupId,
@@ -17,15 +18,13 @@ const AddGroupUserModal = ({
   onClose: () => void;
   updateUsers: () => void;
 }) => {
-  const [availableUsers, setAvailableUsers] = useState<IGroupAvailableUser[]>([]);
-  const [userOptions, setUserOptions] = useState<string[]>([]);
-  const [selectedUser, setSelectedUser] = useState<string>();
-  const [userId, setUserId] = useState<string>();
-  const [role, setRole] = useState<GroupRole>();
+  const [userOptions, setUserOptions] = useState<IOption<string>[]>([]);
+  const [selectedUser, setSelectedUser] = useState<IOption<string>>();
+  const [selectedRole, setSelectedRole] = useState<IOption<GroupRole>>();
 
   const confirm = useCallback(() => {
-    if (userId && role) {
-      postGroupUsers({ groupId, userId, role })
+    if (selectedUser && selectedRole) {
+      postGroupUsers({ groupId, userId: selectedUser.value, role: selectedRole.value })
         .then(() => {
           updateUsers();
           onClose();
@@ -36,19 +35,17 @@ const AddGroupUserModal = ({
           toast.error('Something went wrong...');
         });
     }
-  }, [groupId, userId, role]);
+  }, [groupId, selectedUser, selectedRole]);
 
   useEffect(() => {
     getGroupAvailableUsers({ groupId }).then((res) => {
-      setUserOptions(res.map((user) => `${user.firstName} ${user.lastName} - ${user.email}`));
-      setAvailableUsers(res);
+      setUserOptions(
+        res.map((user) => {
+          return { value: user._id, label: `${user.firstName} ${user.lastName} - ${user.email}` };
+        })
+      );
     });
   }, []);
-
-  useEffect(() => {
-    const user = availableUsers.find((user) => user.email === selectedUser?.split(' ')[3]);
-    setUserId(user?._id);
-  }, [selectedUser]);
 
   return (
     <Modal onClose={onClose} width={500}>
@@ -65,9 +62,9 @@ const AddGroupUserModal = ({
         <Select
           id="role"
           label="Role"
-          selectedItem={role}
-          setSelectedItem={setRole}
-          options={GroupRoleOptions.filter((option) => option !== GroupRole.EXTERNAL)}
+          selectedItem={selectedRole}
+          setSelectedItem={setSelectedRole}
+          options={GroupRoleOptions.filter((option) => option.value !== GroupRole.EXTERNAL)}
           width={250}
         />
       </div>

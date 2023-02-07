@@ -8,11 +8,11 @@ import EditUserModal from './EditGroupUserModal';
 import RemoveUserModal from './RemoveGroupUserModal';
 
 const GroupUserItem = ({
-  group,
+  groupId,
   user,
   updateUsers,
 }: {
-  group: IGroup | null;
+  groupId: string | undefined;
   user: IGroupUser;
   updateUsers: () => void;
 }) => {
@@ -50,10 +50,15 @@ const GroupUserItem = ({
         </div>
       </div>
       {editModal && (
-        <EditUserModal onClose={() => setEditModal(false)} user={user} group={group} updateUsers={updateUsers} />
+        <EditUserModal onClose={() => setEditModal(false)} user={user} groupId={groupId} updateUsers={updateUsers} />
       )}
       {removeModal && (
-        <RemoveUserModal onClose={() => setRemoveModal(false)} user={user} group={group} updateUsers={updateUsers} />
+        <RemoveUserModal
+          onClose={() => setRemoveModal(false)}
+          user={user}
+          groupId={groupId}
+          updateUsers={updateUsers}
+        />
       )}
     </>
   );

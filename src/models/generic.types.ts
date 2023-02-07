@@ -15,3 +15,8 @@ export interface IPagination {
   currentPage: number;
   limit: number;
 }
+
+export interface IOption<T> {
+  label: string;
+  value: T;
+}

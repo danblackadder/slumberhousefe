@@ -7,23 +7,26 @@ import Select from 'components/Select';
 import { IGroup, IGroupUser } from 'models/group.types';
 import { GroupRole, GroupRoleOptions } from 'models/settings.types';
 import { putGroupUser } from 'network/group.network';
+import { IOption } from 'models/generic.types';
 
 const EditGroupUserModal = ({
   user,
-  group,
+  groupId,
   onClose,
   updateUsers,
 }: {
-  group: IGroup | null;
+  groupId: string | undefined;
   user: IGroupUser;
   onClose: () => void;
   updateUsers: () => void;
 }) => {
-  const [role, setRole] = useState<GroupRole | undefined>(user.role as GroupRole);
+  const [selectedRole, setSelectedRole] = useState<IOption<GroupRole> | undefined>(
+    GroupRoleOptions.find((option) => option.value === user.role)
+  );
 
   const save = () => {
-    if (group && role) {
-      putGroupUser({ groupId: group._id, userId: user._id, role })
+    if (groupId && selectedRole) {
+      putGroupUser({ groupId, userId: user._id, role: selectedRole.value })
         .then(() => {
           updateUsers();
           onClose();
@@ -42,9 +45,9 @@ const EditGroupUserModal = ({
       <Select
         id="role"
         label="Role"
-        selectedItem={user.role}
-        setSelectedItem={setRole}
-        options={GroupRoleOptions.filter((option) => option !== GroupRole.EXTERNAL)}
+        selectedItem={selectedRole}
+        setSelectedItem={setSelectedRole}
+        options={GroupRoleOptions.filter((option) => option.value !== GroupRole.EXTERNAL)}
         width={250}
       />
       <div className="flex-row justify-space-between">

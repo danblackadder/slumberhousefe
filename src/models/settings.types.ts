@@ -1,4 +1,5 @@
-import { IPagination } from './generic.types';
+import { capitalize } from 'utility/helper';
+import { IOption, IPagination } from './generic.types';
 
 export enum TabSettings {
   ORGANIZATION = 'organization',
@@ -16,7 +17,9 @@ export enum UserStatus {
   INACTIVE = 'inactive',
 }
 
-export const UserStatusOptions = Object.values(UserStatus);
+export const UserStatusOptions = Object.values(UserStatus).map((value) => {
+  return { value, label: capitalize(value) };
+}) as IOption<UserStatus>[];
 
 export enum OrganizationRole {
   OWNER = 'owner',
@@ -24,7 +27,9 @@ export enum OrganizationRole {
   BASIC = 'basic',
 }
 
-export const OrganizationRoleOptions = Object.values(OrganizationRole);
+export const OrganizationRoleOptions = Object.values(OrganizationRole).map((value) => {
+  return { value, label: capitalize(value) };
+}) as IOption<OrganizationRole>[];
 
 export enum GroupRole {
   ADMIN = 'admin',
@@ -32,7 +37,9 @@ export enum GroupRole {
   EXTERNAL = 'external',
 }
 
-export const GroupRoleOptions = Object.values(GroupRole);
+export const GroupRoleOptions = Object.values(GroupRole).map((value) => {
+  return { value, label: capitalize(value) };
+}) as IOption<GroupRole>[];
 
 export interface IUserSettingResponse {
   users: IUserSetting[];

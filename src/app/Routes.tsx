@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
-import { GroupContext } from 'context/group.context';
 import { UserContext } from 'context/user.context';
 import { GroupRole, OrganizationRole } from 'models/settings.types';
 
@@ -16,11 +15,11 @@ import { Profile } from './Profile';
 import { Reporting } from './Reporting';
 import { Settings } from './Settings';
 import { Tasks } from './Tasks';
+import { useGroup } from 'network/group.network';
 
 const AuthenticatedRoute = () => {
   const { state } = useContext(UserContext);
 
-  console.log(state);
   if (!state.isAuthenticated) {
     return <Navigate to={'/login'} replace />;
   }
@@ -33,38 +32,51 @@ const AuthenticatedRoute = () => {
   );
 };
 
-const GroupRoute = () => {
-  const { state } = useContext(GroupContext);
+const AdminRoute = () => {
+  const { state: userState } = useContext(UserContext);
+  const { group, groupId } = useGroup();
 
-  console.log(state);
-  if (!state.group) {
-    return <Navigate to={'/groups'} replace />;
+  if (
+    userState.user &&
+    group &&
+    ![OrganizationRole.OWNER, OrganizationRole.ADMIN].includes(userState.user.role) &&
+    ![GroupRole.ADMIN].includes(group.role)
+  ) {
+    return <Navigate to={`/${groupId}/`} replace />;
   }
 
   return (
     <>
-      <Sidebar />
       <Outlet />
     </>
   );
 };
 
-const AdminRoute = () => {
-  const { state: userState } = useContext(UserContext);
-  const { state: groupState } = useContext(GroupContext);
-
-  if (
-    userState.user &&
-    groupState.group &&
-    ![OrganizationRole.OWNER, OrganizationRole.ADMIN].includes(userState.user.role) &&
-    ![GroupRole.ADMIN].includes(groupState.group.role)
-  ) {
-    return <Navigate to={'/dashboard'} replace />;
-  }
-
+const GroupIdRoutes = () => {
   return (
     <>
-      <Outlet />
+      <Sidebar />
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/tasks" element={<Tasks />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/documents" element={<Documents />} />
+        <Route element={<AdminRoute />}>
+          <Route path="/users" element={<GroupUsers />} />
+          <Route path="/reporting" element={<Reporting />} />
+        </Route>
+      </Routes>
+    </>
+  );
+};
+
+const GroupRoutes = () => {
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<Groups />} />
+        <Route path="/:groupId/*" element={<GroupIdRoutes />} />
+      </Routes>
     </>
   );
 };
@@ -75,17 +87,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route element={<AuthenticatedRoute />}>
-        <Route element={<GroupRoute />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/tasks" element={<Tasks />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/documents" element={<Documents />} />
-          <Route element={<AdminRoute />}>
-            <Route path="/users" element={<GroupUsers />} />
-            <Route path="/reporting" element={<Reporting />} />
-          </Route>
-        </Route>
-        <Route path="/groups" element={<Groups />} />
+        <Route path="/groups/*" element={<GroupRoutes />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
       </Route>

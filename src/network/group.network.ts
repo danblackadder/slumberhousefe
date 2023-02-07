@@ -1,7 +1,11 @@
+import { useContext, useState, useEffect } from 'react';
 import axios, { AxiosResponse } from 'axios';
 
 import { IGroup, IGroupAvailableUser, IGroupUserResponse } from 'models/group.types';
 import { GroupRole } from 'models/settings.types';
+import { useParams } from 'react-router-dom';
+import { GroupContext } from 'context/group.context';
+import { GroupContextActionTypes } from 'models/group.context.types';
 
 export const getGroup = async ({ groupId }: { groupId: string }) => {
   return new Promise<IGroup>((resolve, reject) => {
@@ -10,6 +14,27 @@ export const getGroup = async ({ groupId }: { groupId: string }) => {
       .then((res) => resolve(res.data))
       .catch((err) => reject(err.response.data));
   });
+};
+
+export const useGroup = () => {
+  const { groupId } = useParams();
+  const { state, dispatch } = useContext(GroupContext);
+
+  useEffect(() => {
+    if (groupId && !state.group) {
+      getGroup({ groupId })
+        .then((res) => dispatch({ type: GroupContextActionTypes.SET_GROUP, payload: { group: res } }))
+        .catch((err) => {
+          console.log(err);
+          dispatch({ type: GroupContextActionTypes.REMOVE_GROUP });
+        });
+    }
+  }, [groupId, state]);
+
+  return {
+    groupId: state.group?._id.toString(),
+    group: state.group,
+  };
 };
 
 export const getGroups = async () => {

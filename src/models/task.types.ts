@@ -1,3 +1,5 @@
+import { capitalize } from 'utility/helper';
+
 export enum TaskStatus {
   DRAFT = 'draft',
   TO_DO = 'to do',
@@ -6,7 +8,9 @@ export enum TaskStatus {
   COMPLETED = 'completed',
 }
 
-export const TaskStatusOptions = Object.values(TaskStatus);
+export const TaskStatusOptions = Object.values(TaskStatus).map((item) => {
+  return { value: item, label: capitalize(item) };
+});
 
 export enum TaskPriority {
   CRITICAL = 'critical',
@@ -15,7 +19,9 @@ export enum TaskPriority {
   LOW = 'low',
 }
 
-export const TaskPriorityOptions = Object.values(TaskPriority);
+export const TaskPriorityOptions = Object.values(TaskPriority).map((item) => {
+  return { value: item, label: capitalize(item) };
+});
 
 export interface ITaskUser {
   _id: string;

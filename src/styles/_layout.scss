@@ -70,6 +70,10 @@ $positions: absolute relative fixed sticky;
   width: 100%;
 }
 
+.max-full-width {
+  max-width: 100%;
+}
+
 .full-height {
   height: 100%;
 }
@@ -127,6 +131,14 @@ $size: 0;
   overflow: hidden;
 }
 
+.overflow-auto {
+  overflow: auto;
+}
+
 .resize-none {
   resize: none;
+}
+
+.display-none {
+  display: none;
 }

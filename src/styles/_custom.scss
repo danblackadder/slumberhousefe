@@ -1,9 +1,9 @@
 .react-datepicker__triangle {
-  display: none;
+  @extend .display-none;
 }
 
 .react-datepicker__header {
-  background-color: #fff;
+  @extend .background-white;
 }
 
 .react-datepicker-popper {
@@ -12,16 +12,90 @@
 }
 
 .react-datepicker__header {
-  padding-top: 4px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid #efefef;
+  @extend .padding-top-4;
+  @extend .padding-bottom-8;
+  @extend .border-bottom-neutral;
 }
 
 .react-datepicker__day--outside-month {
-  color: #efefef;
-  cursor: default;
+  @extend .neutral;
+  @extend .default;
   font-weight: normal;
   &:hover {
-    background-color: white;
+    @extend .background-white;
+  }
+}
+
+.react-select-container {
+  @extend .pointer;
+  .react-select__control {
+    @extend .min-height-32;
+    @extend .border-radius-none;
+    @extend .border-neutral;
+    @extend .hover-border-neutral;
+    @extend .shadow-none;
+    @extend .padding-right-8;
+    @extend .pointer;
+    &.react-select__control--menu-is-open {
+      @extend .border-neutral;
+      @extend .hover-border-neutral;
+    }
+    .react-select__indicator-separator {
+      @extend .display-none;
+    }
+    .react-select__value-container {
+      @extend .padding-0;
+      @extend .margin-left-4;
+      .react-select__placeholder {
+        @extend .neutral-dark;
+        @extend .margin-0;
+        @extend .padding-0;
+      }
+      .react-select__input-container {
+        @extend .padding-0;
+        @extend .margin-0;
+      }
+      .react-select__multi-value {
+        @extend .margin-0;
+        @extend .border-radius-none;
+        @extend .background-primary;
+        @extend .white;
+        @extend .font-14;
+        @extend .margin-right-4;
+        @extend .margin-vertical-4;
+        @extend .text-upper;
+        .react-select__multi-value__label {
+          @extend .white;
+        }
+        .react-select__multi-value__remove {
+          @extend .flex;
+          @extend .align-center;
+          @extend .padding-horizontal-4;
+          &:hover {
+            @extend .background-primary;
+            @extend .white;
+          }
+        }
+      }
+    }
+  }
+  .react-select__menu {
+    @extend .margin-0;
+    @extend .border-radius-none;
+    @extend .border-neutral;
+    @extend .shadow-none;
+    top: calc(100% - 2px);
+    .react-select__option {
+      @extend .pointer;
+      &.react-select__option--is-focused {
+        &:not(.react-select__option--is-selected) {
+          @extend .background-neutral;
+          @extend .black;
+        }
+      }
+      &.react-select__option--is-selected {
+        @extend .background-primary;
+      }
+    }
   }
 }

@@ -4,11 +4,11 @@ import { MdErrorOutline } from 'react-icons/md';
 import Loading from 'components/Loading';
 import Pagination from 'components/Pagination';
 import TableHeader from 'components/TableHeader';
-import { GroupContext } from 'context/group.context';
 import { IPagination } from 'models/generic.types';
 import { IGroupUser } from 'models/group.types';
 
 import GroupUserItem from './GroupUserItem';
+import { useGroup } from 'network/group.network';
 
 const GroupUserTable = ({
   loading,
@@ -37,7 +37,7 @@ const GroupUserTable = ({
   pagination: IPagination | undefined;
   setPage: Dispatch<SetStateAction<number>>;
 }) => {
-  const { state: groupState } = useContext(GroupContext);
+  const { groupId } = useGroup();
 
   if (loading) {
     return <Loading color="primary" height={512} />;
@@ -53,7 +53,7 @@ const GroupUserTable = ({
           <TableHeader label="Role" resetSort={resetSort} sort={sortRole} setSort={setSortRole} width={200} />
         </div>
         {users.map((user) => (
-          <GroupUserItem key={user._id} group={groupState.group} user={user} updateUsers={updateUsers} />
+          <GroupUserItem key={user._id} groupId={groupId} user={user} updateUsers={updateUsers} />
         ))}
         <Pagination
           totalDocuments={pagination?.totalDocuments || 0}

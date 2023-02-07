@@ -8,18 +8,18 @@ import { removeGroupUser } from 'network/group.network';
 
 const RemoveUserModal = ({
   user,
-  group,
+  groupId,
   onClose,
   updateUsers,
 }: {
   user: IGroupUser;
-  group: IGroup | null;
+  groupId: string | undefined;
   onClose: () => void;
   updateUsers: () => void;
 }) => {
   const confirm = () => {
-    if (group) {
-      removeGroupUser({ groupId: group._id, userId: user._id })
+    if (groupId) {
+      removeGroupUser({ groupId, userId: user._id })
         .then(() => {
           updateUsers();
           onClose();

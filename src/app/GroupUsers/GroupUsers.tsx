@@ -6,22 +6,22 @@ import Button from 'components/Button';
 import { TextInput } from 'components/Forms';
 import Header from 'components/Header';
 import Select from 'components/Select';
-import { GroupContext } from 'context/group.context';
-import { IPagination } from 'models/generic.types';
+import { IOption, IPagination } from 'models/generic.types';
 import { IGroupUser } from 'models/group.types';
 import { GroupRole, GroupRoleOptions } from 'models/settings.types';
-import { getGroupUsers } from 'network/group.network';
+import { getGroupUsers, useGroup } from 'network/group.network';
 
 import AddUserModal from './AddGroupUserModal';
 import GroupUserTable from './GroupUserTable';
 
 const GroupUsers = () => {
-  const { state: groupState } = useContext(GroupContext);
+  const { groupId } = useGroup();
+
   const [users, setUsers] = useState<IGroupUser[]>([]);
   const [pagination, setPagination] = useState<IPagination>();
   const [page, setPage] = useState<number>(1);
   const [addUserModal, setAddUserModal] = useState<boolean>(false);
-  const [filterRole, setFilterRole] = useState<GroupRole>();
+  const [filterRole, setFilterRole] = useState<IOption<GroupRole> | undefined>();
   const [filterNameEmail, setFilterNameEmail] = useState<string>('');
   const [sortName, setSortName] = useState<number>(0);
   const [sortEmail, setSortEmail] = useState<number>(0);
@@ -29,14 +29,14 @@ const GroupUsers = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   const updateUsers = useCallback(() => {
-    if (groupState.group) {
+    if (groupId) {
       getGroupUsers({
-        groupId: groupState?.group?._id,
+        groupId,
         page,
         sortName,
         sortEmail,
         sortRole,
-        filterRole,
+        filterRole: filterRole?.value,
         filterNameEmail,
       })
         .then((res) => {
@@ -49,7 +49,7 @@ const GroupUsers = () => {
         })
         .finally(() => setLoading(false));
     }
-  }, [page, groupState, sortName, sortEmail, sortRole, filterRole, filterNameEmail]);
+  }, [page, groupId, sortName, sortEmail, sortRole, filterRole, filterNameEmail]);
 
   const resetSort = () => {
     setSortName(0);
@@ -122,8 +122,8 @@ const GroupUsers = () => {
           setPage={setPage}
         />
       </div>
-      {addUserModal && groupState.group && (
-        <AddUserModal groupId={groupState.group._id} onClose={() => setAddUserModal(false)} updateUsers={updateUsers} />
+      {addUserModal && groupId && (
+        <AddUserModal groupId={groupId} onClose={() => setAddUserModal(false)} updateUsers={updateUsers} />
       )}
     </div>
   );

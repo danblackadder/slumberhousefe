@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import Button from 'components/Button';
 import { TextInput } from 'components/Forms';
 import Select from 'components/Select';
-import { IPagination } from 'models/generic.types';
+import { IOption, IPagination } from 'models/generic.types';
 import {
   IUserSetting,
   OrganizationRole,
@@ -23,8 +23,8 @@ const UserSettings = () => {
   const [pagination, setPagination] = useState<IPagination>();
   const [page, setPage] = useState<number>(1);
   const [modal, setModal] = useState<boolean>(false);
-  const [filterRole, setFilterRole] = useState<OrganizationRole>();
-  const [filterStatus, setFilterStatus] = useState<UserStatus>();
+  const [filterRole, setFilterRole] = useState<IOption<OrganizationRole>>();
+  const [filterStatus, setFilterStatus] = useState<IOption<UserStatus>>();
   const [filterNameEmail, setFilterNameEmail] = useState<string>('');
   const [sortName, setSortName] = useState<number>(0);
   const [sortEmail, setSortEmail] = useState<number>(0);
@@ -33,7 +33,16 @@ const UserSettings = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   const updateUsers = useCallback(() => {
-    getSettingsUsers({ page, sortName, sortEmail, sortRole, sortStatus, filterRole, filterStatus, filterNameEmail })
+    getSettingsUsers({
+      page,
+      sortName,
+      sortEmail,
+      sortRole,
+      sortStatus,
+      filterRole: filterRole?.value,
+      filterStatus: filterStatus?.value,
+      filterNameEmail,
+    })
       .then((res) => {
         setUsers(res.users);
         setPagination(res.pagination);

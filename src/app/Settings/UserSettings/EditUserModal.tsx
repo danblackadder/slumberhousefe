@@ -5,9 +5,10 @@ import Button from 'components/Button';
 import { TextInput } from 'components/Forms';
 import Modal from 'components/Modal';
 import Select from 'components/Select';
-import { IUserSetting, OrganizationRole } from 'models/settings.types';
+import { IUserSetting, OrganizationRole, OrganizationRoleOptions } from 'models/settings.types';
 import { putSettingsUser } from 'network/settings.network';
 import { capitalize } from 'utility/helper';
+import { IOption } from 'models/generic.types';
 
 const EditUserModal = ({
   user,
@@ -18,18 +19,21 @@ const EditUserModal = ({
   onClose: () => void;
   updateUsers: () => void;
 }) => {
-  const [role, setRole] = useState<OrganizationRole | undefined>(user.role as OrganizationRole);
+  const [selectedRole, setSelectedRole] = useState<IOption<OrganizationRole> | undefined>(
+    OrganizationRoleOptions.find((option) => option.value === user.role)
+  );
+
   const options = useMemo(() => {
     if (user.role === OrganizationRole.OWNER) {
-      return [OrganizationRole.OWNER, OrganizationRole.ADMIN, OrganizationRole.BASIC];
+      return OrganizationRoleOptions;
     }
 
-    return [OrganizationRole.ADMIN, OrganizationRole.BASIC];
+    return OrganizationRoleOptions.filter((option) => option.value === OrganizationRole.OWNER);
   }, [user]);
 
   const save = () => {
-    if (role) {
-      putSettingsUser({ id: user._id, role })
+    if (selectedRole) {
+      putSettingsUser({ id: user._id, role: selectedRole.value })
         .then(() => {
           updateUsers();
           onClose();
@@ -46,7 +50,14 @@ const EditUserModal = ({
       <TextInput id="firstName" label="First name" value={user.firstName} disabled={true} width={250} />
       <TextInput id="lastName" label="Last name" value={user.lastName} disabled={true} width={250} />
       <TextInput id="email" label="Email" value={user.email} disabled={true} width={250} />
-      <Select id="role" label="Role" selectedItem={role} setSelectedItem={setRole} options={options} width={250} />
+      <Select
+        id="role"
+        label="Role"
+        selectedItem={selectedRole}
+        setSelectedItem={setSelectedRole}
+        options={options}
+        width={250}
+      />
       <TextInput id="status" label="Status" value={capitalize(user.status)} disabled={true} width={250} />
       <div className="flex-row justify-space-between">
         <Button text="Cancel" onClick={() => onClose()} width={150} />

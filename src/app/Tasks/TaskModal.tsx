@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import Button from 'components/Button';
@@ -8,7 +8,9 @@ import Modal from 'components/Modal';
 import Multiselect from 'components/Multiselect';
 import Select from 'components/Select';
 import { TaskPriority, TaskPriorityOptions, TaskStatus, TaskStatusOptions } from 'models/task.types';
-import { postGroupTask } from 'network/tasks.network';
+import { getGroupTags, postGroupTask } from 'network/tasks.network';
+import { IOption } from 'models/generic.types';
+import { capitalize } from 'utility/helper';
 
 const TaskModal = ({
   groupId,
@@ -21,11 +23,23 @@ const TaskModal = ({
 }) => {
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [status, setStatus] = useState<TaskStatus | undefined>(TaskStatus.DRAFT);
-  const [priority, setPriority] = useState<TaskPriority | undefined>();
+  const [status, setStatus] = useState<IOption<TaskStatus> | undefined>(
+    TaskStatusOptions.find((option) => option.value === TaskStatus.DRAFT)
+  );
+  const [priority, setPriority] = useState<IOption<TaskPriority> | undefined>();
   const [selectedDate, setSelectedDate] = useState<Date>();
-  const [tags, setTags] = useState<string[]>([]);
-  const [tagOptions, setTagOptions] = useState<string[]>(['tag1', 'tag2']);
+  const [tags, setTags] = useState<IOption<string>[]>([]);
+  const [tagOptions, setTagOptions] = useState<IOption<string>[]>([]);
+
+  useEffect(() => {
+    getGroupTags({ groupId }).then((res) =>
+      setTagOptions(
+        res.map((tag) => {
+          return { value: tag, label: capitalize(tag) };
+        })
+      )
+    );
+  }, []);
 
   const handlePostTask = useCallback(() => {
     if (groupId) {
@@ -43,6 +57,7 @@ const TaskModal = ({
 
   const handlePutTask = useCallback(() => {
     console.log('test');
+    console.log('test2');
   }, []);
 
   return (
@@ -71,8 +86,7 @@ const TaskModal = ({
             selectedItems={tags}
             setSelectedItems={setTags}
             options={tagOptions}
-            setOptions={setTagOptions}
-            creation={true}
+            creatable={true}
           />
         </div>
         <div className="flex-column width-200">

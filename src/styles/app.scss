@@ -2,15 +2,16 @@
 @import 'borders';
 @import 'colors';
 @import 'cursor';
-@import 'custom';
 @import 'layout';
 @import 'shadows';
 @import 'spacing';
 @import 'text';
+@import 'custom';
 
 * {
   margin: 0;
   padding: 0;
+  color: inherit;
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;

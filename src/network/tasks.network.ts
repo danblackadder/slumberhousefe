@@ -8,23 +8,25 @@ export const useGroupTasks = ({ groupId, pauseStream }: { groupId: string | unde
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
-    const source = new EventSource(`${process.env.API_URL}/tasks/${groupId}`, { withCredentials: true });
+    if (groupId) {
+      const source = new EventSource(`${process.env.API_URL}/tasks/${groupId}`, { withCredentials: true });
 
-    source.onmessage = (e) => {
-      if (pauseStream) return;
-      setTasks(JSON.parse(e.data));
-    };
+      source.onmessage = (e) => {
+        if (pauseStream) return;
+        setTasks(JSON.parse(e.data));
+      };
 
-    source.onerror = (err: unknown) => {
-      if (pauseStream) return;
-      console.log(err);
-      setError('An error occured');
-      source.close();
-    };
+      source.onerror = (err: unknown) => {
+        if (pauseStream) return;
+        console.log(err);
+        setError('An error occured');
+        source.close();
+      };
 
-    return () => {
-      source.close();
-    };
+      return () => {
+        source.close();
+      };
+    }
   }, [groupId, pauseStream]);
 
   return { tasks, error };
@@ -34,6 +36,15 @@ export const postGroupTask = ({ groupId, title }: { groupId: string | undefined;
   return new Promise<AxiosResponse>((resolve, reject) => {
     axios
       .post(`/tasks/${groupId}`, { title, status: TaskStatus.DRAFT })
+      .then((res) => resolve(res.data))
+      .catch((err) => reject(err.response.data));
+  });
+};
+
+export const getGroupTags = ({ groupId }: { groupId: string | undefined }) => {
+  return new Promise<string[]>((resolve, reject) => {
+    axios
+      .get(`/tasks/${groupId}/tags`)
       .then((res) => resolve(res.data))
       .catch((err) => reject(err.response.data));
   });

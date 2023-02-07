@@ -80,14 +80,14 @@ const DatePicker = ({
   const wrapperRef = useRef<HTMLDivElement>(null);
   useClickOutside({ ref: wrapperRef, onClick: () => setOpen(false) });
 
-  const renderEndItem = () => {
+  const renderClearItem = () => {
     if (selectedDate && !required) {
       return (
         <div
-          className="hover-primary height-20 pointer"
+          className="absolute hover-primary height-20 pointer"
+          style={{ right: 30, bottom: 6 }}
           onClick={() => {
             setSelectedDate(undefined);
-            setOpen(false);
           }}
         >
           <MdClose size={20} />
@@ -95,11 +95,7 @@ const DatePicker = ({
       );
     }
 
-    return (
-      <div className="height-20 pointer" onClick={() => setOpen(true)}>
-        <MdArrowDropDown size={20} />
-      </div>
-    );
+    return null;
   };
 
   return (
@@ -113,12 +109,16 @@ const DatePicker = ({
           className={`height-32 padding-4 font-16 border-neutral padding-right-8 flex-row align-center pointer ${
             width ? `width-${width}` : 'full-width'
           }`}
+          onClick={() => setOpen(!open)}
         >
-          <div className="flex-1" onClick={() => setOpen(!open)}>
-            {selectedDate ? format(selectedDate, 'd MMMM yyyy') : placeholder}
+          <div className="flex-1 flex-row align-center justify-space-between">
+            {selectedDate ? format(selectedDate, 'd MMMM yyyy') : <span className="neutral-dark">{placeholder}</span>}
           </div>
-          {renderEndItem()}
+          <div className="height-20 pointer">
+            <MdArrowDropDown size={20} />
+          </div>
         </div>
+        {renderClearItem()}
         {open && (
           <div
             className="absolute right-0 border-neutral background-white"
