@@ -1,4 +1,5 @@
 import { capitalize } from 'utility/helper';
+
 import { IOption, IPagination } from './generic.types';
 
 export enum TabSettings {

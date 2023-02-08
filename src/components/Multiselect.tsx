@@ -2,13 +2,13 @@ import React, { Dispatch, SetStateAction, useCallback, useEffect, useRef, useSta
 import { MdArrowDropDown, MdClose } from 'react-icons/md';
 import ReactSelect from 'react-select';
 import CreatableReactSelect from 'react-select/creatable';
+import { ClearIndicatorProps, GroupBase } from 'react-select/dist/declarations/src';
 
 import useClickOutside from 'hooks/useClickOutside.hook';
+import { IOption } from 'models/generic.types';
 import { capitalize } from 'utility/helper';
 
 import Button from './Button';
-import { IOption } from 'models/generic.types';
-import { ClearIndicatorProps, GroupBase } from 'react-select/dist/declarations/src';
 
 const Multiselect = <T,>({
   id,

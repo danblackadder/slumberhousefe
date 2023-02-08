@@ -1,11 +1,11 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
 
-import { IGroup, IGroupAvailableUser, IGroupUserResponse } from 'models/group.types';
-import { GroupRole } from 'models/settings.types';
-import { useParams } from 'react-router-dom';
 import { GroupContext } from 'context/group.context';
 import { GroupContextActionTypes } from 'models/group.context.types';
+import { IGroup, IGroupAvailableUser, IGroupUserResponse } from 'models/group.types';
+import { GroupRole } from 'models/settings.types';
 
 export const getGroup = async ({ groupId }: { groupId: string }) => {
   return new Promise<IGroup>((resolve, reject) => {

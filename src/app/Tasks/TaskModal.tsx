@@ -7,9 +7,9 @@ import { TextArea, TextInput } from 'components/Forms';
 import Modal from 'components/Modal';
 import Multiselect from 'components/Multiselect';
 import Select from 'components/Select';
-import { TaskPriority, TaskPriorityOptions, TaskStatus, TaskStatusOptions } from 'models/task.types';
-import { getGroupTags, postGroupTask } from 'network/tasks.network';
 import { IOption } from 'models/generic.types';
+import { TaskPriority, TaskPriorityOptions, TaskStatus, TaskStatusOptions } from 'models/task.types';
+import { getTaskTags, getTaskUsers, postGroupTask } from 'network/tasks.network';
 import { capitalize } from 'utility/helper';
 
 const TaskModal = ({
@@ -24,18 +24,33 @@ const TaskModal = ({
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [status, setStatus] = useState<IOption<TaskStatus> | undefined>(
-    TaskStatusOptions.find((option) => option.value === TaskStatus.DRAFT)
+    TaskStatusOptions.find((option) => option.value === TaskStatus.BACKLOG)
   );
-  const [priority, setPriority] = useState<IOption<TaskPriority> | undefined>();
+  const [priority, setPriority] = useState<IOption<TaskPriority> | undefined>(
+    TaskPriorityOptions.find((option) => option.value === TaskPriority.LOW)
+  );
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [tags, setTags] = useState<IOption<string>[]>([]);
   const [tagOptions, setTagOptions] = useState<IOption<string>[]>([]);
+  const [users, setUsers] = useState<IOption<string>[]>([]);
+  const [userOptions, setUserOptions] = useState<IOption<string>[]>([]);
 
   useEffect(() => {
-    getGroupTags({ groupId }).then((res) =>
+    getTaskTags({ groupId }).then((res) =>
       setTagOptions(
         res.map((tag) => {
           return { value: tag, label: capitalize(tag) };
+        })
+      )
+    );
+
+    getTaskUsers({ groupId }).then((res) =>
+      setUserOptions(
+        res.map((user) => {
+          return {
+            value: user._id.toString(),
+            label: `${capitalize(user.firstName)} ${capitalize(user.lastName)} - ${user.email}`,
+          };
         })
       )
     );
@@ -43,7 +58,16 @@ const TaskModal = ({
 
   const handlePostTask = useCallback(() => {
     if (groupId) {
-      postGroupTask({ groupId, title })
+      postGroupTask({
+        groupId,
+        title,
+        description,
+        status: status?.value || TaskStatus.BACKLOG,
+        priority: priority?.value,
+        due: selectedDate,
+        tags: tags.map((tag) => tag.value),
+        users: users.map((user) => user.value),
+      })
         .then(() => {
           onClose();
           toast.success('Task successfully added');
@@ -53,7 +77,7 @@ const TaskModal = ({
           toast.error('Something went wrong...');
         });
     }
-  }, [groupId, title, onClose]);
+  }, [groupId, title, description, status, priority, selectedDate, tags, users, onClose]);
 
   const handlePutTask = useCallback(() => {
     console.log('test');
@@ -61,7 +85,7 @@ const TaskModal = ({
   }, []);
 
   return (
-    <Modal onClose={onClose} width={800}>
+    <Modal onClose={onClose} width={700}>
       <div className="flex-row flex-gap full-width">
         <div className="flex-column flex-1">
           <TextInput
@@ -80,6 +104,37 @@ const TaskModal = ({
               setDescription(event.currentTarget.value);
             }}
           />
+          <div className="flex-row align-center justify-space-between">
+            <div className="flex-1 margin-right-8">
+              <Select
+                id="status"
+                label="Status"
+                selectedItem={status}
+                setSelectedItem={setStatus}
+                options={TaskStatusOptions}
+                required={true}
+              />
+            </div>
+            <div className="flex-1">
+              <Select
+                id="priority"
+                label="Priority"
+                selectedItem={priority}
+                setSelectedItem={setPriority}
+                options={TaskPriorityOptions}
+                required={true}
+              />
+            </div>
+            <div className="flex-1 margin-left-8">
+              <DatePicker
+                id="date"
+                label="Due date"
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
+                placeholder="Select date..."
+              />
+            </div>
+          </div>
           <Multiselect
             id="tags"
             label="Tags"
@@ -88,29 +143,12 @@ const TaskModal = ({
             options={tagOptions}
             creatable={true}
           />
-        </div>
-        <div className="flex-column width-200">
-          <Select
-            id="status"
-            label="Status"
-            selectedItem={status}
-            setSelectedItem={setStatus}
-            options={TaskStatusOptions}
-            required={true}
-          />
-          <Select
-            id="priority"
-            label="Priority"
-            selectedItem={priority}
-            setSelectedItem={setPriority}
-            options={TaskPriorityOptions}
-          />
-          <DatePicker
-            id="date"
-            label="Due date"
-            selectedDate={selectedDate}
-            setSelectedDate={setSelectedDate}
-            placeholder="Select date..."
+          <Multiselect
+            id="users"
+            label="Users"
+            selectedItems={users}
+            setSelectedItems={setUsers}
+            options={userOptions}
           />
         </div>
       </div>

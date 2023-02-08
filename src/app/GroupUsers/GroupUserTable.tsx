@@ -6,9 +6,9 @@ import Pagination from 'components/Pagination';
 import TableHeader from 'components/TableHeader';
 import { IPagination } from 'models/generic.types';
 import { IGroupUser } from 'models/group.types';
+import { useGroup } from 'network/group.network';
 
 import GroupUserItem from './GroupUserItem';
-import { useGroup } from 'network/group.network';
 
 const GroupUserTable = ({
   loading,

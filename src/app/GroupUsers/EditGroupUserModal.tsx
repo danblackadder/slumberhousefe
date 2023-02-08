@@ -4,10 +4,10 @@ import { toast } from 'react-toastify';
 import Button from 'components/Button';
 import Modal from 'components/Modal';
 import Select from 'components/Select';
+import { IOption } from 'models/generic.types';
 import { IGroup, IGroupUser } from 'models/group.types';
 import { GroupRole, GroupRoleOptions } from 'models/settings.types';
 import { putGroupUser } from 'network/group.network';
-import { IOption } from 'models/generic.types';
 
 const EditGroupUserModal = ({
   user,

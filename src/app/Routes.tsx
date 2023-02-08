@@ -3,6 +3,7 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 import { UserContext } from 'context/user.context';
 import { GroupRole, OrganizationRole } from 'models/settings.types';
+import { useGroup } from 'network/group.network';
 
 import { Login, Register } from './Authentication';
 import { Chat } from './Chat';
@@ -15,7 +16,6 @@ import { Profile } from './Profile';
 import { Reporting } from './Reporting';
 import { Settings } from './Settings';
 import { Tasks } from './Tasks';
-import { useGroup } from 'network/group.network';
 
 const AuthenticatedRoute = () => {
   const { state } = useContext(UserContext);
@@ -42,7 +42,7 @@ const AdminRoute = () => {
     ![OrganizationRole.OWNER, OrganizationRole.ADMIN].includes(userState.user.role) &&
     ![GroupRole.ADMIN].includes(group.role)
   ) {
-    return <Navigate to={`/${groupId}/`} replace />;
+    return <Navigate to={`/groups/${groupId}/`} replace />;
   }
 
   return (

@@ -5,10 +5,10 @@ import Button from 'components/Button';
 import { TextInput } from 'components/Forms';
 import Modal from 'components/Modal';
 import Select from 'components/Select';
+import { IOption } from 'models/generic.types';
 import { IUserSetting, OrganizationRole, OrganizationRoleOptions } from 'models/settings.types';
 import { putSettingsUser } from 'network/settings.network';
 import { capitalize } from 'utility/helper';
-import { IOption } from 'models/generic.types';
 
 const EditUserModal = ({
   user,
