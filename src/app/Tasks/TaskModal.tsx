@@ -12,15 +12,7 @@ import { TaskPriority, TaskPriorityOptions, TaskStatus, TaskStatusOptions } from
 import { getTaskTags, getTaskUsers, postGroupTask } from 'network/tasks.network';
 import { capitalize } from 'utility/helper';
 
-const TaskModal = ({
-  groupId,
-  onClose,
-  edit,
-}: {
-  groupId: string | undefined;
-  onClose: () => void;
-  edit?: boolean;
-}) => {
+const TaskModal = ({ groupId, onClose }: { groupId: string | undefined; onClose: () => void }) => {
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [status, setStatus] = useState<IOption<TaskStatus> | undefined>(
@@ -78,11 +70,6 @@ const TaskModal = ({
         });
     }
   }, [groupId, title, description, status, priority, selectedDate, tags, users, onClose]);
-
-  const handlePutTask = useCallback(() => {
-    console.log('test');
-    console.log('test2');
-  }, []);
 
   return (
     <Modal onClose={onClose} width={700}>
@@ -154,11 +141,7 @@ const TaskModal = ({
       </div>
       <div className="flex-row full-width align-center justify-space-between margin-top-16">
         <Button text="Cancel" width={160} onClick={onClose} />
-        <Button
-          text={edit ? 'Update task' : 'Create task'}
-          width={160}
-          onClick={() => (edit ? handlePutTask() : handlePostTask())}
-        />
+        <Button text="Create task" width={160} onClick={() => handlePostTask()} />
       </div>
     </Modal>
   );

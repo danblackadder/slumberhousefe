@@ -38,6 +38,10 @@ export interface ITask {
   due?: string;
   tags?: string[];
   users?: ITaskUser[];
+  createdAt: string;
+  createdBy: ITaskUser;
+  updatedAt: string;
+  updatedBy: ITaskUser;
 }
 
 export enum ViewMode {

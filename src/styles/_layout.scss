@@ -142,3 +142,13 @@ $size: 0;
 .display-none {
   display: none;
 }
+
+.hover-z-index {
+  &:hover {
+    z-index: 1;
+  }
+}
+
+.z-index {
+  z-index: 1;
+}

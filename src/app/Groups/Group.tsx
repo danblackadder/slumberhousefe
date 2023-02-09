@@ -4,14 +4,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import Truncate from 'react-truncate';
 
 import { IGroup } from 'models/group.types';
+import { GroupContextActionTypes } from 'models/group.context.types';
+import { GroupContext } from 'context/group.context';
 
 const Group = ({ group }: { group: IGroup }) => {
+  const { dispatch } = useContext(GroupContext);
   const { _id: groupId, name, description, image, users } = group;
 
   return (
     <Link
       className="relative flex-column height-256 width-256 border-primary pointer"
       to={`/groups/${groupId.toString()}/`}
+      onClick={() => dispatch({ type: GroupContextActionTypes.SET_GROUP, payload: { group } })}
     >
       <div
         className="full-height full-width hover-background-primary-shadow absolute top-0 left-0"

@@ -1,11 +1,14 @@
-import React, { useCallback } from 'react';
-import { MdDateRange, MdErrorOutline, MdPeopleAlt, MdPriorityHigh } from 'react-icons/md';
+import React, { useCallback, useEffect, useState } from 'react';
+import { MdErrorOutline } from 'react-icons/md';
 
 import Loading from 'components/Loading';
 import { GroupBy, ITask, TaskPriority, TaskStatus, ViewMode } from 'models/task.types';
 import { capitalize } from 'utility/helper';
 import Accordion from 'components/Accordion';
-import { format, parseISO } from 'date-fns';
+import TaskItem from './TaskItem';
+import { IOption } from 'models/generic.types';
+import { getTaskTags, getTaskUsers } from 'network/tasks.network';
+import { useGroup } from 'network/group.network';
 
 const TaskTable = ({
   tasks,
@@ -20,6 +23,32 @@ const TaskTable = ({
   viewMode: ViewMode;
   groupBy: GroupBy;
 }) => {
+  const { groupId } = useGroup();
+
+  const [tagOptions, setTagOptions] = useState<IOption<string>[]>([]);
+  const [userOptions, setUserOptions] = useState<IOption<string>[]>([]);
+
+  useEffect(() => {
+    getTaskTags({ groupId }).then((res) =>
+      setTagOptions(
+        res.map((tag) => {
+          return { value: tag, label: capitalize(tag) };
+        })
+      )
+    );
+
+    getTaskUsers({ groupId }).then((res) =>
+      setUserOptions(
+        res.map((user) => {
+          return {
+            value: user._id.toString(),
+            label: `${capitalize(user.firstName)} ${capitalize(user.lastName)} - ${user.email}`,
+          };
+        })
+      )
+    );
+  }, []);
+
   const taskGroups = useCallback(() => {
     switch (groupBy) {
       case GroupBy.STATUS:
@@ -56,34 +85,16 @@ const TaskTable = ({
 
         return (
           <Accordion header={`${capitalize(group as string)} - ${tasks.length}`}>
-            {tasks.map((task) => {
-              console.log(task.due);
-              return (
-                <div className="flex-row align-center border-top-neutral padding-vertical-8 padding-horizontal-8">
-                  <div className="flex-1">{task.title}</div>
-                  <div className="margin-horizontal-4 flex-row align-center padding-4 background-primary white">
-                    <div className="margin-right-4">
-                      <MdPriorityHigh size={12} />
-                    </div>
-                    <div>{task.priority}</div>
-                  </div>
-                  {task.due && (
-                    <div className="margin-horizontal-4 flex-row align-center padding-4 background-primary white">
-                      <div className="margin-right-4">
-                        <MdDateRange size={12} />
-                      </div>
-                      <div>{format(parseISO(task.due), 'dd-MM-yyyy')}</div>
-                    </div>
-                  )}
-                  <div className="margin-horizontal-4 flex-row align-center padding-4 background-primary white">
-                    <div className="margin-right-4">
-                      <MdPeopleAlt size={12} />
-                    </div>
-                    <div>{task?.users?.length}</div>
-                  </div>
-                </div>
-              );
-            })}
+            {tasks.length > 0 ? (
+              tasks.map((task) => <TaskItem task={task} tagOptions={tagOptions} userOptions={userOptions} />)
+            ) : (
+              <div
+                className="relative flex-row justify-center padding-8 border-neutral height-40"
+                style={{ margin: '0 -2px -2px -2px' }}
+              >
+                There are currently no tasks to display for this group.
+              </div>
+            )}
           </Accordion>
         );
       });
