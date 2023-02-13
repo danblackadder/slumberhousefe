@@ -11,6 +11,10 @@ $align: flex-start flex-end stretch center;
   .align-#{$direction} {
     align-items: $direction;
   }
+
+  .align-self-#{$direction} {
+    align-self: $direction;
+  }
 }
 
 $flex: row column row-reverse column-reverse;

@@ -5,7 +5,6 @@ import Button from 'components/Button';
 import Modal from 'components/Modal';
 import Select from 'components/Select';
 import { IOption } from 'models/generic.types';
-import { IGroupAvailableUser } from 'models/group.types';
 import { GroupRole, GroupRoleOptions } from 'models/settings.types';
 import { getGroupAvailableUsers, postGroupUsers } from 'network/group.network';
 

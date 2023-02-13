@@ -20,7 +20,7 @@ const Sidebar = () => {
   }, [userState, group]);
 
   return (
-    <div className="absolute left-0 top-0 shadow-light width-80 full-vh">
+    <div className="fixed left-0 top-0 shadow-light width-80 full-vh">
       <div className="padding-top-128 full-height padding-bottom-32">
         <div className="full-height flex-column justify-space-between">
           <div className="flex-column align-center flex-1">

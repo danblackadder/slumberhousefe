@@ -1,14 +1,10 @@
-import React, { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { MdArrowDropDown, MdClose } from 'react-icons/md';
 import ReactSelect from 'react-select';
 import CreatableReactSelect from 'react-select/creatable';
-import { ClearIndicatorProps, GroupBase } from 'react-select/dist/declarations/src';
+import { ClearIndicatorProps, GroupBase, MultiValueRemoveProps } from 'react-select/dist/declarations/src';
 
-import useClickOutside from 'hooks/useClickOutside.hook';
 import { IOption } from 'models/generic.types';
-import { capitalize } from 'utility/helper';
-
-import Button from './Button';
 
 const Multiselect = <T,>({
   id,
@@ -69,7 +65,7 @@ const Multiselect = <T,>({
           components={{
             DropdownIndicator,
             ClearIndicator,
-            MultiValueRemove: (props) => {
+            MultiValueRemove: (props: MultiValueRemoveProps<IOption<T>, true, GroupBase<IOption<T>>>) => {
               return (
                 <div {...props.innerProps}>
                   <MdClose size={16} />

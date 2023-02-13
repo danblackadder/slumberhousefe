@@ -44,11 +44,6 @@ export interface ITask {
   updatedBy: ITaskUser;
 }
 
-export enum ViewMode {
-  ROW = 1,
-  COLUMN = 2,
-}
-
 export enum GroupBy {
   STATUS = 1,
   PRIORITY = 2,

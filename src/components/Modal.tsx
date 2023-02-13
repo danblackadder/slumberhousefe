@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { MdClose } from 'react-icons/md';
 
 const Modal = ({
@@ -10,6 +10,15 @@ const Modal = ({
   width?: number;
   children: JSX.Element | JSX.Element[] | false;
 }) => {
+  useEffect(() => {
+    document.body.style.overflowY = 'hidden';
+    document.body.style.paddingRight = '5px';
+
+    return () => {
+      document.body.style.overflowY = 'scroll';
+      document.body.style.paddingRight = '0';
+    };
+  }, []);
   return (
     <div className="fixed top-0 right-0 bottom-0 left-0 center-items" style={{ zIndex: 1000 }}>
       <div className="fixed top-0 right-0 bottom-0 left-0 center-items background-shadow" onClick={onClose} />

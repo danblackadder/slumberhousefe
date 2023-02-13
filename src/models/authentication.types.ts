@@ -19,4 +19,5 @@ export interface IUser {
   lastName: string;
   email: string;
   role: OrganizationRole;
+  image?: string;
 }

@@ -4,9 +4,10 @@ import { BiHide, BiShow } from 'react-icons/bi';
 
 export const TextInput = ({
   id,
-  label,
   value,
+  label,
   onChange,
+  onClick,
   errors,
   password,
   autocomplete,
@@ -14,11 +15,14 @@ export const TextInput = ({
   disabled,
   inline,
   placeholder,
+  autoFocus,
+  ref,
 }: {
   id: string;
-  label: string;
   value: string;
+  label?: string;
   onChange?: (event: React.FormEvent<HTMLInputElement>) => void;
+  onClick?: () => void;
   errors?: string[];
   password?: boolean;
   autocomplete?: string;
@@ -26,11 +30,13 @@ export const TextInput = ({
   disabled?: boolean;
   inline?: boolean;
   placeholder?: string;
+  autoFocus?: boolean;
+  ref?: React.RefObject<HTMLInputElement>;
 }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   return (
     <div className={`relative margin-vertical-8 ${inline ? 'flex-row align-center' : 'flex-column align-stretch'}`}>
-      <div className={`margin-bottom-4 ${inline && 'margin-right-8'}`}>{label}</div>
+      {label && <div className={`margin-bottom-4 ${inline && 'margin-right-8'}`}>{label}</div>}
       <div className={`${width ? `width-${width}` : 'full-width'}`}>
         <input
           type={password && !showPassword ? 'password' : 'text'}
@@ -44,6 +50,9 @@ export const TextInput = ({
           autoComplete={autocomplete}
           placeholder={placeholder}
           disabled={disabled}
+          onClick={onClick}
+          autoFocus={autoFocus}
+          ref={ref}
         />
         {password && (
           <div
@@ -70,6 +79,7 @@ export const TextArea = ({
   id,
   label,
   onChange,
+  onClick,
   value,
   errors,
   width,
@@ -77,6 +87,7 @@ export const TextArea = ({
   id: string;
   label: string;
   onChange: (event: React.FormEvent<HTMLTextAreaElement>) => void;
+  onClick?: () => void;
   value: string;
   errors?: string[];
   width?: number;
@@ -88,6 +99,7 @@ export const TextArea = ({
         id={id}
         name={id}
         onChange={onChange}
+        onClick={onClick}
         value={value}
         className="height-128 padding-4 font-16 resize-none border-neutral focus-primary"
       />
@@ -102,7 +114,7 @@ export const TextArea = ({
   );
 };
 
-interface AcceptedFile {
+export interface AcceptedFile {
   name: string;
   preview: string;
 }

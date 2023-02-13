@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MdDelete, MdEdit } from 'react-icons/md';
 
-import { IGroup, IGroupUser } from 'models/group.types';
+import { IGroupUser } from 'models/group.types';
 import { capitalize, getFullName } from 'utility/helper';
 
 import EditUserModal from './EditGroupUserModal';

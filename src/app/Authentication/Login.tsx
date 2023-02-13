@@ -90,7 +90,9 @@ const Login = () => {
               autocomplete="current-password"
             />
           </div>
-          <Button text="Login" type="submit" />
+          <div className="margin-bottom-8">
+            <Button text="Login" type="submit" />
+          </div>
           <Link to="/register">
             <Button text="Register" />
           </Link>

@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios';
 
 import { ITask, ITaskUser, TaskPriority, TaskStatus } from 'models/task.types';
 
-export const useGroupTasks = ({ groupId, pauseStream }: { groupId: string | undefined; pauseStream: boolean }) => {
+export const useGroupTasks = ({ groupId }: { groupId: string | undefined }) => {
   const [tasks, setTasks] = useState<ITask[]>([]);
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
@@ -13,14 +13,12 @@ export const useGroupTasks = ({ groupId, pauseStream }: { groupId: string | unde
       const source = new EventSource(`${process.env.API_URL}/tasks/${groupId}`, { withCredentials: true });
 
       source.onmessage = (e) => {
-        if (pauseStream) return;
         console.log(JSON.parse(e.data));
         setTasks(JSON.parse(e.data));
         setLoading(false);
       };
 
       source.onerror = (err: unknown) => {
-        if (pauseStream) return;
         console.log(err);
         setError('An error occured');
         source.close();
@@ -31,7 +29,8 @@ export const useGroupTasks = ({ groupId, pauseStream }: { groupId: string | unde
         source.close();
       };
     }
-  }, [groupId, pauseStream]);
+    return undefined;
+  }, [groupId]);
 
   return { tasks, error, loading };
 };
@@ -76,6 +75,43 @@ export const getTaskUsers = ({ groupId }: { groupId: string | undefined }) => {
   return new Promise<ITaskUser[]>((resolve, reject) => {
     axios
       .get(`/tasks/${groupId}/users`)
+      .then((res) => resolve(res.data))
+      .catch((err) => reject(err.response.data));
+  });
+};
+
+export const putGroupTask = ({
+  groupId,
+  taskId,
+  title,
+  status,
+  description,
+  priority,
+  due,
+  tags,
+  users,
+}: {
+  groupId: string | undefined;
+  taskId: string | undefined;
+  title: string;
+  status: TaskStatus;
+  description?: string;
+  priority?: TaskPriority;
+  due?: Date;
+  tags?: string[];
+  users?: string[];
+}) => {
+  return new Promise<AxiosResponse>((resolve, reject) => {
+    axios
+      .put(`/tasks/${groupId}/${taskId}`, {
+        title,
+        status,
+        description,
+        priority,
+        due,
+        tags,
+        users,
+      })
       .then((res) => resolve(res.data))
       .catch((err) => reject(err.response.data));
   });

@@ -116,7 +116,9 @@ const Register = () => {
               autocomplete="new-password"
             />
           </div>
-          <Button text="Register" type="submit" />
+          <div className="margin-bottom-8">
+            <Button text="Register" type="submit" />
+          </div>
           <Link to="/login">
             <Button text="Cancel" />
           </Link>

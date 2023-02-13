@@ -28,6 +28,7 @@
 
 .react-select-container {
   @extend .pointer;
+  @extend .flex-1;
   .react-select__control {
     @extend .min-height-32;
     @extend .border-radius-none;
@@ -57,13 +58,12 @@
       }
       .react-select__multi-value {
         @extend .margin-0;
-        @extend .border-radius-none;
-        @extend .background-primary;
+        @extend .border-radius;
+        @extend .background-neutral-dark;
         @extend .white;
         @extend .font-14;
         @extend .margin-right-4;
         @extend .margin-vertical-4;
-        @extend .text-upper;
         .react-select__multi-value__label {
           @extend .white;
         }
@@ -71,6 +71,10 @@
           @extend .flex;
           @extend .align-center;
           @extend .padding-horizontal-4;
+          border-top-right-radius: 4px;
+          border-bottom-right-radius: 4px;
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
           &:hover {
             @extend .background-primary;
             @extend .white;
@@ -85,6 +89,9 @@
     @extend .border-neutral;
     @extend .shadow-none;
     top: calc(100% - 2px);
+    .react-select__menu-list {
+      @extend .max-height-200;
+    }
     .react-select__option {
       @extend .pointer;
       &.react-select__option--is-focused {

@@ -37,11 +37,13 @@ const UserMenu = () => {
   ];
 
   return (
-    <div className="relative">
+    <div className="relative height-32 width-32">
       <div
-        className="pointer border-circle-primary background-black height-32 width-32"
+        className="relative pointer border-circle-none background-neutral hover-border-primary center-items overflow-hidden"
         onClick={() => setActive(true)}
-      />
+      >
+        {state.user?.image && <img src={state.user.image} className="center-image" />}
+      </div>
       {active && <Dropdown items={menuItems} width={200} onClose={() => setActive(false)} />}
     </div>
   );

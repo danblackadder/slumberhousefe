@@ -25,7 +25,7 @@ const Button = ({
               variation === 'inline' && 'black hover-primary'
             }`
       } center-items font-16 ${
-        variation === 'default' && 'background-white padding-horizontal-16 margin-vertical-8 padding-vertical-8'
+        variation === 'default' && 'background-white padding-horizontal-16 padding-vertical-4 height-32'
       } ${variation === 'inline' && 'outline-none border-none background-none'}`}
       onClick={onClick}
     >

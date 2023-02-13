@@ -1,6 +1,6 @@
-import React, { Dispatch, SetStateAction, useCallback, useRef, useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { MdArrowDropDown, MdClose } from 'react-icons/md';
-import ReactSelect from 'react-select';
+import ReactSelect, { ClearIndicatorProps, GroupBase } from 'react-select';
 
 import { IOption } from 'models/generic.types';
 
@@ -47,7 +47,7 @@ const Select = <T,>({
               <MdArrowDropDown size={20} />
             </div>
           ),
-          ClearIndicator: (props) => (
+          ClearIndicator: (props: ClearIndicatorProps<IOption<T>, false, GroupBase<IOption<T>>>) => (
             <div onClick={() => props.clearValue()} {...props.innerProps} className="height-20 hover-primary">
               <MdClose size={20} />
             </div>

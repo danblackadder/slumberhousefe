@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { MdPeople } from 'react-icons/md';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Truncate from 'react-truncate';
 
-import { IGroup } from 'models/group.types';
-import { GroupContextActionTypes } from 'models/group.context.types';
 import { GroupContext } from 'context/group.context';
+import { GroupContextActionTypes } from 'models/group.context.types';
+import { IGroup } from 'models/group.types';
 
 const Group = ({ group }: { group: IGroup }) => {
   const { dispatch } = useContext(GroupContext);

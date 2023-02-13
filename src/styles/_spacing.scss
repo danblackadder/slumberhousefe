@@ -69,6 +69,14 @@ $directions: top bottom left right;
   margin: 0 auto;
 }
 
+.margin-left-auto {
+  margin-left: auto;
+}
+
+.margin-right-auto {
+  margin-right: auto;
+}
+
 @each $direction in $directions {
   @each $size in $sizes {
     .#{$direction}-#{$size} {

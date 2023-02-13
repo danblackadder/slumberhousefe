@@ -1,63 +1,33 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { MdErrorOutline } from 'react-icons/md';
+import React, { Dispatch, SetStateAction, useCallback } from 'react';
 
-import Loading from 'components/Loading';
-import { GroupBy, ITask, TaskPriority, TaskStatus, ViewMode } from 'models/task.types';
-import { capitalize } from 'utility/helper';
 import Accordion from 'components/Accordion';
+import Loading from 'components/Loading';
+import { GroupBy, ITask, TaskPriority, TaskStatus } from 'models/task.types';
+import { capitalize } from 'utility/helper';
+
 import TaskItem from './TaskItem';
-import { IOption } from 'models/generic.types';
-import { getTaskTags, getTaskUsers } from 'network/tasks.network';
-import { useGroup } from 'network/group.network';
 
 const TaskTable = ({
   tasks,
-  error,
   loading,
-  viewMode,
   groupBy,
+  setActiveTask,
 }: {
   tasks: ITask[];
-  error: string;
   loading: boolean;
-  viewMode: ViewMode;
   groupBy: GroupBy;
+  setActiveTask: Dispatch<SetStateAction<string | undefined>>;
 }) => {
-  const { groupId } = useGroup();
-
-  const [tagOptions, setTagOptions] = useState<IOption<string>[]>([]);
-  const [userOptions, setUserOptions] = useState<IOption<string>[]>([]);
-
-  useEffect(() => {
-    getTaskTags({ groupId }).then((res) =>
-      setTagOptions(
-        res.map((tag) => {
-          return { value: tag, label: capitalize(tag) };
-        })
-      )
-    );
-
-    getTaskUsers({ groupId }).then((res) =>
-      setUserOptions(
-        res.map((user) => {
-          return {
-            value: user._id.toString(),
-            label: `${capitalize(user.firstName)} ${capitalize(user.lastName)} - ${user.email}`,
-          };
-        })
-      )
-    );
-  }, []);
-
   const taskGroups = useCallback(() => {
     switch (groupBy) {
       case GroupBy.STATUS:
         return Object.values(TaskStatus);
       case GroupBy.PRIORITY:
         return Object.values(TaskPriority);
-      default:
+      default: {
         const exhaustiveCheck: never = groupBy;
         throw new Error(`Unhandled case: ${exhaustiveCheck}`);
+      }
     }
   }, [groupBy, tasks]);
 
@@ -68,59 +38,43 @@ const TaskTable = ({
           return tasks.filter((task) => task.status === group);
         case GroupBy.PRIORITY:
           return tasks.filter((task) => task.priority === group);
-        default:
+        default: {
           const exhaustiveCheck: never = groupBy;
           throw new Error(`Unhandled case: ${exhaustiveCheck}`);
+        }
       }
     },
     [groupBy, tasks]
   );
 
-  const renderView = () => {
+  const renderView = useCallback(() => {
     const groups = taskGroups();
 
-    if (viewMode === ViewMode.ROW) {
-      return groups.map((group) => {
-        const tasks = groupTasks(group as string);
+    return groups.map((group) => {
+      const renderTasks = groupTasks(group as string);
 
-        return (
-          <Accordion header={`${capitalize(group as string)} - ${tasks.length}`}>
-            {tasks.length > 0 ? (
-              tasks.map((task) => <TaskItem task={task} tagOptions={tagOptions} userOptions={userOptions} />)
-            ) : (
-              <div
-                className="relative flex-row justify-center padding-8 border-neutral height-40"
-                style={{ margin: '0 -2px -2px -2px' }}
-              >
-                There are currently no tasks to display for this group.
-              </div>
-            )}
-          </Accordion>
-        );
-      });
-    }
-
-    if (viewMode === ViewMode.COLUMN) {
-      return tasks.map((task) => <div key={task._id}>{task.title}</div>);
-    }
-
-    return null;
-  };
+      return (
+        <Accordion key={group} header={`${capitalize(group as string)} - ${renderTasks.length}`}>
+          {renderTasks.length > 0 ? (
+            renderTasks.map((task) => <TaskItem key={task._id} setActiveTask={setActiveTask} task={task} />)
+          ) : (
+            <div
+              className="relative flex-row justify-center padding-8 border-neutral height-40"
+              style={{ margin: '0 -2px -2px -2px' }}
+            >
+              There are currently no tasks to display for this group.
+            </div>
+          )}
+        </Accordion>
+      );
+    });
+  }, [tasks, groupBy]);
 
   if (loading) {
     return <Loading color="primary" height={512} />;
   }
 
-  if (tasks.length > 0) {
-    return <div className="flex-column margin-vertical-16">{renderView()}</div>;
-  }
-
-  return (
-    <div className="flex-column full-width align-center padding-vertical-64 text-center">
-      <MdErrorOutline size={128} className="primary margin-bottom-8" />
-      <div>{error}</div>
-    </div>
-  );
+  return <div className="flex-column margin-vertical-16">{renderView()}</div>;
 };
 
 export default TaskTable;

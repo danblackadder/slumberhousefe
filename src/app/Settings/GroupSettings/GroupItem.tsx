@@ -1,7 +1,9 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { MdDelete, MdEdit, MdOpenInNew, MdPeople } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
+import { GroupContext } from 'context/group.context';
+import { GroupContextActionTypes } from 'models/group.context.types';
 import { IGroupSetting } from 'models/settings.types';
 import { getGroupName } from 'utility/helper';
 
@@ -9,6 +11,7 @@ import DeleteGroupModal from './DeleteGroupModal';
 import GroupModal from './GroupModal';
 
 const GroupItem = ({ group, updateGroups }: { group: IGroupSetting; updateGroups: () => void }) => {
+  const { dispatch } = useContext(GroupContext);
   const [editModal, setEditModal] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
 
@@ -20,13 +23,15 @@ const GroupItem = ({ group, updateGroups }: { group: IGroupSetting; updateGroups
         <div className="flex-1 flex-row justify-flex-end">
           <Link
             className="height-40 width-40 center-items pointer black hover-primary"
-            to={`/groups/${group._id}/users`}
+            to={`/groups/${group._id}/dashboard`}
+            onClick={() => dispatch({ type: GroupContextActionTypes.SET_GROUP, payload: { group } })}
           >
             <MdOpenInNew size={16} />
           </Link>
           <Link
             className="height-40 width-40 center-items pointer black hover-primary"
-            to={`/groups/${group._id}/dashboard`}
+            to={`/groups/${group._id}/users`}
+            onClick={() => dispatch({ type: GroupContextActionTypes.SET_GROUP, payload: { group } })}
           >
             <MdPeople size={16} />
           </Link>
