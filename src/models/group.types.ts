@@ -1,5 +1,5 @@
-import { IUser } from './authentication.types';
 import { IPagination } from './generic.types';
+import { IUser } from './profile.types';
 import { GroupRole } from './settings.types';
 
 export interface IGroup {

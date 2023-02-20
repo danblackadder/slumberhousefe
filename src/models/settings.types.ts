@@ -1,7 +1,7 @@
 import { capitalize } from 'utility/helper';
 
-import { IUser } from './authentication.types';
 import { IOption, IPagination } from './generic.types';
+import { IUser } from './profile.types';
 
 export enum TabSettings {
   ORGANIZATION = 'organization',
