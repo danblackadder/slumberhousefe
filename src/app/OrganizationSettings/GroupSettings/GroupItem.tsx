@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 
 import { GroupContext } from 'context/group.context';
 import { GroupContextActionTypes } from 'models/group.context.types';
-import { IGroupSetting } from 'models/settings.types';
 import { getGroupName } from 'utility/helper';
 
 import DeleteGroupModal from './DeleteGroupModal';
+import { IGroup } from 'models/group.types';
 
-const GroupItem = ({ group, updateGroups }: { group: IGroupSetting; updateGroups: () => void }) => {
+const GroupItem = ({ group, updateGroups }: { group: IGroup; updateGroups: () => void }) => {
   const { dispatch } = useContext(GroupContext);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
 

@@ -4,8 +4,7 @@ import { toast } from 'react-toastify';
 import Button from 'components/Button';
 import { FileUpload, TextArea, TextInput } from 'components/Forms';
 import Modal from 'components/Modal';
-import { IGroupErrors } from 'models/group.types';
-import { IGroupSetting } from 'models/settings.types';
+import { IGroup, IGroupErrors } from 'models/group.types';
 import { postSettingsGroups } from 'network/settings.network';
 import { getGroupName } from 'utility/helper';
 
@@ -16,7 +15,7 @@ const GroupModal = ({
 }: {
   updateGroups: () => void;
   onClose: () => void;
-  group?: IGroupSetting;
+  group?: IGroup;
 }) => {
   const [name, setName] = useState<string>(getGroupName({ name: group?.name }) || '');
   const [description, setDescription] = useState<string>(group?.description || '');

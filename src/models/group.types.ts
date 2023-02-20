@@ -1,11 +1,13 @@
 import { IPagination } from './generic.types';
 import { IUser } from './profile.types';
 import { GroupRole } from './settings.types';
+import { IWidget } from './widget.types';
 
 export interface IGroup {
   _id: string;
   name: string;
   users: IUser[];
+  widgets: IWidget[];
   role: GroupRole;
   description?: string;
   image?: string;

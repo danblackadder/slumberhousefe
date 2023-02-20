@@ -5,9 +5,9 @@ import Loading from 'components/Loading';
 import Pagination from 'components/Pagination';
 import TableHeader from 'components/TableHeader';
 import { IPagination } from 'models/generic.types';
-import { IGroupSetting } from 'models/settings.types';
 
 import GroupItem from './GroupItem';
+import { IGroup } from 'models/group.types';
 
 const GroupTable = ({
   loading,
@@ -22,7 +22,7 @@ const GroupTable = ({
   setPage,
 }: {
   loading: boolean;
-  groups: IGroupSetting[];
+  groups: IGroup[];
   resetSort: () => void;
   sortName: number;
   setSortName: Dispatch<SetStateAction<number>>;

@@ -17,12 +17,12 @@ const GroupSettings = () => {
   const [name, setName] = useState<string>(getGroupName({ name: group?.name }) || '');
   const [description, setDescription] = useState<string>(group?.description || '');
   const [image, setImage] = useState<File[]>();
-  const [widgetIds, setWidgetIds] = useState<string[]>([]);
+  const [widgetIds, setWidgetIds] = useState<string[]>(group?.widgets ? group.widgets.map((widget) => widget._id) : []);
   const [errors, setErrors] = useState<IGroupErrors>();
 
   const handlePutGroup = useCallback(() => {
     if (groupId) {
-      putGroup({ id: groupId, name, description, image })
+      putGroup({ id: groupId, name, description, image, widgets: widgetIds })
         .then(() => {
           updateGroup();
           toast.success('Group has been successfully updated.');
@@ -32,7 +32,7 @@ const GroupSettings = () => {
           toast.error('Something went wrong...');
         });
     }
-  }, [group, name, description, image]);
+  }, [group, name, description, image, widgetIds]);
 
   const handleWidgetId = (id: string) => {
     if (widgetIds.includes(id)) {

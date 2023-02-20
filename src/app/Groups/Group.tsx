@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { MdPeople } from 'react-icons/md';
+import { MdPeople, MdWidgets } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import Truncate from 'react-truncate';
 
@@ -9,7 +9,7 @@ import { IGroup } from 'models/group.types';
 
 const Group = ({ group }: { group: IGroup }) => {
   const { dispatch } = useContext(GroupContext);
-  const { _id: groupId, name, description, image, users } = group;
+  const { _id: groupId, name, description, image, widgets, users } = group;
 
   return (
     <Link
@@ -29,11 +29,17 @@ const Group = ({ group }: { group: IGroup }) => {
       <div className="relative flex-column flex-1 padding-8">
         <div className="font-24 margin-bottom-4 primary">{name.toUpperCase()}</div>
         <div className="flex-1">
-          <Truncate lines={4}>{description}</Truncate>
+          <Truncate lines={2}>{description}</Truncate>
         </div>
         <div className="flex-row full-width justify-flex-end align-center primary">
-          <MdPeople />
-          <span className="margin-left-4 font-12">{users.length}</span>
+          <div className="flex-row align-center margin-right-8">
+            <MdWidgets />
+            <span className="margin-left-4 font-12">{widgets.length}</span>
+          </div>
+          <div className="flex-row align-center">
+            <MdPeople />
+            <span className="margin-left-4 font-12">{users.length}</span>
+          </div>
         </div>
       </div>
     </Link>

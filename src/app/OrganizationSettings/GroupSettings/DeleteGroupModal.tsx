@@ -3,15 +3,15 @@ import { toast } from 'react-toastify';
 
 import Button from 'components/Button';
 import Modal from 'components/Modal';
-import { IGroupSetting } from 'models/settings.types';
 import { deleteSettingsGroups } from 'network/settings.network';
+import { IGroup } from 'models/group.types';
 
 const DeleteGroupModal = ({
   group,
   onClose,
   updateGroups,
 }: {
-  group: IGroupSetting;
+  group: IGroup;
   onClose: () => void;
   updateGroups: () => void;
 }) => {

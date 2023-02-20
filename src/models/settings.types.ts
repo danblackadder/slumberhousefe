@@ -1,6 +1,7 @@
 import { capitalize } from 'utility/helper';
 
 import { IOption, IPagination } from './generic.types';
+import { IGroup } from './group.types';
 import { IUser } from './profile.types';
 
 export enum OrganizationTabSettings {
@@ -66,16 +67,8 @@ export interface IUserSettingPostErrors {
 }
 
 export interface IGroupSettingResponse {
-  groups: IGroupSetting[];
+  groups: IGroup[];
   pagination: IPagination;
-}
-export interface IGroupSetting {
-  _id: string;
-  name: string;
-  users: IUser[];
-  role: GroupRole;
-  description?: string;
-  image?: string;
 }
 
 export interface IGroupSettingPostErrors {

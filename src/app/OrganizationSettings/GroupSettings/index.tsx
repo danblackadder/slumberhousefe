@@ -4,14 +4,14 @@ import { toast } from 'react-toastify';
 import Button from 'components/Button';
 import { TextInput } from 'components/Forms';
 import { IPagination } from 'models/generic.types';
-import { IGroupSetting } from 'models/settings.types';
 import { getSettingsGroups } from 'network/settings.network';
 
 import GroupModal from './GroupModal';
 import GroupTable from './GroupTable';
+import { IGroup } from 'models/group.types';
 
 const GroupSettings = () => {
-  const [groups, setGroups] = useState<IGroupSetting[]>([]);
+  const [groups, setGroups] = useState<IGroup[]>([]);
   const [pagination, setPagination] = useState<IPagination>();
   const [page, setPage] = useState<number>(1);
   const [modal, setModal] = useState<boolean>(false);

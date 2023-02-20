@@ -53,11 +53,13 @@ export const putGroup = async ({
   name,
   description,
   image,
+  widgets,
 }: {
   id: string;
   name: string;
   description?: string;
   image?: File[];
+  widgets?: string[];
 }) => {
   return new Promise<AxiosResponse>((resolve, reject) => {
     const formData = new FormData();
@@ -65,9 +67,10 @@ export const putGroup = async ({
     formData.append('name', name);
     if (description) formData.append('description', description);
     if (image && image.length > 0) formData.append('image', image[0]);
+    if (widgets) formData.append('widgets', widgets.toString());
 
     axios
-      .put(`/settings/groups/${id}`, formData, {
+      .put(`/groups/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
