@@ -14,7 +14,7 @@ export const useGroupMessages = ({ groupId }: { groupId: string | undefined }) =
 
       source.onmessage = (e) => {
         console.log(JSON.parse(e.data));
-        setMessages(JSON.parse(e.data).reverse());
+        setMessages(JSON.parse(e.data));
         setLoading(false);
       };
 

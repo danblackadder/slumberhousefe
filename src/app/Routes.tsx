@@ -37,7 +37,7 @@ const AdminRoute = () => {
   const { group, groupId } = useGroup();
 
   if (
-    userState.user &&
+    userState.user?.role &&
     group &&
     ![OrganizationRole.OWNER, OrganizationRole.ADMIN].includes(userState.user.role) &&
     ![GroupRole.ADMIN].includes(group.role)

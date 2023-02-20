@@ -18,6 +18,6 @@ export interface IUser {
   firstName: string;
   lastName: string;
   email: string;
-  role: OrganizationRole;
+  role?: OrganizationRole;
   image?: string;
 }

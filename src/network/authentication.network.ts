@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 
-import { ILogin, IUser } from 'models/authentication.types';
+import { ILogin } from 'models/authentication.types';
 
 export const login = ({ email, password }: { email: string; password: string }) => {
   console.log('axiosLogin');
@@ -33,15 +33,6 @@ export const register = ({
   return new Promise<AxiosResponse>((resolve, reject) => {
     axios
       .post('/authentication/register', { firstName, lastName, email, organization, password, passwordConfirmation })
-      .then((res) => resolve(res.data))
-      .catch((err) => reject(err.response.data));
-  });
-};
-
-export const getUser = async () => {
-  return new Promise<IUser>((resolve, reject) => {
-    axios
-      .get('/authentication/me')
       .then((res) => resolve(res.data))
       .catch((err) => reject(err.response.data));
   });

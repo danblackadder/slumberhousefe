@@ -19,7 +19,7 @@ const Chat = () => {
   useEffect(() => {
     if (group?.users) {
       const userArray = [] as string[];
-      for (let i = 0; i < group?.users; i++) {
+      for (let i = 0; i < group?.users.length; i++) {
         userArray.push('user');
       }
       setUsers(userArray);
@@ -53,7 +53,7 @@ const Chat = () => {
           ))}
         </div>
         <div className="flex-1">
-          <div id="chatBox" className="height-600 border-neutral flex-column" style={{ overflowY: 'scroll' }}>
+          <div id="chatBox" className="height-600 border-neutral flex-column-reverse" style={{ overflowY: 'scroll' }}>
             {messages.map((message) => (
               <div
                 key={message._id}

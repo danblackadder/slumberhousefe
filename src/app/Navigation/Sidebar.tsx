@@ -12,7 +12,7 @@ const Sidebar = () => {
 
   const isAdmin = useMemo(() => {
     return (
-      userState.user &&
+      userState.user?.role &&
       group &&
       ([OrganizationRole.OWNER, OrganizationRole.ADMIN].includes(userState.user.role) ||
         [GroupRole.ADMIN].includes(group.role))

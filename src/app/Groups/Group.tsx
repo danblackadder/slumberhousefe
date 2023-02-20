@@ -33,7 +33,7 @@ const Group = ({ group }: { group: IGroup }) => {
         </div>
         <div className="flex-row full-width justify-flex-end align-center primary">
           <MdPeople />
-          <span className="margin-left-4 font-12">{users}</span>
+          <span className="margin-left-4 font-12">{users.length}</span>
         </div>
       </div>
     </Link>

@@ -1,6 +1,5 @@
-import { IUser } from 'models/authentication.types';
-
 import { ActionMap } from './generic.types';
+import { IUser } from './profile.types';
 
 export enum UserContextActionTypes {
   LOGIN = 'LOGIN',

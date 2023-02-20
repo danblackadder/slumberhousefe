@@ -1,5 +1,6 @@
 import { capitalize } from 'utility/helper';
 
+import { IUser } from './authentication.types';
 import { IOption, IPagination } from './generic.types';
 
 export enum TabSettings {
@@ -66,7 +67,7 @@ export interface IGroupSettingResponse {
 export interface IGroupSetting {
   _id: string;
   name: string;
-  users: number;
+  users: IUser[];
   role: GroupRole;
   description?: string;
   image?: string;

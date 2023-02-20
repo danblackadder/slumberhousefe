@@ -1,10 +1,11 @@
+import { IUser } from './authentication.types';
 import { IPagination } from './generic.types';
 import { GroupRole } from './settings.types';
 
 export interface IGroup {
   _id: string;
   name: string;
-  users: number;
+  users: IUser[];
   role: GroupRole;
   description?: string;
   image?: string;
