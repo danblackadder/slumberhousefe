@@ -6,19 +6,17 @@ import { FileUpload, TextArea, TextInput } from 'components/Forms';
 import Modal from 'components/Modal';
 import { IGroupErrors } from 'models/group.types';
 import { IGroupSetting } from 'models/settings.types';
-import { postSettingsGroups, putSettingsGroups } from 'network/settings.network';
+import { postSettingsGroups } from 'network/settings.network';
 import { getGroupName } from 'utility/helper';
 
 const GroupModal = ({
   updateGroups,
   onClose,
   group,
-  edit,
 }: {
   updateGroups: () => void;
   onClose: () => void;
   group?: IGroupSetting;
-  edit?: boolean;
 }) => {
   const [name, setName] = useState<string>(getGroupName({ name: group?.name }) || '');
   const [description, setDescription] = useState<string>(group?.description || '');
@@ -36,20 +34,6 @@ const GroupModal = ({
         toast.error('Something went wrong...');
       });
   }, [name, description, image]);
-
-  const handlePutGroup = useCallback(() => {
-    if (group) {
-      putSettingsGroups({ id: group._id, name, description, image })
-        .then(() => {
-          updateGroups();
-          onClose();
-        })
-        .catch((err) => {
-          setErrors(err.errors);
-          toast.error('Something went wrong...');
-        });
-    }
-  }, [group, name, description, image]);
 
   return (
     <Modal onClose={onClose} width={500}>
@@ -73,11 +57,7 @@ const GroupModal = ({
       />
       <div className="flex-row full-width align-center justify-space-between margin-top-16">
         <Button text="Cancel" width={160} onClick={onClose} />
-        <Button
-          text={edit ? 'Update group' : 'Create group'}
-          width={160}
-          onClick={() => (edit ? handlePutGroup() : handlePostGroup())}
-        />
+        <Button text="Create group" width={160} onClick={() => handlePostGroup()} />
       </div>
     </Modal>
   );

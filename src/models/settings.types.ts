@@ -3,10 +3,15 @@ import { capitalize } from 'utility/helper';
 import { IOption, IPagination } from './generic.types';
 import { IUser } from './profile.types';
 
-export enum TabSettings {
+export enum OrganizationTabSettings {
   ORGANIZATION = 'organization',
   USERS = 'users',
   GROUPS = 'groups',
+}
+
+export enum GroupTabSettings {
+  GROUP = 'group',
+  USERS = 'users',
 }
 
 export interface IOrganizationSettingsErrors {

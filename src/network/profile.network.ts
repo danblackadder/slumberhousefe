@@ -5,7 +5,7 @@ import { IUser } from 'models/profile.types';
 export const getUser = async () => {
   return new Promise<IUser>((resolve, reject) => {
     axios
-      .get('/authentication/me')
+      .get('/profile')
       .then((res) => resolve(res.data))
       .catch((err) => reject(err.response.data));
   });

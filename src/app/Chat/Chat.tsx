@@ -5,7 +5,7 @@ import Button from 'components/Button';
 import { TextInput } from 'components/Forms';
 import Header from 'components/Header';
 import { UserContext } from 'context/user.context';
-import { useGroup } from 'network/group.network';
+import { useGroup } from 'hooks/group.hook';
 import { postGroupMessage, useGroupMessages } from 'network/messages.network';
 import { capitalize } from 'utility/helper';
 

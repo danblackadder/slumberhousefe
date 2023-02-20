@@ -1,9 +1,5 @@
-import { useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
 
-import { GroupContext } from 'context/group.context';
-import { GroupContextActionTypes } from 'models/group.context.types';
 import { IGroup, IGroupAvailableUser, IGroupUserResponse } from 'models/group.types';
 import { GroupRole } from 'models/settings.types';
 
@@ -14,27 +10,6 @@ export const getGroup = async ({ groupId }: { groupId: string }) => {
       .then((res) => resolve(res.data))
       .catch((err) => reject(err.response.data));
   });
-};
-
-export const useGroup = () => {
-  const { groupId } = useParams();
-  const { state, dispatch } = useContext(GroupContext);
-
-  useEffect(() => {
-    if (groupId && !state.group) {
-      getGroup({ groupId })
-        .then((res) => dispatch({ type: GroupContextActionTypes.SET_GROUP, payload: { group: res } }))
-        .catch((err) => {
-          console.log(err);
-          dispatch({ type: GroupContextActionTypes.REMOVE_GROUP });
-        });
-    }
-  }, [groupId, state]);
-
-  return {
-    groupId: state.group?._id.toString(),
-    group: state.group,
-  };
 };
 
 export const getGroups = async () => {
@@ -64,6 +39,35 @@ export const postGroup = async ({
 
     axios
       .post(`/groups`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((res) => resolve(res.data))
+      .catch((err) => reject(err.response.data));
+  });
+};
+
+export const putGroup = async ({
+  id,
+  name,
+  description,
+  image,
+}: {
+  id: string;
+  name: string;
+  description?: string;
+  image?: File[];
+}) => {
+  return new Promise<AxiosResponse>((resolve, reject) => {
+    const formData = new FormData();
+
+    formData.append('name', name);
+    if (description) formData.append('description', description);
+    if (image && image.length > 0) formData.append('image', image[0]);
+
+    axios
+      .put(`/settings/groups/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

@@ -154,35 +154,6 @@ export const postSettingsGroups = async ({
   });
 };
 
-export const putSettingsGroups = async ({
-  id,
-  name,
-  description,
-  image,
-}: {
-  id: string;
-  name: string;
-  description?: string;
-  image?: File[];
-}) => {
-  return new Promise<AxiosResponse>((resolve, reject) => {
-    const formData = new FormData();
-
-    formData.append('name', name);
-    if (description) formData.append('description', description);
-    if (image && image.length > 0) formData.append('image', image[0]);
-
-    axios
-      .put(`/settings/groups/${id}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then((res) => resolve(res.data))
-      .catch((err) => reject(err.response.data));
-  });
-};
-
 export const deleteSettingsGroups = async ({ id }: { id: string }) => {
   return new Promise<AxiosResponse>((resolve, reject) => {
     axios

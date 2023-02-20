@@ -6,7 +6,7 @@ import Button from 'components/Button';
 import Header from 'components/Header';
 import { UserContext } from 'context/user.context';
 import { IGroup } from 'models/group.types';
-import { OrganizationRole, TabSettings } from 'models/settings.types';
+import { OrganizationRole, OrganizationTabSettings } from 'models/settings.types';
 import { getGroups } from 'network/group.network';
 
 import GroupGrid from './GroupGrid';
@@ -39,7 +39,11 @@ const Groups = () => {
       <div className="margin-horizontal-90 flex-row align-center justify-space-between">
         <Header text="Groups" />
         {[OrganizationRole.OWNER, OrganizationRole.ADMIN].includes(state.user?.role || OrganizationRole.BASIC) && (
-          <Button text="Manage groups" width={200} onClick={() => navigate(`/settings?option=${TabSettings.GROUPS}`)} />
+          <Button
+            text="Manage groups"
+            width={200}
+            onClick={() => navigate(`/settings?option=${OrganizationTabSettings.GROUPS}`)}
+          />
         )}
       </div>
       <div className="margin-vertical-64">

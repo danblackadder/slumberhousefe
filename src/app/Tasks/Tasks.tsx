@@ -3,9 +3,9 @@ import React, { useEffect, useMemo, useState } from 'react';
 import Button from 'components/Button';
 import Header from 'components/Header';
 import Select from 'components/Select';
+import { useGroup } from 'hooks/group.hook';
 import { IOption } from 'models/generic.types';
 import { GroupBy, ITask } from 'models/task.types';
-import { useGroup } from 'network/group.network';
 import { getTaskTags, getTaskUsers, useGroupTasks } from 'network/tasks.network';
 import { capitalize } from 'utility/helper';
 

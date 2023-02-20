@@ -4,9 +4,9 @@ import { MdErrorOutline } from 'react-icons/md';
 import Loading from 'components/Loading';
 import Pagination from 'components/Pagination';
 import TableHeader from 'components/TableHeader';
+import { useGroup } from 'hooks/group.hook';
 import { IPagination } from 'models/generic.types';
 import { IGroupUser } from 'models/group.types';
-import { useGroup } from 'network/group.network';
 
 import GroupUserItem from './GroupUserItem';
 

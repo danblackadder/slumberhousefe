@@ -4,12 +4,12 @@ import { toast } from 'react-toastify';
 
 import Button from 'components/Button';
 import { TextInput } from 'components/Forms';
-import Header from 'components/Header';
 import Select from 'components/Select';
+import { useGroup } from 'hooks/group.hook';
 import { IOption, IPagination } from 'models/generic.types';
 import { IGroupUser } from 'models/group.types';
 import { GroupRole, GroupRoleOptions } from 'models/settings.types';
-import { getGroupUsers, useGroup } from 'network/group.network';
+import { getGroupUsers } from 'network/group.network';
 
 import AddUserModal from './AddGroupUserModal';
 import GroupUserTable from './GroupUserTable';
@@ -71,61 +71,58 @@ const GroupUsers = () => {
   }, [page, sortName, sortEmail, sortRole, filterRole, filterNameEmail]);
 
   return (
-    <div className="container">
-      <Header text="Users" />
-      <div className="flex-column">
-        <div className="flex-row justify-space-between align-center">
-          <div className="flex-row align-center primary">
-            <MdFilterAlt size={24} />
-            <div className="font-24 margin-left-8">Filters</div>
-          </div>
-          <Button text="Add user" width={200} onClick={() => setAddUserModal(true)} />
+    <>
+      <div className="flex-row justify-space-between align-center">
+        <div className="flex-row align-center primary">
+          <MdFilterAlt size={24} />
+          <div className="font-24 margin-left-8">Filters</div>
         </div>
-        <div className="flex-row align-center justify-space-between margin-bottom-16">
-          <div className="flex-row align-center">
-            <div className="margin-right-8">
-              <Select
-                id="role"
-                label="Role"
-                selectedItem={filterRole}
-                setSelectedItem={setFilterRole}
-                options={GroupRoleOptions}
-                width={200}
-                inline={true}
-              />
-            </div>
-          </div>
-          <div className="">
-            <TextInput
-              id="search"
-              label="Search"
-              value={filterNameEmail}
-              onChange={(event: React.FormEvent<HTMLInputElement>) => setFilterNameEmail(event.currentTarget.value)}
-              width={300}
+        <Button text="Add user" width={200} onClick={() => setAddUserModal(true)} />
+      </div>
+      <div className="flex-row align-center justify-space-between margin-bottom-16">
+        <div className="flex-row align-center">
+          <div className="margin-right-8">
+            <Select
+              id="role"
+              label="Role"
+              selectedItem={filterRole}
+              setSelectedItem={setFilterRole}
+              options={GroupRoleOptions}
+              width={200}
               inline={true}
-              placeholder="Search by name or email..."
             />
           </div>
         </div>
-        <GroupUserTable
-          loading={loading}
-          users={users}
-          resetSort={resetSort}
-          sortName={sortName}
-          setSortName={setSortName}
-          sortEmail={sortEmail}
-          setSortEmail={setSortEmail}
-          sortRole={sortRole}
-          setSortRole={setSortRole}
-          updateUsers={updateUsers}
-          pagination={pagination}
-          setPage={setPage}
-        />
+        <div className="">
+          <TextInput
+            id="search"
+            label="Search"
+            value={filterNameEmail}
+            onChange={(event: React.FormEvent<HTMLInputElement>) => setFilterNameEmail(event.currentTarget.value)}
+            width={300}
+            inline={true}
+            placeholder="Search by name or email..."
+          />
+        </div>
       </div>
+      <GroupUserTable
+        loading={loading}
+        users={users}
+        resetSort={resetSort}
+        sortName={sortName}
+        setSortName={setSortName}
+        sortEmail={sortEmail}
+        setSortEmail={setSortEmail}
+        sortRole={sortRole}
+        setSortRole={setSortRole}
+        updateUsers={updateUsers}
+        pagination={pagination}
+        setPage={setPage}
+      />
       {addUserModal && groupId && (
         <AddUserModal groupId={groupId} onClose={() => setAddUserModal(false)} updateUsers={updateUsers} />
       )}
-    </div>
+    </>
   );
 };
 

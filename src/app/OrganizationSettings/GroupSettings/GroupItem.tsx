@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { MdDelete, MdEdit, MdOpenInNew, MdPeople } from 'react-icons/md';
+import { MdDelete, MdOpenInNew, MdSettings } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
 import { GroupContext } from 'context/group.context';
@@ -8,11 +8,9 @@ import { IGroupSetting } from 'models/settings.types';
 import { getGroupName } from 'utility/helper';
 
 import DeleteGroupModal from './DeleteGroupModal';
-import GroupModal from './GroupModal';
 
 const GroupItem = ({ group, updateGroups }: { group: IGroupSetting; updateGroups: () => void }) => {
   const { dispatch } = useContext(GroupContext);
-  const [editModal, setEditModal] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
 
   return (
@@ -30,17 +28,11 @@ const GroupItem = ({ group, updateGroups }: { group: IGroupSetting; updateGroups
           </Link>
           <Link
             className="height-40 width-40 center-items pointer black hover-primary"
-            to={`/groups/${group._id}/users`}
+            to={`/groups/${group._id}/settings`}
             onClick={() => dispatch({ type: GroupContextActionTypes.SET_GROUP, payload: { group } })}
           >
-            <MdPeople size={16} />
+            <MdSettings size={16} />
           </Link>
-          <div
-            className="height-40 width-40 center-items pointer black hover-primary"
-            onClick={() => setEditModal(true)}
-          >
-            <MdEdit size={16} />
-          </div>
           <div
             className="height-40 width-40 center-items pointer error hover-primary"
             onClick={() => setDeleteModal(true)}
@@ -49,9 +41,6 @@ const GroupItem = ({ group, updateGroups }: { group: IGroupSetting; updateGroups
           </div>
         </div>
       </div>
-      {editModal && (
-        <GroupModal onClose={() => setEditModal(false)} group={group} updateGroups={updateGroups} edit={true} />
-      )}
       {deleteModal && (
         <DeleteGroupModal onClose={() => setDeleteModal(false)} group={group} updateGroups={updateGroups} />
       )}

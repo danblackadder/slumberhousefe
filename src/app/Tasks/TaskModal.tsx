@@ -8,9 +8,9 @@ import { TextArea, TextInput } from 'components/Forms';
 import Modal from 'components/Modal';
 import Multiselect from 'components/Multiselect';
 import Select from 'components/Select';
+import { useGroup } from 'hooks/group.hook';
 import { IOption } from 'models/generic.types';
 import { ITask, TaskPriority, TaskPriorityOptions, TaskStatus, TaskStatusOptions } from 'models/task.types';
-import { useGroup } from 'network/group.network';
 import { postGroupTask, putGroupTask } from 'network/tasks.network';
 import { capitalize } from 'utility/helper';
 

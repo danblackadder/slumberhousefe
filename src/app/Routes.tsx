@@ -2,19 +2,19 @@ import React, { useContext } from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 import { UserContext } from 'context/user.context';
+import { useGroup } from 'hooks/group.hook';
 import { GroupRole, OrganizationRole } from 'models/settings.types';
-import { useGroup } from 'network/group.network';
 
 import { Login, Register } from './Authentication';
 import { Chat } from './Chat';
 import { Dashboard } from './Dashboard';
 import { Documents } from './Documents';
 import { Groups } from './Groups';
-import { GroupUsers } from './GroupUsers';
+import { GroupSettings } from './GroupSettings';
 import { Sidebar, Topbar } from './Navigation';
+import { OrganizationSettings } from './OrganizationSettings';
 import { Profile } from './Profile';
 import { Reporting } from './Reporting';
-import { Settings } from './Settings';
 import { Tasks } from './Tasks';
 
 const AuthenticatedRoute = () => {
@@ -62,7 +62,7 @@ const GroupIdRoutes = () => {
         <Route path="/chat" element={<Chat />} />
         <Route path="/documents" element={<Documents />} />
         <Route element={<AdminRoute />}>
-          <Route path="/users" element={<GroupUsers />} />
+          <Route path="/settings" element={<GroupSettings />} />
           <Route path="/reporting" element={<Reporting />} />
         </Route>
       </Routes>
@@ -89,7 +89,7 @@ const AppRoutes = () => {
       <Route element={<AuthenticatedRoute />}>
         <Route path="/groups/*" element={<GroupRoutes />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/settings" element={<Settings />} />
+        <Route path="/settings" element={<OrganizationSettings />} />
       </Route>
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
